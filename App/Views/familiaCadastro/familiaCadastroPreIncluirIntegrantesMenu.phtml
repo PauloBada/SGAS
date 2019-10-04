@@ -1,0 +1,138 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu intermediário com a relação dos integrantes de família para saber se já foi atendida
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+        <form class="form-horizontal" action="" method="post" id="FormConsulta">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Relação de Integrantes de Família</h4></div>
+            <div class="panel-body">
+              <div class="container">
+                Familia: <?php echo $this->view->codFamilia. ' - '. $this->view->nomeFamilia ?>
+              </div>
+
+              <!-- table-responsive-xx => permite que abra scrool qdo não couber na página -->
+              <div class="table-responsive-lg">
+                <table class="table table-striped table-bordered table-hover">
+                  <thead class="thead-light">
+                    <tr>
+                      <!-- Nome das Colunas -->
+                      <th scope="col">Sequencial</th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Parentesco c/Assist Principal</th>
+                      <th scope="col">CPF</th>
+                      <th scope="col">Dt Nasc</th>
+                      <th scope="col">Sexo</th>
+                      <th scope="col">Tipo Incapacidade</th>
+                      <th scope="col">Situação</th>
+                      <th scope="col">Informações Integrante</th>
+                    </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <?php foreach ($this->view->integrantesFamilia as $indice => $integFamilia) { ?>
+                      <tr>
+                        <td><?php echo $integFamilia['seql_integ']; ?></td>
+                        <td><?php echo $integFamilia['nm_integ']; ?></td>
+                        <td><?php echo $integFamilia['cd_rlc_com_astd_prin']; ?></td>
+                        <td><?php echo $integFamilia['cpf']; ?></td>
+                        <td><?php echo $integFamilia['dt_nasc']; ?></td>
+                        <td><?php echo $integFamilia['cd_sexo']; ?></td>
+                        <td><?php echo $integFamilia['cd_tip_incapacidade']; ?></td>
+                        <td><?php echo $integFamilia['cd_est_integ_fml']; ?></td>
+
+                        <td><a href="#" onclick="sendPost('/familiaCadastroConsultarIntegranteMenu', {cod_familia:'<?= $integFamilia['cd_fml'] ?>', seql_integrante:'<?= $integFamilia['seql_integ'] ?>', cpf_pre:'<?= $this->view->cpfPre ?>', nm_astd_pre:'<?= $this->view->nomeAssistidoPre ?>', rota:'<?= $integFamilia['rota'] ?>', cb_grupo_escolhido:'<?= $this->view->codGrupoEscolhido ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupoEscolhido ?>', dt_inc:'<?= $this->view->dtInc ?>', dt_fim:'<?= $this->view->dtFim ?>'});">Detalha Informações</a></td>
+                      </tr>
+                    <?php } ?> 
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                  <button id="btretorna" class="btn btn-success" type="Submit">Retorna</button>
+                </div>
+              </div>
+
+              <!-- Campos abaixo para tratar retorno para Consulta Pré-Inclusão -->
+              <div>
+                <input id="nm_astd_pre" name="nm_astd_pre" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->nomeAssistidoPre ?>" hidden>
+                <input type="hidden" name="nm_astd_pre" value="<?= $this->view->nomeAssistidoPre ?>"> 
+              </div>
+
+              <div>
+                <input id="cpf_pre" name="cpf_pre" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->cpfPre ?>" hidden>
+                <input type="hidden" name="cpf_pre" value="<?= $this->view->cpfPre ?>"> 
+              </div>
+              
+              <div>
+                <input id="familia_escolhida" name="familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->codFamilia ?>" hidden>
+                <input type="hidden" name="familia_escolhida" value="<?= $this->view->codFamilia ?>"> 
+              </div>
+                     
+              <div>
+                <?php if (isset($_POST['cb_grupo_escolhido'])) { ?>
+                  <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->codGrupoEscolhido?>" hidden>
+                  <input type="hidden" name="cb_grupo_escolhido" value="<?= $this->view->codGrupoEscolhido ?>"> 
+                <?php } ?>
+              </div>
+             
+              <div>
+              <?php if (isset($_POST['cb_subgrupo_escolhido'])) { ?>
+                <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->codSubgrupoEscolhido?>" hidden>
+                <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $this->view->codSubgrupoEscolhido ?>"> 
+              <?php } ?>
+              </div>
+             
+              <div>
+                <?php if (isset($_POST['dt_inc'])) { ?>
+                  <input id="dt_inc" name="dt_inc" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dtInc?>" hidden>
+                  <input type="hidden" name="dt_inc" value="<?= $this->view->dtInc ?>"> 
+                <?php } ?>        
+              </div>
+             
+              <div>
+                <?php if (isset($_POST['dt_fim'])) { ?>          
+                  <input id="dt_fim" name="dt_fim" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dtFim?>" hidden>
+                  <input type="hidden" name="dt_fim" value="<?= $this->view->dtFim ?>"> 
+                <?php } ?>        
+              </div>
+
+              <div>
+                <?php if (isset($_POST['rota'])) { ?>
+                    <input id="rota" name="rota" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['rota'] ?>" hidden>
+                    <input type="hidden" name="rota" value="<?= $_POST['rota'] ?>"> 
+                <?php } ?>          
+              </div>
+              <!-- Termino dos campos para tratamento -->
+
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <script>
+      $("#btretorna").click(function(){
+        //Recebe o id do botão clicado
+        var id = $(this).attr('id');
+        //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
+        if (id == 'btretorna'){
+            $('#FormConsulta').attr('action', '/familiaCadastroConsultarMenu').submit();
+        }
+      });
+    </script>
+
+    <script src="sendPost.js"></script>
+  </body>
+</html>

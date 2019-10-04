@@ -1,0 +1,19 @@
+{
+	"name": "miniframework",
+	"require": {
+		"php": ">= 7.0",
+		"phpmailer/phpmailer": "^6.0"
+	},
+	"authors": [
+		{
+			"name": "Paulo Tarrago Jaques",
+			"email": "bada305@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"App\\": "App/",
+			"MF\\": "vendor/MF/"
+		}
+	}
+}

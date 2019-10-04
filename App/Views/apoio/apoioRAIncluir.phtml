@@ -1,0 +1,97 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Região Administrativa
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/apoioRAIncluirBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Inclusão de Região Administrativa</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeRA">Nome Região Administrativa<h11>*</h11></label>  
+                <div class="col-md-6">
+                    <input id="1" name="nomeRA" placeholder="Digite o nome da Cidade" class="form-control input-md" required="" type="text" autofocus maxlength="50">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="estadoUF">Estado (UF)<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="2" name="estadoUF" class="form-control">
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option selected value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grasso Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondonia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                </div>
+              </div>
+                 
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="Limpar" name="Cancelar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/apoioRA" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroApoio == 1) { ?>
+             <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' '.$this->view->nomeRA_inserido.' ('.
+             $this->view->ufRA_inserido.')' ?></small>
+          <?php } else if ($this->view->erroApoio == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome de Região Já cadastrado! <?php echo ' '.$this->view->nomeRA_inserido. ', ' ?>Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+  </body>
+</html>

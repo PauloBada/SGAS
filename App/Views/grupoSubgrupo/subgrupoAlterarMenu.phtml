@@ -1,0 +1,124 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Confirmação de alteração de Subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoAlterarBase" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Subgrupo</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="codGrupo">Código Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodGrupo" name="codGrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosSubgrupo_escolhido['cod_grupo'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeGrupo">Nome Grupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeGrupo" name="nomeGrupo"class="form-control input-md" readonly="readonly" type="text" value="<?= $this->view->dadosSubgrupo_escolhido['nome_grupo'] ?>">
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="codSubgrupo">Código Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodSubgrupo" name="codSubgrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosSubgrupo_escolhido['cod_subgrupo'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeSubgrupo">Nome Subgrupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input autofocus id="1" name="nomeSubgrupo" placeholder="Digite o nome do Subgrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosSubgrupo_escolhido['nome_subgrupo'] ?>">
+                </div>
+              </div>
+                
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="descricaoSubgrupo">Descrição da Atividade Subgrupo<h11>*</h11></label>  
+                <div class="col-lg-3">
+                  <input id="2" name="descricaoSubgrupo" placeholder="Digite atividade do Subgrupo" class="form-control input-md" required="" type="text" maxlength="100" value="<?= $this->view->dadosSubgrupo_escolhido['desc_subgrupo'] ?>">
+                </div>
+              </div>
+
+              <!-- Campo que serve apenas para receber o parâmetro se deverá abrir ou não Região Administrativa para alteração -->
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="altera_ra"></label>  
+                <div class="col-md-3">
+                  <input id="altera_ra" name="altera_ra" class="form-control input-md" required="" type="text" maxlength="3" value="<?= $this->view->dadosSubgrupo_escolhido['altera_ra'] ?>" hidden>
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="ra_subgrupo">Região Administrativa<h11>*</h11></label>  
+                <div class="col-lg-3">
+                  <!-- Testa o campo acima e verifica se deve ou não abrir RA para alteração -->
+                  <?php if ($this->view->dadosSubgrupo_escolhido['altera_ra'] == 'nao') { ?>
+                    <select id="ra_subgrupo" name="ra_subgrupo" class="form-control" disabled="disabled">
+                  <?php } else  { ?>
+                    <select id="ra_subgrupo" name="ra_subgrupo" class="form-control" required="">
+                  <?php } ?>  
+
+                    <!-- Foca no registro recebido -->
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                    <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected1($regiao['cod_ra'], $this->view->dadosSubgrupo_escolhido['ra_subgrupo']); ?>><?= $regiao['nome_ra'] ?></option>
+                    <?php } ?>  
+                  </select>
+
+                  <?php if ($this->view->dadosSubgrupo_escolhido['altera_ra'] == 'nao') { ?>
+                    <input type="hidden" name="ra_subgrupo" value=<?= $this->view->dadosSubgrupo_escolhido['ra_subgrupo'] ?>> 
+                  <?php } ?>  
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="ra_subgrupo">Descrição do Horário Atuação<h11>*</h11></label>  
+                <div class="col-md-3">
+                  <input id="3" name="descricaoHorario" placeholder="Digite o Horário atuação Subgrupo" class="form-control input-md" required="" type="text" maxlength="50" value="<?= $this->view->dadosSubgrupo_escolhido['desc_horario'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+
+                  <a href="/subgrupoAlterar" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+			
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center">
+          <?php if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome do Subgrupo Já cadastrado! Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaAltera.js"></script>
+  </body>
+</html>

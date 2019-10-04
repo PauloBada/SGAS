@@ -1,0 +1,105 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de opções para selecionar família a ser pesquisada ou digitar um nome
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="" method="post" id="FormConsulta">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Consulta de Família</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="familia_escolhida">Família</label>  
+                <div class="col-lg-4">
+                  <select autofocus id="familia_escolhida" name="familia_escolhida" class="form-control">
+                    <?php foreach ($this->view->familias as $indice => $familia) { ?>
+                      <option value=<?= $familia['cd_fmlID'] ?>><?= $familia['nm_grp_fmlr'] ?></option>
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="btretorna_1"></label>
+                <div class="col-md-8">
+                  <button id="btretorna_1" class="btn btn-primary" type="Submit">Buscar</button>
+
+                  <a href="/familiaCadastro" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+              <div class="panel panel-primary"> 
+                <div class="panel-heading"><h7>&nbsp;&nbsp;&nbsp;OU</h7></div>
+              </div>
+
+              <!-- Incluir Opção de Digitação de Nome de Família -->
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nome_grupo_fmlr">Nome Família</label>  
+                <div class="col-lg-6">
+                  <input id="nome_grupo_fmlr" name="nome_grupo_fmlr" placeholder="Digite nome de grupo famíliar" class="form-control input-md" type="text" maxlength="100" minlength="3" value="<?= $this->view->nomeGrupoFamiliar ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="btretorna_2"></label>
+                <div class="col-md-8">
+                    <button id="btretorna_2" class="btn btn-primary" type="Submit">Buscar</button>
+
+                    <a href="/familiaCadastro" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+              <!-- Rota para definição de retorno - PASSEI para após retorna, para não dar espaço entre o botão-->
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-1">
+                  <input id="rota" name="rota" class="form-control input-md" type="text" maxlength="3" value="rota_01" disabled="" hidden>
+                </div>
+                <input type="hidden" name="rota" value="rota_01"> 
+              </div>
+                 
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Digite um nome de família!</small>
+
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Escolha uma família OU Digite um nome! Ambos Não!</small>
+
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+             <small class="form-text text-danger">Nenhuma Família Encontrada!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      $("#btretorna_1, #btretorna_2").click(function(){
+        //Recebe o id do botão clicado
+        var id = $(this).attr('id');
+        //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
+        if (id == 'btretorna_1'){
+            $('#FormConsulta').attr('action', '/familiaCadastroConsultarMenu').submit();
+        }
+        else {
+            $('#FormConsulta').attr('action', '/familiaCadastroConsultaPesquisaMenu' ).submit();
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,174 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Educação
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="/familiaAcompIncRelTriagemEducacaoBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary"> <!-- bg-primary "> -->
+            <div class="panel-heading"><h4>Inclusão de Segmento Triagem Educação</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_grp" name="cd_grp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_sbgrp" name="cd_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
+                <div class="col-lg-3">
+                  <input required="" autofocus="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_freq_crianca_adoles_escola">Frequência de Crianças e Adolescentes na Escola<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_freq_crianca_adoles_escola" name="cd_freq_crianca_adoles_escola" class="form-control">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected2('1', $this->view->dadosAcompanhamento['cd_freq_crianca_adoles_escola']); ?>>Assíduos</option>
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->dadosAcompanhamento['cd_freq_crianca_adoles_escola']); ?>>Faltas Frequentes</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->dadosAcompanhamento['cd_freq_crianca_adoles_escola']); ?>>Não estudam</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_mtvo_freq_escolar">Motivo da Frequência de Crianças e Adolescentes na Escola</label>
+                <div class="col-lg-9">
+                  <input id="dsc_mtvo_freq_escolar" name="dsc_mtvo_freq_escolar" placeholder="Por que dessa frequência escolar" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_mtvo_freq_escolar'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_desemp_estudo">Desempenho das Crianças e Adolescentes no estudo</label>
+                <div class="col-lg-9">
+                  <input id="dsc_desemp_estudo" name="dsc_desemp_estudo" placeholder="Descreva o desempenho das crianças na escola" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_desemp_estudo'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-lg-3 control-label" for="cd_interes_motiva_voltar_estudar">Interesse e/ou Motivação para voltar a estudar<h11>*</h11></label>
+                <div class="col-md-6">
+                  <select id="cd_interes_motiva_voltar_estudar" name="cd_interes_motiva_voltar_estudar" class="form-control">
+                    
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected1('1', $this->view->dadosAcompanhamento['cd_interes_motiva_voltar_estudar']); ?>>Têm Interesse/Motivação</option>
+                    
+                    <option value="2"<?php echo selected1('2', $this->view->dadosAcompanhamento['cd_interes_motiva_voltar_estudar']); ?>>Não têm Interesse/Motivação</option>
+
+                    <option value="3"<?php echo selected1('3', $this->view->dadosAcompanhamento['cd_interes_motiva_voltar_estudar']); ?>>Já estudam</option>
+                   
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_curso_interes_fml">Cursos de Interesse da Família</label>
+                <div class="col-lg-9">
+                  <input id="dsc_curso_interes_fml" name="dsc_curso_interes_fml" placeholder="Quais cursos interessam aos membros da família" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_curso_interes_fml'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_prgm_trab">Descrição do Programa de Trabalho<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" name="dsc_prgm_trab" required="" placeholder="Descreva o Programa de Trabalho para este segmento" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_prgm_trab'] ?></textarea>
+                </div>
+
+                <!-- Campos para tratamento de retorno -->
+                <!-- Campo para poder informar qual o tipo de Segmento está sendo tratado -->
+                <input id="cd_segmto" name="cd_segmto" class="form-control input-md" disabled="" type="text" maxlength="2"  value="" hidden>
+                <input type="hidden" name="cd_segmto" value="1"> 
+
+                <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>" hidden>
+                <input type="hidden" name="cb_grupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>"> 
+
+                <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>" hidden>
+                <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>"> 
+                <input id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>" hidden>
+                <input type="hidden" name="cb_familia_escolhida" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>"> 
+                <!-- Término Campos para tratamento de retorno -->
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+                 
+                  <a href="#" onclick="sendPost('/familiaAcompanhamentoIncluirRelTriagemMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

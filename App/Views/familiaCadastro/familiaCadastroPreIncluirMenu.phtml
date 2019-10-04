@@ -1,0 +1,116 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com lista de famílias que podem ter sido atendidas antes tendo este solicitante como membro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Inclusão de Família</h4></div>
+          <div class="panel-body">
+            <div class="table-responsive-md">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Código Família</th>
+                  <th scope="col">Nome Família</th>
+                  <th scope="col">Dt Início Acomp</th>
+                  <th scope="col">Dt Fim Acomp</th>
+                  <th scope="col">Situação Família</th>
+                  <th scope="col">Informações Família</th> 
+                  <th scope="col">Solicitante atual integrou esta família em atendimento anterior</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                    <?php foreach ($this->view->familia as $indice => $familia) { ?>
+                      <tr>
+                        <!-- Passa por $_GET o código da Família para mostrar dados na consulta -->
+                        <td><?php echo $familia['cd_fml']; ?></td>
+
+                        <td><?php echo $familia['nm_grp_fmlr']; ?></td>
+
+                        <td><?php echo $familia['dt_inc_acomp']; ?></td>
+
+                        <td><?php echo $familia['dt_enct_acomp']; ?></td>
+
+                        <td><?php echo $familia['cd_est_situ_fml']; ?></td>
+                                              
+                        <!-- Função Javascript que remete $_POST ao invés de $_GET -->
+                        <td>
+                          <a href="#" onclick="sendPost('/familiaCadastroConsultarMenu', {familia_escolhida:'<?= $familia['cd_fml'] ?>', cpf_pre:'<?= $familia['cpf_pre'] ?>', nm_astd_pre:'<?= $familia['nm_astd_pre'] ?>', rota:'<?= $familia['rota'] ?>'});">Detalha Informações
+                          </a>
+                        </td>
+
+                        <!-- Checkbox para assinalar a Família atendida anteriormente -->
+                        <td class="text-center"><input class="familiaAnterior link-check" type="checkbox" id='<?= $familia['cd_fml'] ?>' value="01" onchange="cbChange(this)"></td>
+                      </tr>
+                    <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+                <a href="/familiaCadastroPreIncluir" class="btn btn-success" >Retorna</a>
+
+                <a class="btn btn-danger" href="#" onclick="coletaDados()">Inclui Família</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+       </form>
+      </div>
+    </section>
+
+    <script src="sendPost.js"></script>
+
+    <script>
+      // Para obter os cd_fml marcados no Checkbox (No caso só permitiremos um) //
+      function coletaDados(){
+         var ids = document.getElementsByClassName('familiaAnterior');
+         coletaIDs(ids);         
+      };  
+              
+      function coletaIDs(dados){
+         var array_dados = dados; 
+         var newArray = [];
+         for(var x = 0; x <= array_dados.length; x++){     
+              if(typeof array_dados[x] == 'object'){
+                if(array_dados[x].checked){
+                   newArray.push(array_dados[x].id)          
+                }          
+              }
+         }   
+
+         if(newArray.length <= 0){
+            var fml_atendida = '';
+         }else{
+            var fml_atendida = newArray[0];
+         }
+
+         // Passado o sendoPosto() para este ponto, para poder pegar o cd_fml atendida anteriormente
+         sendPost('/familiaCadastroIncluir', {familia_atendida_anteriormente:fml_atendida, cpf_pre:'<?= $familia['cpf_pre'] ?>', nm_astd_pre:'<?= $familia['nm_astd_pre'] ?>', rota:'<?= $familia['rota'] ?>'});
+      };
+
+      // Para possibiliar que se selecione apenas um checkbox //
+      function cbChange(obj) {
+        var cbs = document.getElementsByClassName("link-check");
+        for (var i = 0; i < cbs.length; i++) {
+           if(cbs[i] !== obj) cbs[i].checked = false;
+         }
+      }
+    </script>
+  </body>
+</html>

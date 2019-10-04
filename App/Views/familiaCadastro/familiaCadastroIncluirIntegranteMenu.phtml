@@ -1,0 +1,228 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados do novo integrante da família
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="/familiaCadastroIncluirIntegranteBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Inclusão de Integrante de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Código Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['cd_fml'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_grp_fmlr">Nome Grupo Familiar</label>  
+                <div class="col-lg-6">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" placeholder="Nome da família" class="form-control input-md" required="" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_integ">Nome Integrante<h11>*</h11></label>  
+                <div class="col-lg-6">
+                  <input id="1" name="nm_integ" placeholder="Nome do integrante da família" class="form-control input-md" autofocus required="" type="text" maxlength="100" value="<?= $this->view->familia['nm_integ'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_rlc_com_astd_prin">Relação com assistido principal<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_rlc_com_astd_prin" name="cd_rlc_com_astd_prin" class="form-control">
+                    
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                   
+                    <!-- O Próprio não será permitido, pois já foi na inclusão de Família. -->
+                    <!-- <option value="1"<?php echo selected('1', $this->view->familia['cd_rlc_com_astd_prin']); ?>>O próprio </option> -->
+
+                    <option value="2"<?php echo selected('2', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Conjugê</option>
+                    <option value="3"<?php echo selected('3', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Filho(a)</option>
+                    <option value="4"<?php echo selected('4', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Enteado(a)</option>
+                    <option value="5"<?php echo selected('5', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Neto(a)</option>
+                    <option value="6"<?php echo selected('6', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Sobrinho(a)</option>
+                    <option value="7"<?php echo selected('7', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Irmão(ã)</option>
+                    <option value="8"<?php echo selected('8', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Mãe</option>
+                    <option value="9"<?php echo selected('9', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Pai</option>
+                    <option value="10"<?php echo selected('10', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Tio(a)</option>
+                    <option value="11"<?php echo selected('11', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Avô(ó)</option>
+                    <option value="12"<?php echo selected('12', $this->view->familia['cd_rlc_com_astd_prin']); ?>>Outro(a)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cpf">CPF</label>  
+                <div class="col-lg-2">
+                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value=<?= $this->view->familia['cpf'] ?>>
+                </div>
+
+                <label class="col-md-2 control-label" for="radios">Sexo <h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="cd_sexo" id="cd_sexo" value="feminino" type="radio" required <?php echo ($this->view->familia['cd_sexo'] == "feminino") ? "checked" : null; ?>/>Feminino
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="cd_sexo" id="cd_sexo" value="masculino" type="radio" required <?php echo ($this->view->familia['cd_sexo'] == "masculino") ? "checked" : null; ?>/>Masculino
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nr_doc_ident">Nr. Identidade</label>  
+                <div class="col-lg-2">
+                  <input id="nr_doc_ident" name="nr_doc_ident" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" pattern="[0-9]+$" value="<?= $this->view->familia['nr_doc_ident'] ?>">
+                </div>
+
+                <label class="col-md-3 control-label" for="dt_nasc">Data Nascimento</label>  
+                <div class="col-lg-2">
+                  <input id="dt_nasc" name="dt_nasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" value=<?= $this->view->familia['dt_nasc'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_escolar">Escolaridade<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_escolar" name="cd_escolar" class="form-control">
+                    
+                    <?php function selected4  ( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                   
+                    <option value="1"<?php echo selected4('1', $this->view->familia['cd_escolar']); ?>>Fundamental Incompleto</option>
+                    <option value="2"<?php echo selected4('2', $this->view->familia['cd_escolar']); ?>>Fundamental Completo</option>
+                    <option value="3"<?php echo selected4('3', $this->view->familia['cd_escolar']); ?>>Médio Incompleto</option>
+                    <option value="4"<?php echo selected4('4', $this->view->familia['cd_escolar']); ?>>Médio Completo</option>
+                    <option value="5"<?php echo selected4('5', $this->view->familia['cd_escolar']); ?>>Superior Incompleto</option>
+                    <option value="6"<?php echo selected4('6', $this->view->familia['cd_escolar']); ?>>Superior Completo</option>
+                    <option value="7"<?php echo selected4('7', $this->view->familia['cd_escolar']); ?>>Especialização</option>
+                    <option value="8"<?php echo selected4('8', $this->view->familia['cd_escolar']); ?>>Mestrado</option>
+                    <option value="9"<?php echo selected4('9', $this->view->familia['cd_escolar']); ?>>Doutorado</option>
+                    <option value="10"<?php echo selected4('10', $this->view->familia['cd_escolar']); ?>>Analfabeto</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="radios">Situação Estudo Atual <h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="cd_situ_estudo" id="cd_situ_estudo" value="estudando" type="radio" required <?php echo ($this->view->familia['cd_situ_estudo'] == "estudando") ? "checked" : null; ?>/>Estudando
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="cd_situ_estudo" id="cd_situ_estudo" value="naoestudando" type="radio" required <?php echo ($this->view->familia['cd_situ_estudo'] == "naoestudando") ? "checked" : null; ?>/>Não Estudando
+                    </label>
+                  </div>
+                </div>
+             </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="radios">Situação Trabalho Atual<h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="cd_situ_trab" id="cd_situ_trab" value="trabalhando" type="radio" required <?php echo ($this->view->familia['cd_situ_trab'] == "trabalhando") ? "checked" : null; ?>/>Empregado
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="cd_situ_trab" id="cd_situ_trab" value="naotrabalhando" type="radio" required <?php echo ($this->view->familia['cd_situ_trab'] == "naotrabalhando") ? "checked" : null; ?>/>Não Empregado
+                    </label>
+                  </div>
+                </div>
+             </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_atvd_atual">Ocupação Atual</label>
+                <div class="col-lg-6">
+                  <input id="dsc_atvd_atual" name="dsc_atvd_atual" placeholder="O que está fazendo atualmente" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['dsc_atvd_atual'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_tip_incapacidade">Tipo Incapacidade<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_incapacidade" name="cd_tip_incapacidade" class="form-control">
+                    <?php function selected5( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value="1"<?php echo selected5('1', $this->view->familia['cd_tip_incapacidade']); ?>>Nenhuma Incapacidade</option>
+                    
+                    <option value="2"<?php echo selected5('2', $this->view->familia['cd_tip_incapacidade']); ?>>Portador de Necessidade Especial</option>
+                    
+                    <option value="3"<?php echo selected5('3', $this->view->familia['cd_tip_incapacidade']); ?>>Portador de Doença Incapacitante</option>
+                    
+                    <option value="4"<?php echo selected5('4', $this->view->familia['cd_tip_incapacidade']); ?>>Outras</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/familiaCadastroIncluirIntegrante" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>      
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 0) { ?>
+             <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' Família: '.$this->view->codigoFmlInclusao.' - '.$this->view->nomeFmlInclusao.' Integrante: '.$this->view->nomeIntegranteInclusao. ' !' ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Erro: CPF Inválido! <?php echo ' '.$this->view->familia['cpf']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: CPF Já existente na base! <?php echo ' '.$this->view->familia['cpf']. ', ' ?>Verifique!</small>
+             <small class="form-text text-danger">Verificar possivel ATENDIMENTO em DUPLICIDADE!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+             <small class="form-text text-danger">Erro: Nome Já existente nesta família! <?php echo ' '.$this->view->familia['nm_integ']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 4) { ?>
+             <small class="form-text text-danger">Erro: Data Nascimento Inválida! <?php echo ' '.$this->view->familia['dt_nasc']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+    
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+  </body>
+</html>

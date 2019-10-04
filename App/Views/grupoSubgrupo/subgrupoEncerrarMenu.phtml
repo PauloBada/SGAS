@@ -1,0 +1,102 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de confirmação de encerramento de Subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoEncerrarBase" method="post" id="FormEncerra">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Encerramento de Subgrupo</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codGrupo">Código Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodGrupo" name="codGrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosSubgrupo_escolhido['cod_grupo'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeGrupo">Nome Grupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeGrupo" name="nomeGrupo"class="form-control input-md" readonly="readonly" type="text" value="<?= $this->view->dadosSubgrupo_escolhido['nome_grupo'] ?>">
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codSubgrupo">Código Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodSubgrupo" name="codSubgrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosSubgrupo_escolhido['cod_subgrupo'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeSubgrupo">Nome Subgrupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeSubgrupo" name="nomeSubgrupo" placeholder="Digite o nome do Subgrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosSubgrupo_escolhido['nome_subgrupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="descricaoSubgrupo">Descrição da Atividade Subgrupo</label>  
+                <div class="col-lg-4">
+                  <input id="DescricaoSubgrupo" name="descricaoSubgrupo" placeholder="Digite atividade do Subgrupo" class="form-control input-md" required="" type="text" maxlength="100" value="<?= $this->view->dadosSubgrupo_escolhido['desc_subgrupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="ra_subgrupo">Região Administrativa</label>  
+                <div class="col-md-4">
+                  <select id="ra_subgrupo" name="ra_subgrupo" class="form-control" disabled="disabled">
+                      <?php function selected1( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                      <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected1($regiao['cod_ra'], $this->view->dadosSubgrupo_escolhido['ra_subgrupo']); ?>><?= $regiao['nome_ra'] ?></option>
+                      <?php } ?>  
+                  </select>
+                  <input type="hidden" name="ra_subgrupo" value=<?= $this->view->dadosSubgrupo_escolhido['ra_subgrupo'] ?>> 
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeSubgrupo">Descrição do Horário Atuação</label>  
+                <div class="col-md-4">
+                  <input id="DescricaoHorario" name="descricaoHorario" placeholder="Digite o Horário atuação Subgrupo" class="form-control input-md" required="" type="text" maxlength="50" value="<?= $this->view->dadosSubgrupo_escolhido['desc_horario'] ?>" readonly="readonly" >
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnEncerrar">Encerrar</button>
+
+                  <a href="/subgrupoEncerrar" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center">
+          <?php if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome do Subgrupo Já cadastrado! Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaEncerra.js"></script>
+  </body>
+</html>

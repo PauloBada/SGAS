@@ -1,0 +1,138 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Capacitação Profissional
+-->
+
+<html lang="pt-br">
+  <body>
+    <head>
+      <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+    </head>
+
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Segmento Triagem Capacitação Profissional</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_grp" name="cd_grp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_sbgrp" name="cd_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+        
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input required="" readonly="" id="dataFormularioN" name="dt_acomp" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-lg-2 control-label" for="dsc_expect_fml_capacit_profi">Descrição da Expectativa da Família quanto Capacitação Profissional</label>
+                <div class="col-md-9">
+                  <input id="dsc_expect_fml_capacit_profi" readonly="" name="dsc_expect_fml_capacit_profi" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_expect_fml_capacit_profi'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dsc_curso_intere_profi_tecnico">Descrição de Curso de Interesse Técnico/Profissional</label>
+                <div class="col-lg-9">
+                  <input id="dsc_curso_intere_profi_tecnico" readonly="" name="dsc_curso_intere_profi_tecnico" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_curso_intere_profi_tecnico'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dsc_projeto_gera_renda_extra">Descrição de Projeto para Geração de Renda Extra</label>
+                <div class="col-lg-9">
+                  <input id="dsc_projeto_gera_renda_extra" readonly="" name="dsc_projeto_gera_renda_extra" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_projeto_gera_renda_extra'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dsc_prgm_trab">Descrição do Programa de Trabalho<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" name="dsc_prgm_trab" readonly="" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_prgm_trab'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="Consultar"></label>
+                <div class="col-md-8">
+                  <a href="#" onclick="sendPost('/fAConsultarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>', seql_acomp:'<?= $_POST['seql_acomp'] ?>'});" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+
+              <!-- Campos para tratamento de retorno -->
+              <!-- Campo para poder informar qual o tipo de Segmento está sendo tratado -->
+              <input id="cd_segmto" name="cd_segmto" class="form-control input-md" disabled="" type="text" maxlength="2"  value="" hidden>
+              <input type="hidden" name="cd_segmto" value="7"> 
+
+              <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>" hidden>
+              <input type="hidden" name="cb_grupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>"> 
+
+              <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>" hidden>
+              <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+
+              <input id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>" hidden>
+              <input type="hidden" name="cb_familia_escolhida" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>"> 
+
+              <input id="seql_acomp" name="seql_acomp" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>" hidden>
+              <input type="hidden" name="seql_acomp" value="<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>">
+              <!-- Término Campos para tratamento de retorno -->
+      
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>      
+
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

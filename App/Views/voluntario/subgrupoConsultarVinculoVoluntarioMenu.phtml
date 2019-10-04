@@ -1,0 +1,65 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Consulta efetiva dos dados de Vínculo do voluntário com grupo e subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Consulta Vínculo Voluntário com Subgrupo</h4></div>
+          <div class="panel-body">
+            <div class="container">
+              Voluntário: <?php echo $this->view->codVoluntario. ' - '. $this->view->nomeVoluntario ?>
+            </div>
+            <div class="container">
+              Grupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeGrupo ?>
+            </div>
+            <div class="container">
+              Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?>
+            </div>
+
+            <div class="table-responsive-md">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Sequencial</th>
+                  <th scope="col">Perfil Atuação</th>
+                  <th scope="col">Data Início Vínculo</th>
+                  <th scope="col">Data Término Vínculo</th>
+                  <th scope="col">Situação Vínculo</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                  <?php foreach ($this->view->dadosTVVG as $indice => $registro) { ?>
+                    <tr>
+                      <td><?php echo $registro['sequencial']; ?></td>
+                      <td><?php echo $registro['perfil_atuacao']; ?></td>
+                      <td><?php echo $registro['data_inicio_vinculo']; ?></td>
+                      <td><?php echo $registro['data_fim_vinculo']; ?></td>
+                      <td><?php echo $registro['situacao_vinculo']; ?></td>
+                    </tr>
+                  <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-8">
+                <a href="/subgrupoConsultarVinculoVoluntario" class="btn btn-success" >Retorna</a>
+              </div>
+            </div>
+
+          </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Consulta efetiva de Grupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Consulta de Grupo</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codGrupo">Código Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="Codgrupo" name="codGrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosGrupo_escolhido['cod_grupo'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeGrupo">Nome Grupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeGrupo" name="nomeGrupo" placeholder="Digite o nome do Grupo" class="form-control input-md" required="" type="text" readonly="readonly" value="<?= $this->view->dadosGrupo_escolhido['nome_grupo'] ?>">
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="semanaAtuacao">Semana Atuação</label>  
+                <div class="col-lg-4">
+                  <select required id="SemanaAtuacao" name="semanaAtuacao" class="form-control" disabled=""> 
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    <option value="1"<?php echo selected('1', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeiro domingo do mês</option>
+                    <option value="2"<?php echo selected('2', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segundo domingo do mês</option>
+                    <option value="3"<?php echo selected('3', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceiro domingo do mês</option>
+                    <option value="4"<?php echo selected('4', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarto domingo do mês</option>
+                    <option value="5"<?php echo selected('5', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeira segunda-feira do mês</option>
+                    <option value="6"<?php echo selected('6', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segunda segunda-feira do mês</option>
+                    <option value="7"<?php echo selected('7', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceira segunda-feira do mês</option>
+                    <option value="8"<?php echo selected('8', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarta segunda-feira do mês</option>
+                    <option value="9"<?php echo selected('9', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeira terça-feira do mês</option>
+                    <option value="10"<?php echo selected('10', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segunda terça-feira do mês</option>
+                    <option value="11"<?php echo selected('11', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceira terça-feira do mês</option>
+                    <option value="12"<?php echo selected('12', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarta terça-feira do mês</option>
+                    <option value="13"<?php echo selected('13', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeira quarta-feira do mês</option>
+                    <option value="14"<?php echo selected('14', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segunda quarta-feira do mês</option>
+                    <option value="15"<?php echo selected('15', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceira quarta-feira do mês</option>
+                    <option value="16"<?php echo selected('16', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarta quarta-feira do mês</option>
+                    <option value="17"<?php echo selected('17', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeira quinta-feira do mês</option>
+                    <option value="18"<?php echo selected('18', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segunda quinta-feira do mês</option>
+                    <option value="19"<?php echo selected('19', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceira quinta-feira do mês</option>
+                    <option value="20"<?php echo selected('20', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarta quinta-feira do mês</option>
+                    <option value="21"<?php echo selected('21', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeira sexta-feira do mês</option>
+                    <option value="22"<?php echo selected('22', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segunda sexta-feira do mês</option>
+                    <option value="23"<?php echo selected('23', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceira sexta-feira do mês</option>
+                    <option value="24"<?php echo selected('24', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarta sexta-feira do mês</option>
+                    <option value="25"<?php echo selected('25', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Primeiro sábado do mês</option>
+                    <option value="26"<?php echo selected('26', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Segundo sábado do mês</option>
+                    <option value="27"<?php echo selected('27', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Terceiro sábado do mês</option>
+                    <option value="28"<?php echo selected('28', $this->view->dadosGrupo_escolhido['cod_semana']); ?>>Quarto sábado do mês</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dataCriacao">Data Criação</label>  
+                <div class="col-lg-2">
+                  <input id="DataCriacao" name="dataCriacao" class="form-control input-md" type="text" readonly="readonly" value="<?= $this->view->dadosGrupo_escolhido['data_criacao'] ?>">
+                </div>
+              </div>
+                
+              <div class="form-group">              
+                <label class="col-md-2 control-label" for="dataEncerramento">Data Encerramento</label>  
+                <div class="col-lg-2        ">
+                  <input id="DataEncerramento" name="dataEncerramento" class="form-control input-md" type="text" readonly="readonly" value="<?= $this->view->dadosGrupo_escolhido['data_encerramento'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <label class="col-md-2 control-label" for="estadoGrupo">Situação</label>  
+                <div class="col-md-2">
+                  <input id="EstadoGrupo" name="estadoGrupo" class="form-control input-md" type="text" readonly="readonly" value="<?= $this->view->dadosGrupo_escolhido['codigo_estado'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>
+                <div class="col-md-8">
+                  <a href="/grupoConsultar" class="btn btn-success" >Retorna</a>              </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset> 
+      </div>
+    </section>
+  </body>
+</html>

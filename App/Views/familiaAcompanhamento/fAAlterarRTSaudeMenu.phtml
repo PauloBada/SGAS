@@ -1,0 +1,209 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Saúde
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="/fAAlterarRTSaudeBase" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Segmento Triagem Saúde</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_grp" name="cd_grp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_sbgrp" name="cd_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <?php if ($this->view->dadosAcompanhamento['origem'] == 'conclusaoRelatorio' || $this->view->dadosAcompanhamento['origem'] == 'alteracaoRelatorio') { ?>
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
+                  <div class="col-lg-2">
+                    <input required="" autofocus="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_cndc_saude_membros_fml">Descrição da Condição de Saúde da Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_cndc_saude_membros_fml" name="dsc_cndc_saude_membros_fml" placeholder="Descreva as condições gerais dos membros da família" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_cndc_saude_membros_fml'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_carteira_vacina_crianca">Descrição da Situação da Carteira de Vacinação das Crianças</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_carteira_vacina_crianca" name="dsc_carteira_vacina_crianca" placeholder="Descreva situação das vacinas" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_carteira_vacina_crianca'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_doenca_cronica_fml">Descrição de Doença Crônica na Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_doenca_cronica_fml" name="dsc_doenca_cronica_fml" placeholder="Descreva se há alguém com doença crónica" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_doenca_cronica_fml'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_restricao_alimentar">Descrição de Restrição Alimentar na Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_restricao_alimentar" name="dsc_restricao_alimentar" placeholder="Descreva se há alguém com restrição alimentar" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_restricao_alimentar'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_higiene_pessoal">Descrição da Higiene Pessoal da Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_higiene_pessoal" name="dsc_higiene_pessoal" placeholder="Descreva as condições gerias de higiene" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_higiene_pessoal'] ?>">
+                  </div>
+                </div>
+              <?php } else { ?>
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
+                  <div class="col-lg-2">
+                    <input required="" readonly="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_cndc_saude_membros_fml">Descrição da Condição de Saúde da Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_cndc_saude_membros_fml" readonly="" name="dsc_cndc_saude_membros_fml" placeholder="Descreva as condições gerais dos membros da família" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_cndc_saude_membros_fml'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_carteira_vacina_crianca">Descrição da Situação da Carteira de Vacinação das Crianças</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_carteira_vacina_crianca" readonly="" name="dsc_carteira_vacina_crianca" placeholder="Descreva situação das vacinas" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_carteira_vacina_crianca'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_doenca_cronica_fml">Descrição de Doença Crônica na Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_doenca_cronica_fml" readonly="" name="dsc_doenca_cronica_fml" placeholder="Descreva se há alguém com doença crónica" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_doenca_cronica_fml'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_restricao_alimentar">Descrição de Restrição Alimentar na Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_restricao_alimentar" readonly="" name="dsc_restricao_alimentar" placeholder="Descreva se há alguém com restrição alimentar" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_restricao_alimentar'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_higiene_pessoal">Descrição da Higiene Pessoal da Família</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_higiene_pessoal" readonly="" name="dsc_higiene_pessoal" placeholder="Descreva as condições gerias de higiene" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_higiene_pessoal'] ?>">
+                  </div>
+                </div>
+              <?php } ?>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dsc_prgm_trab">Descrição do Programa de Trabalho<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" autofocus="" name="dsc_prgm_trab" required="" placeholder="Descreva o Programa de Trabalho para este segmento" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_prgm_trab'] ?></textarea>
+                </div>
+              </div>
+
+              <!-- Campos para tratamento de retorno -->
+              <!-- Campo para poder informar qual o tipo de Segmento está sendo tratado -->
+              <input id="cd_segmto" name="cd_segmto" class="form-control input-md" disabled="" type="text" maxlength="2"  value="" hidden>
+              <input type="hidden" name="cd_segmto" value="4"> 
+
+              <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>" hidden>
+              <input type="hidden" name="cb_grupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>"> 
+
+              <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>" hidden>
+              <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>"> 
+
+              <input id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>" hidden>
+              <input type="hidden" name="cb_familia_escolhida" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>"> 
+
+              <input id="origem" name="origem" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['origem'] ?>" hidden>
+              <input type="hidden" name="origem" value="<?= $this->view->dadosAcompanhamento['origem'] ?>">
+
+              <!-- Término Campos para tratamento de retorno -->
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+                 
+                  <?php if ($this->view->dadosAcompanhamento['origem'] == 'conclusaoRelatorio') { ?>
+                    <a href="#" onclick="sendPost('/fAConcluirRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>
+                  
+                  <?php } else if ($this->view->dadosAcompanhamento['origem'] == 'conclusaoRevisao') { ?>
+                    <a href="#" onclick="sendPost('/fARevisarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>
+                  
+                  <?php } else { ?>
+                    <a href="#" onclick="sendPost('/fAAlterarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>                
+                  <?php } ?>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml"
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaAltera.js"></script>
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

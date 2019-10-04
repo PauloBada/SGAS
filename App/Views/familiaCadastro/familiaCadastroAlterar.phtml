@@ -1,0 +1,61 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu Escolha de família para ter os dado alterados
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/familiaCadastroAlterarMenu" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="familia_escolhida">Família<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="familia_escolhida" name="familia_escolhida" class="form-control">
+                    <?php foreach ($this->view->familias as $indice => $familia) { ?>
+                      <option value=<?= $familia['cd_fmlID'] ?>><?= $familia['nm_grp_fmlr'] ?></option>
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+                 
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="Submit">Buscar</button>
+
+                  <a style="color: #fff" href="/familiaCadastro" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Alteração realizada com Sucesso!<?php echo ' Família: '.$this->view->codigoAlteracao.' - '.$this->view->nomeAlteracao.'!' ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro na Alteração!<?php echo ' '.$this->view->erroException ?></small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+  </body>
+</html>

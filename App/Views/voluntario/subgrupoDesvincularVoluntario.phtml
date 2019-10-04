@@ -1,0 +1,191 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Escolha de Grupo, subgrupo e Voluntário para desvincular
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoDesvincularVoluntarioMenu" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Encerrar Vínculo Voluntário com Subgrupo</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_grupo_escolhido">Grupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control">
+                    <option value="">Escolha Grupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subgrupo_escolhido">Subgrupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control">
+                    <option value="">Escolha Subgrupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_voluntario_escolhido">Voluntário<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select id="cb_voluntario_escolhido" name="cb_voluntario_escolhido" class="form-control">
+                    <option value="">Escolha Voluntário</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnBuscar" type="Submit" disabled="">Buscar</button>
+
+                  <a href="/voluntario" class="btn btn-success" >Retorna</a>
+                  
+                  <a class="btn" id="btnOculto"></a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Encerramento realizado com Sucesso!</small>
+             <small class="form-text text-danger"><?php echo 'Voluntário: '.$this->view->nomeVoluntario ?></small>
+             <small class="form-text text-danger"><?php echo 'Grupo: '.$this->view->nomeGrupo ?></small>
+             <small class="form-text text-danger"><?php echo 'Subgrupo: '.$this->view->nomeSubgrupo ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Escolha Grupo, Subgrupo e Voluntário!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      // Para simular o clique do botão e abrir as opções de Grupo e Subgrupo
+      <?php if ($this->view->erroValidacao >= 0 ) { ?>
+        $(function() {
+            $('#btnOculto').on("click", function () {
+              $('#btnOculto').hide();
+          });
+          // Chama a função de clique através do trigger
+          $("#btnOculto").trigger('click');
+        })
+      <?php } ?>
+
+      $('#btnOculto').click(function(e){
+          $("#btnBuscar").removeAttr("disabled");
+          $("#cb_grupo_escolhido").removeAttr("disabled");
+          $("#cb_subgrupo_escolhido").removeAttr("disabled");
+          $("#cb_voluntario_escolhido").removeAttr("disabled");
+          $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+          $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+          $('#cb_voluntario_escolhido').empty().append('<option>Escolha Voluntário</option>');
+
+          // Carrega Grupos         
+          $.getJSON('ConsultaCbDependente.php?opcao=grupoVnclVlntGrp', function (dados){
+
+             if (dados.length > 0){    
+                var option = '<option>Escolha Grupo</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_grupo+'">'+obj.nome_grupo+'</option>';
+                })
+              }else{
+                 Reset();
+             }
+             $('#cb_grupo_escolhido').html(option).show();
+          })
+      })
+
+      // Carrega Subgrupos
+      $('#cb_grupo_escolhido').change(function(e){
+        var grupo = $('#cb_grupo_escolhido').val();
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupoVnclVlntGrp&valor='+grupo, 
+          function (dados){ 
+           
+             if (dados.length > 0){    
+
+                var option = '<option>Escolha Subgrupo</option>';
+
+                // Artificio para poder abrir combo voluntário a pesquisar sem subgrupo vinculado
+                option += '<option>Sem Subgrupo</option>';
+
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_subgrupo+'">'+obj.nome_subgrupo+'</option>';
+                })
+                
+
+              }else{
+                Reset(); 
+              }
+
+             $('#cb_subgrupo_escolhido').html(option).show(); 
+          })
+      })
+
+      // Carrega Voluntarios
+      $('#cb_subgrupo_escolhido').change(function(e){
+
+        ResetVoluntario();
+
+        var grupo      = $('#cb_grupo_escolhido').val();
+        var subgrupo   = $('#cb_subgrupo_escolhido').val();
+
+        // Para remeter dois argumentos e no programa "ConsultaCbDependente.php" utiliza função explode() para ler
+        var $grupoSubgrupo = grupo + ";" + subgrupo;
+
+        $.getJSON('ConsultaCbDependente.php?opcao=voluntarioVnclVlntGrp&valor='+$grupoSubgrupo, 
+        function (dados){ 
+         
+           if (dados.length > 0){    
+              var option = '<option>Escolha Voluntário</option>';
+              $.each(dados, function(i, obj){
+                  option += '<option value="'+obj.cod_voluntario+'">'+obj.nome_voluntario+'</option>';
+              })
+             }
+
+           $('#cb_voluntario_escolhido').html(option).show(); 
+        })
+      })
+
+      // Resetar Selects //
+      function Reset(){
+        $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+        $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+        $('#cb_voluntario_escolhido').empty().append('<option>Escolha Voluntário</option>');
+
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnOculto').on("click", function () {
+                $('#btnOculto').hide();
+            });
+            // Chama a função de clique através do trigger
+            $("#btnOculto").trigger('click');
+          })
+        <?php } ?>
+      }
+
+      function ResetVoluntario(){
+        $('#cb_voluntario_escolhido').empty().append('<option>Escolha Voluntário</option>');
+      }
+    </script>      
+  </body>
+</html>

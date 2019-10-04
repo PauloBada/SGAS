@@ -1,0 +1,752 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"usu",
+				"usuario"
+			],
+			[
+				"tb_usuar",
+				"tb_usuarios_seguidores"
+			],
+			[
+				"exclu",
+				"excluirTweet"
+			],
+			[
+				"exc",
+				"excluirTweet"
+			],
+			[
+				"ac",
+				"acaoTweet"
+			],
+			[
+				"t",
+				"tweet_del"
+			],
+			[
+				"tim",
+				"timeline"
+			],
+			[
+				"b",
+				"button"
+			],
+			[
+				"_",
+				"_GET"
+			],
+			[
+				"id_usu",
+				"id_usuario"
+			],
+			[
+				"id_usuario_",
+				"id_usuario_grava"
+			],
+			[
+				"id_",
+				"id_usuario"
+			],
+			[
+				"id",
+				"id_usuario_seguidor"
+			],
+			[
+				"usuar",
+				"usuarios"
+			],
+			[
+				"twe",
+				"tweets"
+			],
+			[
+				"da",
+				"data"
+			],
+			[
+				"tw",
+				"tweets"
+			],
+			[
+				"ti",
+				"timeline"
+			],
+			[
+				"se",
+				"session_destroy"
+			],
+			[
+				"h",
+				"h1\tTag"
+			],
+			[
+				"nome",
+				"notes_mark_unread"
+			],
+			[
+				"em",
+				"email"
+			],
+			[
+				"error",
+				"error_reporting"
+			],
+			[
+				"me",
+				"meta\tTag"
+			],
+			[
+				"strto",
+				"mb_strtolower"
+			],
+			[
+				"class",
+				"classeAtual"
+			],
+			[
+				"cla",
+				"classeAtual"
+			],
+			[
+				"cl",
+				"classeAtual"
+			],
+			[
+				"abs",
+				"abstract"
+			],
+			[
+				"set",
+				"setRoutes"
+			],
+			[
+				"l",
+				"link\tTag"
+			],
+			[
+				"img",
+				"img-fluid"
+			],
+			[
+				"bt",
+				"btn-primary"
+			],
+			[
+				"bor",
+				"border-bottom\tproperty"
+			],
+			[
+				"fina",
+				"Finans"
+			],
+			[
+				"col",
+				"col-md-6"
+			],
+			[
+				"con",
+				"container"
+			],
+			[
+				"co",
+				"color\tproperty"
+			],
+			[
+				"i",
+				"i\tTag"
+			],
+			[
+				"input",
+				"input-group"
+			],
+			[
+				"pa",
+				"placeholder\tAttr"
+			],
+			[
+				"in",
+				"input\tTag"
+			],
+			[
+				"fo",
+				"form\tTag"
+			],
+			[
+				"na",
+				"nav-principal"
+			],
+			[
+				"s",
+				"span\tTag"
+			],
+			[
+				"u",
+				"ul\tTag"
+			],
+			[
+				"nav",
+				"navbar"
+			],
+			[
+				"nva",
+				"navbar"
+			],
+			[
+				"ali",
+				"align-items-center"
+			],
+			[
+				"mar",
+				"marcador"
+			],
+			[
+				"ma",
+				"marcador"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"st",
+				"style\tTag"
+			],
+			[
+				"fixed-",
+				"fixed-top"
+			],
+			[
+				"bg-d",
+				"bg-secondary"
+			],
+			[
+				"d",
+				"dropdown"
+			],
+			[
+				"ju",
+				"justify-content-center"
+			],
+			[
+				"min",
+				"min-width\tproperty"
+			],
+			[
+				"fn",
+				"font-size\tproperty"
+			],
+			[
+				"li",
+				"link\tTag"
+			],
+			[
+				"margin",
+				"margin-top\tproperty"
+			],
+			[
+				"text",
+				"text-right"
+			],
+			[
+				"marg",
+				"margin-top\tproperty"
+			],
+			[
+				"total",
+				"total_reg_tab"
+			],
+			[
+				"qtd",
+				"qtdTotalCriancasSubgrupo"
+			],
+			[
+				"qt",
+				"qtdTotalItemSubgrupo"
+			],
+			[
+				"nomeS",
+				"nomeSubitemTratado"
+			],
+			[
+				"tab",
+				"tab_item_subgrupo"
+			],
+			[
+				"item",
+				"item_subitem_pesq"
+			],
+			[
+				"pes",
+				"pesq_subitem"
+			],
+			[
+				"sub",
+				"subItem"
+			],
+			[
+				"pe",
+				"pesquisa"
+			],
+			[
+				"novo",
+				"novo_tempo_grava"
+			],
+			[
+				"cod",
+				"codig"
+			],
+			[
+				"nom",
+				"nomeGrupo"
+			],
+			[
+				"Ordena",
+				"OrdenaArray"
+			],
+			[
+				"data",
+				"data_visita"
+			],
+			[
+				"prox",
+				"prox_data_visita"
+			],
+			[
+				"mes",
+				"mes_triagem"
+			],
+			[
+				"dia",
+				"dia_um"
+			],
+			[
+				"dat",
+				"data_trata"
+			],
+			[
+				"j",
+				"json_encode"
+			],
+			[
+				"par",
+				"parse"
+			],
+			[
+				"base",
+				"base64encode"
+			],
+			[
+				"fi",
+				"filename"
+			],
+			[
+				"file",
+				"fileinfo"
+			],
+			[
+				"dados",
+				"dadosLinha"
+			],
+			[
+				"uc",
+				"ucfirst"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"getDes",
+				"getDeslogin"
+			],
+			[
+				"setDes",
+				"setDeslogin"
+			],
+			[
+				"password",
+				"oci_password_change"
+			],
+			[
+				"getD",
+				"getDeslogin"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"spl_autoload_",
+				"spl_autoload_register"
+			],
+			[
+				"De",
+				"DelRei"
+			],
+			[
+				"tro",
+				"trocarMarcha"
+			],
+			[
+				"func",
+				"function"
+			],
+			[
+				"getM",
+				"getMotor"
+			],
+			[
+				"func_get",
+				"func_get_args"
+			],
+			[
+				"salario",
+				"salarioNovo"
+			],
+			[
+				"sal",
+				"salarioMinimo"
+			],
+			[
+				"session_reg",
+				"session_regenerate_id"
+			],
+			[
+				"session",
+				"session_start"
+			],
+			[
+				"jso",
+				"json_encode"
+			],
+			[
+				"print",
+				"print_r"
+			],
+			[
+				"array_p",
+				"array_push"
+			],
+			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"ida",
+				"idadeMaior"
+			],
+			[
+				"str_re",
+				"str_replace"
+			],
+			[
+				"no",
+				"nome2"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"a",
+				"apelido"
+			],
+			[
+				"A",
+				"Alteração"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Projeto_SGAS"
+	],
+	"file_history":
+	[
+		"/C/0-Bada/Python/Sistema RMI/PgmInpcMass.py",
+		"/C/0-Bada/Python/Sistema Controle Financeiro Pessoal/ControleFinancasPessoais.spec",
+		"/C/Users/paulo/Downloads/ProcessaExtratoBanco.py",
+		"/C/0-Bada/Python/Sistema RMI/PgmCalculaFPRMI.py",
+		"/C/0-Bada/Python/Sistema RMI/PgmInpc.py",
+		"/C/0-Bada/projetos/twitter_clone/App/Models/Usuario.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Models/UsuarioSeguidor.php",
+		"/C/0-Bada/Projeto Familia DPS/Documentos Tecnicos/MySQL/Dump/Dump-SGAS.bat",
+		"/C/0-Bada/projetos/twitter_clone/twitter_clone.sublime-project",
+		"/C/0-Bada/projetos/twitter_clone/App/Models/Tweet.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Controllers/AppController.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/app/quemSeguir.phtml",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/app/timeline.phtml",
+		"/C/0-Bada/projetos/twitter_clone/App/Route.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/layout.phtml",
+		"/C/0-Bada/projetos/twitter_clone/public/js/personalizado.js",
+		"/C/Users/paulo/Downloads/apresentar-janela-modal-confirmar-apagar/index.php",
+		"/C/Users/paulo/Downloads/apresentar-janela-modal-confirmar-apagar/proc_apagar_usuario.php",
+		"/C/Users/paulo/Downloads/personalizado.js",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/index/index.phtml",
+		"/C/Users/paulo/Downloads/proc_apagar_usuario.php",
+		"/C/0-Bada/Curso Desenvolvimento WEB/apoio-botoes.html",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/index/quemSeguir.phtml",
+		"/C/0-Bada/projetos/twitter_clone/App/Controllers/IndexController.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Controllers/AuthController.php",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/index/inscreverse.phtml",
+		"/C/0-Bada/projetos/twitter_clone/App/Controllers/AppControler.php",
+		"/C/0-Bada/projetos/twitter_clone/public/css/style.css",
+		"/C/0-Bada/projetos/twitter_clone/App/Views/index/cadastro.phtml",
+		"/C/0-Bada/projetos/twitter_clone/App/Connection.php",
+		"/C/0-Bada/projetos/twitter_clone/vendor/MF/Controller/Action.php",
+		"/C/0-Bada/projetos/miniframework/vendor/MF/Model/Model.php",
+		"/C/0-Bada/projetos/miniframework/App/Controllers/IndexController.php",
+		"/C/0-Bada/projetos/miniframework/App/Models/Info.php",
+		"/C/0-Bada/projetos/miniframework/App/Models/Produto.php",
+		"/C/0-Bada/projetos/miniframework/vendor/MF/Model/Container.php",
+		"/C/0-Bada/projetos/miniframework/App/Views/index/sobreNos.phtml",
+		"/C/0-Bada/projetos/miniframework/App/Connection.php",
+		"/C/0-Bada/projetos/miniframework/App/Views/layout2.phtml",
+		"/C/0-Bada/projetos/miniframework/App/Views/index/index.phtml",
+		"/C/0-Bada/projetos/miniframework/public/index.php",
+		"/C/0-Bada/projetos/miniframework/vendor/MF/Controller/Action.php",
+		"/C/xampp/htdocs/finans/index.html",
+		"/C/0-Bada/projetos/miniframework/vendor/MF/Init/Bootstrap.php",
+		"/C/0-Bada/projetos/miniframework/App/Route.php",
+		"/C/0-Bada/projetos/miniframework/vendor/MF/Action.php",
+		"/C/0-Bada/projetos/miniframework/vendor/autoload.php",
+		"/C/0-Bada/projetos/miniframework/composer.json",
+		"/C/0-Bada/PHP/cursoPHP (htdocs)/namespace/class/Cliente/Cadastro.php",
+		"/C/0-Bada/PHP/cursoPHP (htdocs)/namespace/index.php",
+		"/C/0-Bada/PHP/cursoPHP (htdocs)/namespace/config.php",
+		"/C/0-Bada/PHP/cursoPHP (htdocs)/namespace/class/Cadastro.php",
+		"/C/0-Bada/projetos/miniframework/public/.htaccess",
+		"/C/0-Bada/projetos/miniframework/composer.phar",
+		"/C/0-Bada/projetos/miniframework/public/composer.json",
+		"/C/xampp/htdocs/finans/css/estilo.css",
+		"/C/xampp/htdocs/Bootstrap-4.3.1/finans/index.html",
+		"/C/xampp/htdocs/curso Bootstrap/finans/index.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/finans/index.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/finans/css/estilo.css",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/projeto-bootstrap4/index.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-margin-wrap.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-formularios.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/exemplo-php-bootstrap.html",
+		"/C/xampp/cursoPHP (htdocs)/array/exemplo-pesquisa-array - 2.php",
+		"/C/xampp/cursoPHP (htdocs)/array/exemplo-01.php",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-formulario.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/media-queries/estilo-impressao.css",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/media-queries/apoio-breakpoints.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/media-queries/index.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/media-queries/estilo.css",
+		"/C/xampp/htdocs/Curso Desenv Web/apoio-tamanho-bordas.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-tamanho-bordas.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-cores-background.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/apoio-cores-backgroud.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/index_old.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/index.html",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/css/bootstrap.min.css",
+		"/C/xampp/htdocs/assets/bootstrap-4.3.1/css/bootstrap.min.css.map",
+		"/C/xampp/htdocs/assets/index.html",
+		"/C/xampp/htdocs/assets/Curso DWCompleto/index.html",
+		"/C/xampp/htdocs/array/exemplo-05.php",
+		"/C/xampp/htdocs/array/exemplo-pesquisa-array - 2.php",
+		"/C/0-Bada/Python/Sistema Controle Financeiro Pessoal/PersisteExtrato.py",
+		"/C/xampp/htdocs/array/exemplo-pesquisa-array.php",
+		"/C/xampp/htdocs/array/exemplo-06.php",
+		"/C/xampp/htdocs/array/PesquisaArray.php",
+		"/C/xampp/htdocs/array/exemplo-04.php",
+		"/C/xampp/htdocs/array/exemplo-03.php",
+		"/C/xampp/htdocs/array/exemplo-02.php",
+		"/C/xampp/htdocs/array/exemplo-01.php",
+		"/C/xampp/htdocs/switchcase/exemplo-01.php",
+		"/C/xampp/htdocs/foreach/exemplo-01.php",
+		"/C/xampp/htdocs/array/Apague.php",
+		"/C/xampp/htdocs/data e time/exemplo-02.php",
+		"/C/xampp/htdocs/data e time/exemplo-03.php",
+		"/C/xampp/htdocs/data e time/exemplo-05.php",
+		"/C/0-Bada/Python/Sistema Controle Financeiro Pessoal/PersisteFinanceiro.py",
+		"/C/xampp/htdocs/data e time/exemplo-01.php",
+		"/C/xampp/htdocs/for/exemplo-01.php",
+		"/C/xampp/htdocs/EXEMPLOS DIVERSOS/Exemplo com html com Combobox.php",
+		"/C/xampp/htdocs/autoload/exemplo-01.php",
+		"/C/xampp/htdocs/_error/exemplo-02.php",
+		"/C/0-Bada/Projeto Familia DPS/Documenos Tecnicos/OrdenaArray.php",
+		"/C/xampp/htdocs/foreach/exemplo-03.php",
+		"/C/xampp/htdocs/foreach/exemplo-02.php",
+		"/C/xampp/htdocs/json/exemplo-02.php",
+		"/C/xampp/htdocs/json/exemplo-01.php",
+		"/C/xampp/htdocs/include/exemplo-02.php",
+		"/C/xampp/htdocs/array/OrdenaArray.php",
+		"/C/xampp/htdocs/include/exemplo-01.php",
+		"/C/0-Bada/Projeto Familia DPS/Documenos Tecnicos/ProximaDataVisita.php",
+		"/C/xampp/htdocs/foreach/ProximaDataVisita.php",
+		"/C/xampp/htdocs/funcoes/exemplo-01.php",
+		"/C/xampp/htdocs/classe abstrata/exemplo-01.php",
+		"/C/xampp/htdocs/funcoes/exemplo-10.php",
+		"/C/xampp/htdocs/funcoes/exemplo-09.php",
+		"/C/xampp/htdocs/funcoes/exemplo-08.php",
+		"/C/xampp/htdocs/funcoes/exemplo-07.php",
+		"/C/xampp/htdocs/funcoes/exemplo-06.php",
+		"/C/xampp/htdocs/funcoes/exemplo-05.php",
+		"/C/xampp/htdocs/funcoes/exemplo-04.php",
+		"/C/xampp/htdocs/funcoes/exemplo-03.php",
+		"/C/xampp/htdocs/funcoes/exemplo-02.php",
+		"/C/xampp/htdocs/_error/exemplo-01.php",
+		"/C/Users/paulo/Desktop/Projeto SGAS/CursoPHP/index.php",
+		"/C/xampp/htdocs/error/exemplo-01.php",
+		"/C/xampp/htdocs/try/exemplo-01.php"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 104.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 44.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "Projeto SGAS.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

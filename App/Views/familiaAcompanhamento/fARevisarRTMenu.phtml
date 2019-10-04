@@ -1,0 +1,221 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/09/2019
+      Objetivo:  Menu de Revisão de Relatório de Triagem
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Revisão de Relatório Triagem</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_grupo_escolhido", devido ao $_POST no retorno deste programa-->  
+                  <input id="cd_grp" name="cb_grupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_subgrupo_escolhido", devido ao $_POST no retorno deste programa-->  
+                  <input id="cd_sbgrp" name="cb_subgrupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="seql_acomp">Nr. Acompanhamento</label>  
+                <div class="col-lg-1">
+                  <input id="seql_acomp" name="seql_acomp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>">
+                </div>
+              </div>              
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
+                <div class="col-lg-3">
+                  <input readonly="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_avalia_triagem">Avaliação da Triagem<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <select autofocus="" id="cd_avalia_triagem" name="cd_avalia_triagem" class="form-control">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <!-- Não deverá constar do menu, pois é a situação atual -->
+                    <!--<option value="1"?php echo selected2('1', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Em processo de Triagem</option>-->
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Deverá haver nova visita de Triagem</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Família será atendida pelo Subgrupo</option>
+
+                    <option value="4"<?php echo selected2('4', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Família Não será atendida pelo Subgrupo neste momento e deverá retornar a lista de espera</option>
+
+                    <option value="5"<?php echo selected2('5', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Família Não será atendida pelo Subgrupo neste momento por mudança de endereço e impossiblidade de triagem</option>
+
+                    <option value="6"<?php echo selected2('6', $this->view->dadosAcompanhamento['cd_avalia_triagem']); ?>>Família não necessita de Atendimento</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_mtv_cd_avalia_triagem">Motivo da Avaliação da Triagem<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" name="dsc_mtv_cd_avalia_triagem" required="" placeholder="Por que do código de avaliação acima" class="form-control input-md" type="text" rows="4" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_mtv_cd_avalia_triagem'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml_subs_triagem">Família Sendo Substituída<h11>*</h11></label>
+                <div class="col-lg-4">
+                  <select id="cd_fml_subs_triagem" name="cd_fml_subs_triagem" class="form-control">
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <?php foreach ($this->view->familiasPassiveisSubstituicao as $indice => $familia) { ?>
+                      <?php if ($indice == 0) { ?>
+                        <option value="">Nenhuma</option>  
+                      <?php } else { ?>
+                        <option value="<?= $familia['cd_fml'] ?>"<?php echo selected($familia['cd_fml'], $this->view->dadosAcompanhamento['cd_fml_subs_triagem']); ?>><?= $familia['nm_grp_fmlr'] ?></option>
+                      <?php } ?>                            
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-lg-3 control-label" for="cd_crit_engjto">Critério de Engajamento Família<h11>*</h11></label>
+                <div class="col-lg-7">
+                  <select id="cd_crit_engjto" name="cd_crit_engjto" class="form-control">
+                    
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected1('1', $this->view->dadosAcompanhamento['cd_crit_engjto']); ?>>A Definir</option>
+                    
+                    <option value="2"<?php echo selected1('2', $this->view->dadosAcompanhamento['cd_crit_engjto']); ?>>Vulnerabilidade por motivo de doença, idade avançada ou deficiência física-mental</option>
+
+                    <option value="3"<?php echo selected1('3', $this->view->dadosAcompanhamento['cd_crit_engjto']); ?>>Gestante desempregada e sem suporte familiar</option>
+                   
+                    <option value="4"<?php echo selected1('4', $this->view->dadosAcompanhamento['cd_crit_engjto']); ?>>Família com renda insuficiente e que não se enquadre nas situações anteriores</option>
+                   
+                    <option value="5"<?php echo selected1('5', $this->view->dadosAcompanhamento['cd_crit_engjto']); ?>>É atendida por outra instituição</option>
+                   
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_consid_finais_triagem">Considerações Finais da Triagem<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="2" name="dsc_consid_finais_triagem" required="" placeholder="Descreva as Considerações finais" class="form-control input-md" type="text" rows="4" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_consid_finais_triagem'] ?></textarea>
+                </div>
+              </div>
+             
+              <div class="form-group" pading="1px">
+                <div class="col-lg-12">
+                  <fieldset class="text-center">                             
+                    <legend class="info_voluntario">Segmentos</legend>
+
+                    <a href="#" onclick="sendPost('/fAAlterarRTEducacaoMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Educação
+                    </a>
+
+                    <a href="#" onclick="sendPost('/fAAlterarRTReligiosidadeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Religiosidade
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTMoradiaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Moradia
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTSaudeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Saúde
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTDespesaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Despesa
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTRendaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Renda
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTCapProfissionalMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Capacitação Profissional
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAAlterarRTAspectoIntMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Aspectos Íntimos
+                    </a>
+                    
+                    <a href="#" onclick="sendPost('/fAConsultarRTVoluntario', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Voluntários
+                    </a>                  
+                  </fieldset>                             
+                </div>
+              </div>
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="btnAlterar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar</button>
+
+                  <button class="btn btn-primary" type="button" id="btnRevisar">Formalizar Revisão</button>
+                
+                  <a href="#" onclick="sendPost('/fARevisarRT', {cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>', cb_familia_escolhida:'<?= $_POST['cb_familia_escolhida'] ?>'});" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaAlteraRevisa.js"></script>
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

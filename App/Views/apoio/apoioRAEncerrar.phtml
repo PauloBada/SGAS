@@ -1,0 +1,57 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Encerramento de Região Administrativa
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/apoioRAEncerrarMenu" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Encerramento de Região Administrativa</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codGrupo">Região Administrativa</label>  
+                <div class="col-md-4">
+                  <select required id="RA_escolhida" name="RA_escolhida" class="form-control">
+                    <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                      <option value=<?= $regiao['cod_ra'] ?>><?= $regiao['nome_ra'] ?></option>
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="Submit">Buscar</button>
+
+                  <a href="/apoioRA" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroApoio == 1) { ?>
+             <small class="form-text text-danger">Encerrameno realizado com Sucesso!<?php echo ' '.$this->view->nomeRA_alterado.' ('.
+             $this->view->ufRA_alterado.')' ?></small>
+          <?php } else if ($this->view->erroApoio == 2) { ?>
+             <small class="form-text text-danger">Encerramento Cancelado! Código em uso no sistema!  <?php echo ' '.$this->view->nomeRA_alterado.' ('.$this->view->ufRA_alterado.')' ?></small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu para escolha de integrante de família a ser pesquisado
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/familiaCadastroConsultarIntegranteMenu" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Consultar Integrante de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_familia_escolhida">Família<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control" disabled="">
+                    <option value="">Escolha Família</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_integrante_escolhido">Integrante<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="cb_integrante_escolhido" name="cb_integrante_escolhido" class="form-control" disabled="">
+                    <option value="">Escolha Integrante</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Rota para definição de retorno -->
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-1">
+                  <input id="rota" name="rota" class="form-control input-md" type="text" maxlength="3" value="rota_04" disabled="" hidden>
+                </div>
+                <input type="hidden" name="rota" value="rota_04"> 
+              </div>
+                 
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnBuscar" type="Submit" disabled="">Buscar</button>
+
+                  <a href="/familiaCadastro" class="btn btn-success" >Retorna</a>
+                  
+                  <a class="btn" id="btnHidden"></a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 3) { ?>
+             <small class="form-text text-danger">Família e Integrante precisam ser escolhidos!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      // Para simular o clique do botão e abrir as opções de Família e Integrante
+      <?php if ($this->view->erroValidacao >= 0 ) { ?>
+        $(function() {
+            $('#btnHidden').on("click", function () {
+              $('#btnHidden').hide();
+          });
+          // Chama a função de clique através do trigger
+          $("#btnHidden").trigger('click');
+        })
+      <?php } ?>
+
+      $('#btnHidden').click(function(e){
+          $("#btnBuscar").removeAttr("disabled");
+          $("#cb_familia_escolhida").removeAttr("disabled");
+          $("#cb_integrante_escolhido").removeAttr("disabled");
+          $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>>');
+          $('#cb_integrante_escolhido').empty().append('<option>Escolha Integrante</option>');
+
+          // Carrega Famílias
+          $.getJSON('ConsultaCbDependente.php?opcao=familiaAll3', function (dados){
+
+             if (dados.length > 0){    
+                var option = '<option>Escolha Família</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_familia+'">'+obj.nome_familia+'</option>';
+                })
+              }else{
+                 Reset();
+             }
+             $('#cb_familia_escolhida').html(option).show();
+          })
+      })
+
+      // Carrega Integrantes
+      $('#cb_familia_escolhida').change(function(e){
+        var familia = $('#cb_familia_escolhida').val();
+          $.getJSON('ConsultaCbDependente.php?opcao=integranteAll&valor='+familia, 
+          function (dados){ 
+           
+             if (dados.length > 0){    
+                var option = '<option>Escolha Integrante</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.seql_integrante+'">'+obj.nome_integrante+'</option>';
+                })
+             //}else{
+             //   Reset();
+             }
+             $('#cb_integrante_escolhido').html(option).show(); 
+          })
+      })
+
+      // Resetar Selects //
+      function Reset(){
+        $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>>');
+        $('#cb_integrante_escolhido').empty().append('<option>Escolha Integrante</option>');
+
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnHidden').on("click", function () {
+                $('#btnHidden').hide();
+            });
+            // Chama a função de clique através do trigger
+            $("#btnHidden").trigger('click');
+          })
+        <?php } ?>
+      }
+    </script>  
+  </body>
+</html>

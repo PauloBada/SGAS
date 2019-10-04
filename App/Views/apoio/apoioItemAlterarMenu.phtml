@@ -1,0 +1,78 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Alteração de Item de Necessidade
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/apoioItemAlterarBase" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Item de Necessidade Almoxarifado</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codItem">Código Item<h11>*</h11></label>  
+                <div class="col-lg-1">
+                  <input id="CodItem" name="codItem"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosItem_escolhida['cd_item_a_alterar'] ?>>
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeItem">Nome Item<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input autofocus id="1" name="nomeItem" placeholder="Digite o nome do Item" class="form-control input-md" required="" type="text" maxlength="30" value="<?= $this->view->dadosItem_escolhida['nome_item_a_alterar'] ?>">              
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="evento">Evento Necessidade<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="2" name="evento" class="form-control"> 
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected('1', $this->view->dadosItem_escolhida['cd_evento_a_alterar']); ?>>Necessidade para Próxima Visita</option>
+                    <option value="2"<?php echo selected('2', $this->view->dadosItem_escolhida['cd_evento_a_alterar']); ?>>Necessidade Eventual</option>
+                    <option value="3"<?php echo selected('3', $this->view->dadosItem_escolhida['cd_evento_a_alterar']); ?>>Necessidade para Data Comemorativa</option>
+                </select>
+                </div>
+  			     </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+                  
+                  <a href="/apoioItemAlterar" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+			           
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center">
+          <?php if ($this->view->erroApoio == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome do Item Já cadastrado! <?php echo ' '.$this->view->nomeItem_alterado. ', ' ?>Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaAltera.js"></script>
+  </body>
+</html>

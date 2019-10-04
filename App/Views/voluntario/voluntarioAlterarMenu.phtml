@@ -1,0 +1,375 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Região Administrativa
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css"> 
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/voluntarioAlterarBase" method="post" id="FormAltera"> 
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Voluntário DPS</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codigo">Código</label>  
+                <div class="col-md-6">
+                  <input id="codigo" name="codigo" placeholder="" class="form-control input-md" type="text" maxlength="100" disabled="" required="" value="<?= $this->view->voluntario['codigo'] ?>">
+
+                  <!-- Para poder retornar no $_POST o valor do name="codigo", pois está disabled acima -->
+                  <input type="hidden" name="codigo" value=<?= $this->view->voluntario['codigo'] ?>> 
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nome">Nome<h11>*</h11></label>  
+                <div class="col-md-6">
+                  <input id="1" name="nome" placeholder="" class="form-control input-md" required="" type="text" maxlength="100" autofocus value="<?= $this->view->voluntario['nome'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeforum">Nome Fórum</label>  
+                <div class="col-md-6">
+                  <input id="nomeforum" name="nomeforum" placeholder="Nome cadastrado no fórum" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['nomeforum'] ?>">
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nrsocio">Nr. Sócio Comunhão</label>  
+                <div class="col-lg-2">
+                  <input id="nrsocio" name="nrsocio" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->voluntario['nrsocio'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="nridentidade">Nr. Identidade</label>  
+                <div class="col-lg-2">
+                  <input id="nridentidade" name="nridentidade" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->voluntario['nridentidade'] ?>">
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cpf">CPF</label>  
+                <div class="col-lg-2">
+                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value=<?= $this->view->voluntario['cpf'] ?>>
+                </div>
+                
+                <label class="col-md-1 control-label" for="dtnasc">Nascimento</label>  
+                <div class="col-lg-2">
+                    <input id="dtnasc" name="dtnasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" value=<?= $this->view->voluntario['dtnasc'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="naturalidade">Naturalidade</label>
+                <div class="col-lg-2">
+                  <div class="input-group">     
+                  <input id="naturalidade" name="naturalidade" class="form-control" placeholder="Cidade de Nascimento" type="text" maxlength="20" value="<?= $this->view->voluntario['naturalidade'] ?>">
+                  </div>
+                </div> 
+
+                <label class="col-md-2 control-label" for="estadoUF">Estado (UF)</label>  
+                <div class="col-md-3">
+                  <select id="EstadoUF" name="estadoUF" class="form-control">                        
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value=""<?php echo selected('', $this->view->voluntario['estadoUF']); ?>></option>
+                    <option value="AC"<?php echo selected('AC', $this->view->voluntario['estadoUF']); ?>>Acre</option>
+                    <option value="AL"<?php echo selected('AL', $this->view->voluntario['estadoUF']); ?>>Alagoas</option>
+                    <option value="AP"<?php echo selected('AP', $this->view->voluntario['estadoUF']); ?>>Amapá</option>
+                    <option value="AM"<?php echo selected('AM', $this->view->voluntario['estadoUF']); ?>>Amazonas</option>
+                    <option value="BA"<?php echo selected('BA', $this->view->voluntario['estadoUF']); ?>>Bahia</option>
+                    <option value="CE"<?php echo selected('CE', $this->view->voluntario['estadoUF']); ?>>Ceará</option>
+                    <option value="DF"<?php echo selected('DF', $this->view->voluntario['estadoUF']); ?>>Distrito Federal</option>
+                    <option value="ES"<?php echo selected('ES', $this->view->voluntario['estadoUF']); ?>>Espirito Santo</option>
+                    <option value="GO"<?php echo selected('GO', $this->view->voluntario['estadoUF']); ?>>Goiás</option>
+                    <option value="MA"<?php echo selected('MA', $this->view->voluntario['estadoUF']); ?>>Maranhão</option>
+                    <option value="MT"<?php echo selected('MT', $this->view->voluntario['estadoUF']); ?>>Mato Grosso</option>
+                    <option value="MS"<?php echo selected('MS', $this->view->voluntario['estadoUF']); ?>>Mato Grosso Sul</option>
+                    <option value="MG"<?php echo selected('MG', $this->view->voluntario['estadoUF']); ?>>Minas Gerais</option>
+                    <option value="PA"<?php echo selected('PA', $this->view->voluntario['estadoUF']); ?>>Pará</option>
+                    <option value="PB"<?php echo selected('PB', $this->view->voluntario['estadoUF']); ?>>Paraíba</option>
+                    <option value="PR"<?php echo selected('PR', $this->view->voluntario['estadoUF']); ?>>Paraná</option>
+                    <option value="PE"<?php echo selected('PE', $this->view->voluntario['estadoUF']); ?>>Pernambuco</option>
+                    <option value="PI"<?php echo selected('PI', $this->view->voluntario['estadoUF']); ?>>Piaui</option>
+                    <option value="RJ"<?php echo selected('RJ', $this->view->voluntario['estadoUF']); ?>>Rio de Janeiro</option>
+                    <option value="RN"<?php echo selected('RN', $this->view->voluntario['estadoUF']); ?>>Rio Grande do Norte</option>
+                    <option value="RS"<?php echo selected('RS', $this->view->voluntario['estadoUF']); ?>>Rio Grande do Sul</option>
+                    <option value="RO"<?php echo selected('RO', $this->view->voluntario['estadoUF']); ?>>Rondonia</option>
+                    <option value="RR"<?php echo selected('RR', $this->view->voluntario['estadoUF']); ?>>Roraima</option>
+                    <option value="SC"<?php echo selected('SC', $this->view->voluntario['estadoUF']); ?>>Santa Catarina</option>
+                    <option value="SP"<?php echo selected('SP', $this->view->voluntario['estadoUF']); ?>>São Paulo</option>
+                    <option value="SE"<?php echo selected('SE', $this->view->voluntario['estadoUF']); ?>>Sergipe</option>
+                    <option value="TO"<?php echo selected('TO', $this->view->voluntario['estadoUF']); ?>>Tocantins</option>
+
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="radios">Sexo <h11>*</h11></label>
+                <div class="col-md-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                      <input name="sexo" id="sexo" value="feminino" type="radio" required <?php echo ($this->view->voluntario['sexo'] == "feminino") ? "checked" : null; ?>/>Feminino
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                      <input name="sexo" id="sexo" value="masculino" type="radio" required <?php echo ($this->view->voluntario['sexo'] == "masculino") ? "checked" : null; ?>/>Masculino
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="fonecomercial">Comercial</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fonecomercial" name="fonecomercial" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15" onkeypress="$(this).mask('(00) 0000-0009')" value="<?= $this->view->voluntario['fonecomercial'] ?>">
+                  </div>
+                </div>
+                
+                <label class="col-md-2 control-label" for="foneresidencial">Residencial</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="foneresidencial" name="foneresidencial" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 0000-0009')" value="<?= $this->view->voluntario['foneresidencial'] ?>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">                
+                <label class="col-md-2 control-label" for="celular">Celular</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="celular" name="celular" class="form-control" placeholder="(99) 99999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 00000-0009')" value="<?= $this->view->voluntario['celular'] ?>">
+                  </div>
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="email">Email <h11>*</h11></label>
+                <div class="col-lg-5">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    <input id="2" name="email" class="form-control" placeholder="email@email.com" required="" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="100" value="<?= $this->view->voluntario['email'] ?>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cep">CEP</label>
+                <div class="col-lg-2">
+                  <input id="cep" name="cep" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="8" minlength="8" onkeypress="$(this).mask('00.000-000')" value="<?= $this->view->voluntario['cep'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="endereco">Endereço</label>
+                <div class="col-lg-4">
+                  <input id="endereco" name="endereco" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['endereco'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="ra_escolhida">Região Administrativa</label>
+                <div class="col-md-3">
+                  <select id="ra_escolhida" name="ra_escolhida" class="form-control">
+                      <!-- Monta o combobox - Foca no registro recebido -->
+                      <?php function selected2( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                          <?php if ($indice_ra == 0) { ?>
+                            <option value=""></option>  
+                            <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected2($regiao['cod_ra'], $this->view->voluntario['ra_escolhida']); ?>><?= $regiao['nome_ra'] ?></option>
+                          <?php } else { ?>
+                            <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected2($regiao['cod_ra'], $this->view->voluntario['ra_escolhida']); ?>><?= $regiao['nome_ra'] ?></option>
+                          <?php } ?>                                                  
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="escolaridade">Escolaridade</label>
+                <div class="col-md-3">
+                  <select id="escolaridade" name="escolaridade" class="form-control">
+                    
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value=""<?php echo selected('', $this->view->voluntario['escolaridade']); ?>></option>
+                    <option value="Analfabeto"<?php echo selected1('Analfabeto', $this->view->voluntario['escolaridade']); ?>>Analfabeto</option>
+                    <option value="Fundamental Incompleto"<?php echo selected1('Fundamental Incompleto', $this->view->voluntario['escolaridade']); ?>>Fundamental Incompleto</option>
+                    <option value="Fundamental Completo"<?php echo selected('Fundamental Completo', $this->view->voluntario['escolaridade']); ?>>Fundamental Completo</option>
+                    <option value="Médio Incompleto"<?php echo selected('Médio Incompleto', $this->view->voluntario['escolaridade']); ?>>Médio Incompleto</option>
+                    <option value="Médio Completo"<?php echo selected('Médio Completo', $this->view->voluntario['escolaridade']); ?>>Médio Completo</option>
+                    <option value="Superior Incompleto"<?php echo selected('Superior Incompleto', $this->view->voluntario['escolaridade']); ?>>Superior Incompleto</option>
+                    <option value="Superior Completo"<?php echo selected('Superior Completo', $this->view->voluntario['escolaridade']); ?>>Superior Completo</option>
+                    <option value="Especialização"<?php echo selected('Especialização', $this->view->voluntario['escolaridade']); ?>>Especialização</option>
+                    <option value="Mestrado"<?php echo selected('Mestrado', $this->view->voluntario['escolaridade']); ?>>Mestrado</option>
+                    <option value="Doutorado"<?php echo selected('Doutorado', $this->view->voluntario['escolaridade']); ?>>Doutorado</option>
+                  </select>
+                </div>
+
+                <label class="col-md-2 control-label" for="profissao">Profissão</label>  
+                <div class="col-md-4">
+                  <input id="profissao" name="profissao" type="text" placeholder="" class="form-control input-md" maxlength="50" value="<?= $this->view->voluntario['profissao'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="encaminhamento">Estudo Sistemático da Doutrina Espíria (ESDE)<h11>*</h11></label>
+                <div class="col-md-4">
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0">
+                    <input type="radio" name="esde" id="esde" value="nao" required <?php echo ($this->view->voluntario['esde'] == "nao") ? "checked" : null; ?>/>Não
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input type="radio" name="esde" id="esde" value="sim" required <?php echo ($this->view->voluntario['esde'] == "sim") ? "checked" : null; ?>/>Sim
+                    </label>
+                  </div>
+                </div>
+              
+                <label class="col-md-2 control-label" for="descfaseesde">Descrição Fase ESDE</label>
+                <div class="col-lg-3">
+                  <div class="input-group">     
+                    <input id="descfaseesde" name="descfaseesde" class="form-control" placeholder="Descreva a fase em que está" type="text" maxlength="100" value="<?= $this->view->voluntario['descfaseesde'] ?>">
+                  </div>
+                </div>
+              </div>
+                    
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="diasemana">Dia Semana para Atuação</label>  
+                <div class="col-lg-2">
+                  <input id="diasemana" name="diasemana" placeholder="" class="form-control input-md" type="text" maxlength="15" value="<?= $this->view->voluntario['diasemana'] ?>" >
+                </div>
+
+                <label class="col-md-2 control-label" for="horario">Horário de Atuação</label>  
+                <div class="col-lg-2">
+                  <input id="horario" name="horario" placeholder="" class="form-control input-md" type="text" maxlength="20" value="<?= $this->view->voluntario['horario'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="outraatividade">Outra Atividade Voluntariado</label>  
+                <div class="col-md-6">
+                  <input id="outraatividade" name="outraatividade" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['outraatividade'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="conhecimentoespecifico">Conhecimentos Específicos</label>  
+                <div class="col-md-6">
+                  <input id="conhecimentoespecifico" name="conhecimentoespecifico" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['conhecimentoespecifico'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="atividadepreferencia">Atividade de Preferência voluntariado</label>  
+                <div class="col-md-6">
+                  <input id="atividadepreferencia" name="atividadepreferencia" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['atividadepreferencia'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="habilidades">Habilidades</label>  
+                <div class="col-md-9">
+                  <input id="habilidades" name="habilidades" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['habilidades'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="observacao">Observação</label>  
+                <div class="col-md-9">
+                  <input id="observacao" name="observacao" placeholder="" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->voluntario['observacao'] ?>">
+                </div>
+              </div>
+
+              <!-- Para poder saber quem chamou e retornar ao menu voluntário ou ao menu cadastro -->
+              <div class="form-group">
+
+                <!-- Chamado via menu principal para alteração de dados do próprio logado -->
+                <?php if (isset($_POST['quemChamou'])) { ?>
+                  <div class="col-md-1">
+                    <input id="quemChamou" name="quemChamou" class="form-control input-md" type="text" maxlength="3" value="<?= $_POST['quemChamou'] ?>" disabled="" hidden>
+                  </div>
+                  <input type="hidden" name="quemChamou" value=<?= $_POST['quemChamou'] ?>> 
+                <?php } else { ?>
+                  <div class="col-md-1">
+                    <input id="quemChamou" name="quemChamou" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->voluntario['quemChamou'] ?>" disabled="" hidden>
+                  </div>
+                  <input type="hidden" name="quemChamou" value=<?= $this->view->voluntario['quemChamou'] ?>> 
+                <?php } ?>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+                  
+                  <!--Para o SweetAlert funcionar, o tipo do botão tem que ser type="button" -->
+                  <!--<button class="btn btn-primary" type="Submit" id="btnAlterar">Alterar</button>-->
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+                  
+                  <!-- Retorna de acordo com quem chamou -->
+                  <?php if ($this->view->voluntario['quemChamou'] == 'cadastro' || isset($_POST['quemChamou'])) { ?>
+                    <a href="/menuPrincipal" class="btn btn-success">Retorna</a> 
+                  <?php } else { ?>
+                    <a href="/voluntarioAlterar" class="btn btn-success">Retorna</a>
+                  <?php } ?>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Erro: CPF Inválido! <?php echo ' '.$this->view->voluntario['cpf']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Data Nascimento Inválida: <?php echo ' '.$this->view->voluntario['dtnasc']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+             <small class="form-text text-danger">Erro: CPF existente na base: <?php echo ' '.$this->view->voluntario['cpf']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 4) { ?>
+             <small class="form-text text-danger">Erro: E-mail existente na base: <?php echo ' '.$this->view->voluntario['email']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 7) { ?>
+             <small class="form-text text-danger">Erro: CPF e Email existentes na base: <?php echo ' '.$this->view->voluntario['cpf']. ' - '.$this->view->voluntario['email']. ', ' ?>Verifique!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
+          
+          <?php } ?>
+        </div>
+
+      </div>
+    </section> 
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!--Não funcionou bootbox 
+    <script href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.0.0/bootbox.js"></script>
+    <script href="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.0.0/bootbox.min.js"></script>
+    -->
+
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaAltera.js"></script>
+  </body>
+</html>

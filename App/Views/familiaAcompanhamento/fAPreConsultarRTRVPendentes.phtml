@@ -1,0 +1,164 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Escolha de Grupo, subgrupo e família para inclusão de relatório de triagem
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/fAConsultarRTRVPendentes" method="post" id="FormConclui">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Consulta Relatórios Triagem/Visitas Pendentes Conclusão/Revisão</h4></div>
+            <div class="panel-body">
+
+              <div class="col-md-11 control-label">
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_grupo_escolhido">Grupo</label>  
+                <div class="col-lg-4">
+                  <select required id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control">
+                    <option value="">Escolha Grupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subgrupo_escolhido">Subgrupo</label>  
+                <div class="col-lg-4">
+                  <select required id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control">
+                    <option value="">Escolha Subgrupo</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Buscar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnBuscar" type="submit" disabled="">Buscar</button>
+
+                  <a href="/familiaAcompanhamento" class="btn btn-success" >Retorna</a>
+                  
+                  <a class="btn" id="btnOculto"></a>
+                </div>
+              </div>
+
+              <div class="col-md-11 control-label text-left" >
+                <fieldset class="text-left">                             
+                  <legend class="info_voluntario">Tipos de Pesquisa
+                  <p class="info_voluntario">* Grupo e Subgrupo sem escolha -> Mostra todas as pendências </p>
+                  <p class="info_voluntario">* Grupo escolhido e Subgrupo sem escolha -> Mostra todas as pendências do Grupo</p>
+                  <p class="info_voluntario">* Grupo e Subgrupo escolhidos -> Mostra todas as pendências do Grupo/Subgrupo</p>
+                  </legend>
+                </fieldset>
+              </div>
+			            
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 3) { ?>
+            <small class="form-text text-danger">Não há Relatórios pendentes!</small>
+         
+          <?php } else if ($this->view->erroValidacao == 5) { ?>
+           <small class="form-text text-danger">Voluntário Não está vinculado ao Grupo/Subgrupo!</small>
+           <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+           <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+          <?php } else if ($this->view->erroValidacao == 6) { ?>
+           <small class="form-text text-danger">Voluntário sem Nível de acesso Apropriado!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      // Para simular o clique do botão e abrir as opções de Grupo e Subgrupo
+      <?php if ($this->view->erroValidacao >= 0 ) { ?>
+        $(function() {
+            $('#btnOculto').on("click", function () {
+              $('#btnOculto').hide();
+          });
+          // Chama a função de clique através do trigger
+          $("#btnOculto").trigger('click');
+        })
+      <?php } ?>
+
+      $('#btnOculto').click(function(e){
+          $("#btnBuscar").removeAttr("disabled");
+          $("#cb_grupo_escolhido").removeAttr("disabled");
+          $("#cb_subgrupo_escolhido").removeAttr("disabled");
+          $("#cb_familia_escolhida").removeAttr("disabled");
+          $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+          $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+          $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>');
+
+          // Carrega Grupos         
+          $.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
+
+             if (dados.length > 0){    
+                var option = '<option>Escolha Grupo</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_grupo+'">'+obj.nome_grupo+'</option>';
+                })
+              }else{
+                 Reset();
+             }
+             $('#cb_grupo_escolhido').html(option).show();
+          })
+      })
+
+      // Carrega Subgrupos
+      $('#cb_grupo_escolhido').change(function(e){
+        var grupo = $('#cb_grupo_escolhido').val();
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupo&valor='+grupo, 
+          function (dados){ 
+           
+             if (dados.length > 0){    
+
+                var option = '<option>Escolha Subgrupo</option>';
+
+                // Artificio para poder abrir combo voluntário a pesquisar sem subgrupo vinculado
+                option += '<option>Sem Subgrupo</option>';
+
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_subgrupo+'">'+obj.nome_subgrupo+'</option>';
+                })
+                
+
+              }else{
+                Reset(); 
+              }
+
+             $('#cb_subgrupo_escolhido').html(option).show(); 
+          })
+      })
+      
+      // Resetar Selects //
+      function Reset(){
+        $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+        $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnOculto').on("click", function () {
+                $('#btnOculto').hide();
+            });
+            // Chama a função de clique através do trigger
+            $("#btnOculto").trigger('click');
+          })
+        <?php } ?>
+      }
+    </script>  
+  </body>
+</html>

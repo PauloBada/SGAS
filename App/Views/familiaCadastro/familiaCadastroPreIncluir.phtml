@@ -1,0 +1,88 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Pesquisa inicial na inclusão de famólia para saber se a pessoa já foi atendida antes
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="/familiaCadastroPreIncluirMenu" method="post">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Inclusão de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_astd_pre">Nome Assistido(a) Principal<h11>*</h11></label>  
+                <div class="col-md-6">
+                  <input id="nm_astd_pre" name="nm_astd_pre" placeholder="Nome do responsável pela família" class="form-control input-md" autofocus required="" type="text" maxlength="100" minlength="9" value="<?= $this->view->preInclusao['nm_astd_pre'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cpf_pre">CPF</label>  
+                <div class="col-lg-2">
+                  <input id="cpf_pre" name="cpf_pre" placeholder="Apenas números" class="form-control input-md" type="text" maxlengths="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value="<?= $this->view->preInclusao['cpf_pre'] ?>">
+                </div>
+              </div>
+
+              <!-- Rota para definição de retorno -->
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-1">
+                  <input id="rota" name="rota" class="form-control input-md" type="text" maxlength="3" value="rota_05" disabled="" hidden>
+                </div>
+                <input type="hidden" name="rota" value="rota_05"> 
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Procurar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="Submit">Procurar</button>
+
+                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a style="color: #fff" href="/familiaCadastro" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 0) { ?>
+             <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' Família: '.$this->view->codigoFmlInclusao.' - '.$this->view->nomeFmlInclusao.' Integrante: '.$this->view->nomeIntegranteInclusao. ' !' ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Erro: CPF Inválido! Verifique!</small>
+
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Família já cadastrada para ser atendida/em atendimento!</small>
+             <small class="form-text text-danger">Família cadastrada/em atendimento: <?= $this->view->nm_familia_atendida_anteriormente ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+  </body>
+</html>

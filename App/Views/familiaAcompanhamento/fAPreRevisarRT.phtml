@@ -1,0 +1,174 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Escolha de Grupo, subgrupo e família para inclusão de relatório de triagem
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/fARevisarRT" method="post" id="FormRevisa">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Revisar Relatório Triagem</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_grupo_escolhido">Grupo<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control">
+                    <option value="">Escolha Grupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subgrupo_escolhido">Subgrupo<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control">
+                    <option value="">Escolha Subgrupo</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Buscar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnBuscar" type="submit" disabled="">Buscar</button>
+
+                  <a href="/familiaAcompanhamento" class="btn btn-success" >Retorna</a>
+                  
+                  <a class="btn" id="btnOculto"></a>
+                </div>
+              </div>
+			            
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 2) { ?>
+            <small class="form-text text-danger">Grupo e Subgrupo precisam ser escolhidos!</small>
+
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+            <small class="form-text text-danger">Não há famílias Passíveis de Revisão de Relatório!</small>
+            <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->codGrupo.'-'.$this->view->nomeGrupo ?>  </small>
+            <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->codSubgrupo.'-'.$this->view->nomeSubgrupo ?>  </small>
+         
+          <?php } else if ($this->view->erroValidacao == 4) { ?>
+            <small class="form-text text-danger">Não há relatório a ser revisado!</small>
+            <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->codGrupo.'-'.$this->view->nomeGrupo ?>  </small>
+            <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->codSubgrupo.'-'.$this->view->nomeSubgrupo ?>  </small>
+         
+          <?php } else if ($this->view->erroValidacao == 5) { ?>
+           <small class="form-text text-danger">Voluntário Não está vinculado ao Grupo/Subgrupo!</small>
+           <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+           <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+          <?php } else if ($this->view->erroValidacao == 6) { ?>
+           <small class="form-text text-danger">Voluntário sem nível de atuação apropriado!</small>
+           <small class="form-text text-danger"><?php echo "Atuação Requerida: ".$this->view->atuacaoRequerida." - Sua Atuação Atual: ".$this->view->atuacaoLogado ?></small>
+           <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+           <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+          <?php } else if ($this->view->erroValidacao == 7) { ?>
+            <small class="form-text text-danger">Revisão de Relatório realizada com sucesso!</small>
+            <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->codGrupo.'-'.$this->view->nomeGrupo ?>  </small>
+            <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->codSubgrupo.'-'.$this->view->nomeSubgrupo ?>  </small>
+            <small class="form-text text-danger">Família:  <?php echo ' '.$this->view->codFamilia.'-'.$this->view->nomeFamilia ?>  </small>
+
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      // Para simular o clique do botão e abrir as opções de Grupo e Subgrupo
+      <?php if ($this->view->erroValidacao >= 0 ) { ?>
+        $(function() {
+            $('#btnOculto').on("click", function () {
+              $('#btnOculto').hide();
+          });
+          // Chama a função de clique através do trigger
+          $("#btnOculto").trigger('click');
+        })
+      <?php } ?>
+
+      $('#btnOculto').click(function(e){
+          $("#btnBuscar").removeAttr("disabled");
+          $("#cb_grupo_escolhido").removeAttr("disabled");
+          $("#cb_subgrupo_escolhido").removeAttr("disabled");
+          $("#cb_familia_escolhida").removeAttr("disabled");
+          $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+          $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+          $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>');
+
+          // Carrega Grupos         
+          $.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
+
+             if (dados.length > 0){    
+                var option = '<option>Escolha Grupo</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_grupo+'">'+obj.nome_grupo+'</option>';
+                })
+              }else{
+                 Reset();
+             }
+             $('#cb_grupo_escolhido').html(option).show();
+          })
+      })
+
+      // Carrega Subgrupos
+      $('#cb_grupo_escolhido').change(function(e){
+        var grupo = $('#cb_grupo_escolhido').val();
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupo&valor='+grupo, 
+          function (dados){ 
+           
+             if (dados.length > 0){    
+
+                var option = '<option>Escolha Subgrupo</option>';
+
+                // Artificio para poder abrir combo voluntário a pesquisar sem subgrupo vinculado
+                option += '<option>Sem Subgrupo</option>';
+
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_subgrupo+'">'+obj.nome_subgrupo+'</option>';
+                })
+                
+
+              }else{
+                Reset(); 
+              }
+
+             $('#cb_subgrupo_escolhido').html(option).show(); 
+          })
+      })
+      
+      // Resetar Selects //
+      function Reset(){
+        $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+        $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnOculto').on("click", function () {
+                $('#btnOculto').hide();
+            });
+            // Chama a função de clique através do trigger
+            $("#btnOculto").trigger('click');
+          })
+        <?php } ?>
+      }
+    </script>  
+  </body>
+</html>

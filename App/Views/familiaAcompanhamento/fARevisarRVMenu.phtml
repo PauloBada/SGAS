@@ -1,0 +1,178 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Aspecto Intimo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Revisão Relatório de Visita</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_grupo_escolhido", devido ao $_POST no retorno deste programa-->  
+                  <input id="cd_grp" name="cb_grupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_subgrupo_escolhido", devido ao $_POST no retorno deste programa-->                    
+                  <input id="cd_sbgrp" name="cb_subgrupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dt_acomp">Data Visita<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input required="" readonly="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nr_bolsa_canguru">Nr. Bolsa Canguru</label>  
+                <div class="col-lg-2">                
+                  <input id="nr_bolsa_canguru" readonly="" name="nr_bolsa_canguru" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->dadosAcompanhamento['nr_bolsa_canguru'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="vlr_doado_finan_comunhao_visita">Valor Doado pela Comunhão (R$)</label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" readonly="" name="vlr_doado_finan_comunhao_visita" value="<?= $this->view->dadosAcompanhamento['vlr_doado_finan_comunhao_visita'] ?>"maxlength="17" class="dinheiro form-control" placeholder="Valor doado na visita" style="display:inline-block" />
+                </div>
+              
+                <label class="col-md-3 control-label" for="vlr_doado_sbgrp_visita">Valor Doado pelo Subgrupo (R$)</label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" readonly="" name="vlr_doado_sbgrp_visita" value="<?= $this->view->dadosAcompanhamento['vlr_doado_sbgrp_visita'] ?>"maxlength="17" class="dinheiro form-control" placeholder="Valor doado na visita" style="display:inline-block" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_item_doado_comunhao_visita">Descrição Itens Doados pela Comuñhão</label>
+                <div class="col-lg-9">
+                  <input id="dsc_item_doado_comunhao_visita" readonly="" name="dsc_item_doado_comunhao_visita" placeholder="Descreva itens doados" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_item_doado_comunhao_visita'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_item_doado_sbgrp_visita">Descrição Itens Doados pelo Subgrupo</label>
+                <div class="col-lg-9">
+                  <input id="dsc_item_doado_sbgrp_visita" readonly="" name="dsc_item_doado_sbgrp_visita" placeholder="Descreva itens doados" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosAcompanhamento['dsc_item_doado_sbgrp_visita'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_resumo_visita">Descrição do Resumo Visita<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" name="dsc_resumo_visita" readonly="" required="" placeholder="Descreva o resumo desta visita" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_resumo_visita'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_meta_alcan">Descrição das Metas Alcançadas<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="2" name="dsc_meta_alcan" required="" placeholder="Descreva as metas alcançadas até então" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_meta_alcan'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_pend_visita">Descrição das Pendências</label>
+                <div class="col-lg-9">
+                  <textarea id="dsc_pend_visita" name="dsc_pend_visita" required="" placeholder="Descreva as pendências, se houver" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" ><?= $this->view->dadosAcompanhamento['dsc_pend_visita'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_recado_to_coordenacao">Descrição Recado para Coordenação</label>
+                <div class="col-lg-9">
+                  <textarea id="dsc_recado_to_coordenacao" name="dsc_recado_to_coordenacao" required="" placeholder="Descreva recado, se houver" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" ><?= $this->view->dadosAcompanhamento['dsc_recado_to_coordenacao'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_recado_coordenacao_to_sbgrp">Descrição Recado Coordenação para Subgrupo</label>
+                <div class="col-lg-9">
+                  <textarea id="dsc_recado_coordenacao_to_sbgrp" name="dsc_recado_coordenacao_to_sbgrp" required="" placeholder="Descreva recado, se houver" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" ><?= $this->view->dadosAcompanhamento['dsc_recado_coordenacao_to_sbgrp'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_consid_final">Descrição das Considerações Finais<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="3" name="dsc_consid_final" required="" placeholder="Descreva as considerações finais da visita" class="form-control input-md" type="text" rows="6" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->dadosAcompanhamento['dsc_consid_final'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="btnAlterar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar</button>
+
+                  <button class="btn btn-primary" type="button" id="btnRevisar">Formalizar Revisão</button>
+
+                  <a href="#" onclick="sendPost('/fAConsultarRVVoluntario', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Voluntários
+                  </a>
+
+                  <a href="#" onclick="sendPost('/fARevisarRV', {cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>'});" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+    
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaAlteraRevisaRV.js"></script>
+    
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

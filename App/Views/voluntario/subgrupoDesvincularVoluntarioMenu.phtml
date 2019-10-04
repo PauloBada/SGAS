@@ -1,0 +1,96 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu desvinculação efetiva de voluntário em grupo e subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoDesvincularVoluntarioBase" method="post" id="FormDesvincula">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Encerrar Vínculo Voluntário com Subgrupo</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codGrupo">Código Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodGrupo" name="codGrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVVG['cod_grupo'] ?>>              
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeGrupo">Nome Grupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeGrupo" name="nomeGrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosTVVG['nome_grupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codSubgrupo">Código Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodSubgrupo" name="codSubgrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVVG['cod_subgrupo'] ?>>              
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeSubgrupo">Nome Subgrupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeSubgrupo" name="nomeSubgrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosTVVG['nome_subgrupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codVoluntario">Código Voluntário</label>  
+                <div class="col-md-4">
+                  <input id="CodVoluntario" name="codVoluntario"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVVG['cod_voluntario'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeVoluntario">Nome Voluntário</label>  
+                <div class="col-md-4">
+                  <input id="NomeVoluntario" name="nomeVoluntario"class="form-control input-md" readonly="readonly" type="text" value="<?= $this->view->dadosTVVG['nome_voluntario'] ?>">              
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="perfilAtuacao">Perfil Atuação</label>  
+                <div class="col-md-4">
+                  <input id="PerfilAtuacao" name="perfilAtuacao" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosTVVG['perfil_atuacao'] ?>" readonly="readonly" >
+                </div>
+
+
+                <!-- Hidden -sequencial da tabela tb_vncl_vlnt_grp em função do cd_vlntID e cd_grpID para retornar para encerramento -->
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-4">
+                  <input id="Sequencial" name="sequencial" class="form-control input-md" type="text" value="<?= $this->view->dadosTVVG['sequencial'] ?>" disabled="" hidden >
+                </div>
+                <input type="hidden" name="sequencial" value=<?= $this->view->dadosTVVG['sequencial'] ?>> 
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnDesvincular" type="button">Encerrar</button>
+
+                  <a href="/subgrupoDesvincularVoluntario" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaDesvincula.js"></script>
+  </body>
+</html>

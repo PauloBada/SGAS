@@ -1,0 +1,205 @@
+/* Nome Programador: Paulo Tarrago Jaques
+   Data de criação: 11/07/2019                       
+   Objetivo:  Estilos definidos e utilizados no sistema
+*/
+
+/* ========== Definições para "Nome da Tag" ============== */
+
+html, body {
+  height: 100%;
+}
+
+body {
+	font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+    margin-bottom: 200px; 
+    width: 600 px; 
+    margin: auto;   /* auto centraliza as margens */
+}
+
+thead th {
+    text-align: center;
+    font-size: 85%;
+}
+
+tbody td {
+    font-size: 85%;
+}
+
+tbody tr {
+    cursor: pointer;
+}
+
+label {
+    color: gray;
+    font-size: 90%;
+}
+
+td >a:link {
+    color: #3E8CCE;
+}
+
+td >a:visited {
+    color: #3E8CCE;
+}
+
+td >a:hover {
+    color: #fff;
+    background-color: #3E8CCE;
+    text-decoration: none;
+}
+
+/* Para mudar a cor do titulo das tabelas */
+.table .thead-light th {
+ 
+  color: white;
+ 
+  background-color: #3E8CCE;  /* Azul dos menus internos o sistema */;
+ 
+  border-color: #792700;
+ 
+}
+
+/* ========== Classes ============== */
+
+.msgLogin {
+    color: #1B3A8A;
+    width: bold;
+    line-height: 20px;
+    font-size: 20px;
+}
+
+.perfilPainelNome {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 25px;
+    color: brown;
+}
+
+/* Nome do voluntário na tela MenuPrincipal */
+.info_voluntario {
+    color: #3E8CCE;
+    font-weight: 400; 
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.communicationItem {
+    color: #fff;    
+    /* color:  #1B3A8A; */
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 20px;
+    /* font-weight: bold; */
+    line-height: 15px;
+    margin: 5px auto;
+    position: relative; 
+}
+
+.banner {
+    height: 100%;
+    /* background-color: #1da1f2; */
+}
+
+/* Opções nos menus popups */
+.infoPopUp {
+    font-size: 14px;
+    line-height: 25px;
+    /* background-color: #6479B8;  Cinza claro do Logotipo da Comunhão */ 
+    /* background-color: #1B3A8A;  Azul do Logotipo da Comunhão */
+    /* background-color: #007AFF; */
+    background-color: #3E8CCE;  /* Azul dos menus internos o sistema */
+    font-weight: bold;
+}
+
+/* Menus do Menu Principal */
+.infoMenus {
+    color: #fff;
+    font-weight: 600; 
+    font-size: 18px;
+    line-height: 25px;
+}
+
+/* Criei para mostrar os erros */
+.infoErro {
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 25px;
+}
+
+/* Criei para informação de campo obrigatório */
+.infoCampoObrigatorio {
+    /* color: darkred; */
+    color: blue;
+    /* font-weight: bold; */
+    font-size: 16px;
+    line-height: 25px;
+}
+
+/* Criei para informação de campo normal */
+.infoCampoNormal {
+    color: blue; 
+    /* font-weight: bold; */
+    font-size: 16px;
+    line-height: 25px;
+}
+
+/* Criei para mostrar as opções nos menus popups */
+.infoTelaInicial {
+    background-color: #E6BB74;
+}
+
+.botaoColor {
+    color: white; 
+}
+
+/* Criei para informação de campo obrigatório de Formulário de cadastramento (voluntário, fámília, etc) */
+.infoCampoObrigatorioFormulario {
+    color: darkblue;
+    font-weight: bold; 
+    font-size: 14px;
+}
+
+/* Criei para informação de campo obrigatório */
+.infoCampoObrigatorioFromGroup {
+    /* color: darkred; */
+    color: blue;
+    /* font-weight: bold; */
+    font-size: 13px;
+    line-height: 25px;
+}
+
+.infoMenuTelaInicial {
+    font-size: 14px;
+    line-height: 25px;
+    /* background-color: #1B3A8A;  Azul do Logotipo da Comunhão */
+    background-color: #3E8CCE;  /* Azul dos menus internos o sistema */
+    font-weight: bold;
+}
+
+.colorListGroup {
+    background-color: #3E8CCE;  /* Azul dos menus internos o sistema */
+    color: #3E8CCE;  /* Azul dos menus internos o sistema */
+}
+
+/* Para colorir Títulos das lista dos Menus Intermediários */
+.colorLabelTituloList {
+    color: #3E8CCE;  /* Azul dos menus internos o sistema */
+    font-weight: bold; 
+    font-size: 15px;
+}
+
+/* Para colorir Dados das lista dos Menus Intermediários */
+.colorLabelDadosList {
+    color: #DA0B19;  /* Vermelho Colorado */
+    font-weight: bold; 
+    font-size: 13px;
+
+}
+
+/* Para definir tamanho das informações acima das colunas das tabelas */
+.nomeDadosTabela {
+    font-size: 85%;
+    color: #3E8CCE;
+}
+

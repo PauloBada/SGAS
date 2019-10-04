@@ -1,0 +1,360 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de de Família
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="/familiaCadastroIncluirBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Inclusão de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                  <label class="col-md-3 control-label colorLabelTituloList">Dados Família</label>  
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="codFamiliaAnteriorme">Código Atendimento Anterior Família</label>  
+                <div class="col-lg-1">
+                  <input id="codFamiliaAnterior" name="codFamiliaAnterior" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->familia['codFamiliaAnterior'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nomeFamiliaAnterior" name="nomeFamiliaAnterior" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->familia['nomeFamiliaAnterior'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nome">Nome Grupo Familiar<h11>*</h11></label>  
+                <div class="col-lg-6">
+                  <input id="1" name="nome" placeholder="Nome da família" class="form-control input-md" required="" type="text" maxlength="100" autofocus value="<?= $this->view->familia['nome'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="endereco">Endereço<h11>*</h11></label>
+                <div class="col-lg-8">
+                  <input id="2" name="endereco" placeholder="Endereço da residência" class="form-control input-md" type="text" maxlength="100" required="" value="<?= $this->view->familia['endereco'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="ra_escolhida">Região Administrativa<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="ra_escolhida" name="ra_escolhida" class="form-control">
+
+                      <!-- Monta o combobox - Foca no registro recebido -->
+                      <?php function selected( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                        <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected($regiao['cod_ra'], $this->view->familia['ra_escolhida']); ?>><?= $regiao['nome_ra'] ?></option>
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="pontoReferencia">Ponto de Referência<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <input id="3" name="pontoReferencia" placeholder="Local conhecido próxima a residência" class="form-control input-md" type="text" maxlength="120" required="" value="<?= $this->view->familia['pontoReferencia'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="fonecontato1">Contato 1</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fonecontato1" name="fonecontato1" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15" onkeypress="$(this).mask('(00) 0000-0009')" value="<?= $this->view->familia['fonecontato1'] ?>">
+                  </div>
+                </div>
+                
+                <label class="col-md-3 control-label" for="fonecontato2">Contato 2</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fonecontato2" name="fonecontato2" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 0000-0009')" value="<?= $this->view->familia['fonecontato2'] ?>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">                
+                <label class="col-md-3 control-label" for="fonecontato3">Celular</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fonecontato3" name="fonecontato3" class="form-control" placeholder="(99) 99999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 00000-0009')" value="<?= $this->view->familia['fonecontato3'] ?>">
+                  </div>
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="condicaoSaude">Condição Saúde Família</label>
+                <div class="col-lg-6">
+                  <input id="condicaoSaude" name="condicaoSaude" placeholder="Condições de saúde geral da família" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['condicaoSaude'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="condicaoSustento">Condição Sustento Família</label>
+                <div class="col-lg-6">
+                  <input id="condicaoSustento" name="condicaoSustento" placeholder="Como a família se sustenta" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['condicaoSustento'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="criterioEngajamento">Critério de Engajamento<h11>*</h11></label>
+                <div class="col-lg-6">
+                  <select id="criterioEngajamento" name="criterioEngajamento" class="form-control">
+                    
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+  
+                    <option value="1"<?php echo selected1('1', $this->view->familia['criterioEngajamento']); ?>>A Definir</option>
+                    
+                    <option value="2"<?php echo selected1('2', $this->view->familia['criterioEngajamento']); ?>>Vulnerabilidade por motivo de doença, idade avançada ou deficiência física-mental</option>
+                    
+                    <option value="3"<?php echo selected1('3', $this->view->familia['criterioEngajamento']); ?>>Gestante desempregada e sem suporte familiar</option>
+                    
+                    <option value="4"<?php echo selected1('4', $this->view->familia['criterioEngajamento']); ?>>Família com renda insuficiente e que não se enquadre nas situações anteriores</option>
+                    
+                    <option value="5"<?php echo selected1('5', $this->view->familia['criterioEngajamento']); ?>>É atendida por outra instituição</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="tipoResidencia">Tipo Residência<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="tipoResidencia" name="tipoResidencia" class="form-control">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected2('1', $this->view->familia['tipoResidencia']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->familia['tipoResidencia']); ?>>Residência Própria</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->familia['tipoResidencia']); ?>>Residência Alugada</option>
+                    
+                    <option value="4"<?php echo selected2('4', $this->view->familia['tipoResidencia']); ?>>Residência Cedida</option>
+                    
+                    <option value="5"<?php echo selected2('5', $this->view->familia['tipoResidencia']); ?>>Residência Compartilhada</option>
+
+                  </select>
+                </div>
+
+                <label class="col-md-3 control-label" for="tipoEdificacaoResidencia">Tipo Construção Residência<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="tipoEdificacaoResidencia" name="tipoEdificacaoResidencia" class="form-control">
+                    <?php function selected3( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value="1"<?php echo selected3('1', $this->view->familia['tipoEdificacaoResidencia']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected3('2', $this->view->familia['tipoEdificacaoResidencia']); ?>>Alvenaria</option>
+                    
+                    <option value="3"<?php echo selected3('3', $this->view->familia['tipoEdificacaoResidencia']); ?>>Madeira</option>
+                    
+                    <option value="4"<?php echo selected3('4', $this->view->familia['tipoEdificacaoResidencia']); ?>>Outras (Madeirite, papelão, etc)</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="anotacaoAtendimentoFraterno">Anotações Atendimento Fraterno</label>
+                <div class="col-lg-9">
+                  <input id="anotacaoAtendimentoFraterno" name="anotacaoAtendimentoFraterno" placeholder="O que escreveu o DAO" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->familia['anotacaoAtendimentoFraterno'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="responsavelEncaminhamentoDAO">Responsável(is) Encaminhamento</label>
+                <div class="col-lg-6">
+                  <input id="responsavelEncaminhamentoDAO" name="responsavelEncaminhamentoDAO" placeholder="Funcionário do DAO que encaminhou a família" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['responsavelEncaminhamentoDAO'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="rendaAproximada">Renda Aproximada Família (R$)</label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" name="rendaAproximada" value="<?= $this->view->familia['rendaAproximada'] ?>"maxlength="17" class="dinheiro form-control" placeholder="Renda de sustento" style="display:inline-block" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label colorLabelTituloList" for="">Dados Assistido(a) Principal</label>  
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeAssistidoPrincipal">Nome Assistido(a) Principal<h11>*</h11></label>  
+                <div class="col-lg-6">
+                  <input id="nomeAssistidoPrincipal" name="nomeAssistidoPrincipal" readonly="" class="form-control input-md" required="" type="text" maxlength="100" value="<?= $this->view->familia['nomeAssistidoPrincipal'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cpf">CPF</label>  
+                <div class="col-lg-2">
+                  <input id="cpf" name="cpf" readonly="" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value=<?= $this->view->familia['cpf'] ?>>
+                </div>
+
+                <label class="col-md-2 control-label" for="radios">Sexo <h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="sexo" id="sexo" value="feminino" type="radio" required <?php echo ($this->view->familia['sexo'] == "feminino") ? "checked" : null; ?>/>Feminino
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="sexo" id="sexo" value="masculino" type="radio" required <?php echo ($this->view->familia['sexo'] == "masculino") ? "checked" : null; ?>/>Masculino
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nridentidade">Nr. Identidade</label>  
+                <div class="col-lg-2">
+                  <input id="nridentidade" name="nridentidade" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" pattern="[0-9]+$" value="<?= $this->view->familia['nridentidade'] ?>">
+                </div>
+
+                <label class="col-md-3 control-label" for="dtnasc">Data Nascimento</label>  
+                <div class="col-lg-2">
+                  <input id="dataFormulario" name="dtnasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" value="<?= $this->view->familia['dtnasc'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="escolaridade">Escolaridade<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="escolaridade" name="escolaridade" class="form-control">
+                    
+                    <?php function selected4  ( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                   
+                    <option value="1"<?php echo selected4('1', $this->view->familia['escolaridade']); ?>>Fundamental Incompleto</option>
+                    <option value="2"<?php echo selected4('2', $this->view->familia['escolaridade']); ?>>Fundamental Completo</option>
+                    <option value="3"<?php echo selected4('3', $this->view->familia['escolaridade']); ?>>Médio Incompleto</option>
+                    <option value="4"<?php echo selected4('4', $this->view->familia['escolaridade']); ?>>Médio Completo</option>
+                    <option value="5"<?php echo selected4('5', $this->view->familia['escolaridade']); ?>>Superior Incompleto</option>
+                    <option value="6"<?php echo selected4('6', $this->view->familia['escolaridade']); ?>>Superior Completo</option>
+                    <option value="7"<?php echo selected4('7', $this->view->familia['escolaridade']); ?>>Especialização</option>
+                    <option value="8"<?php echo selected4('8', $this->view->familia['escolaridade']); ?>>Mestrado</option>
+                    <option value="9"<?php echo selected4('9', $this->view->familia['escolaridade']); ?>>Doutorado</option>
+                    <option value="10"<?php echo selected4('10', $this->view->familia['escolaridade']); ?>>Analfabeto</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="radios">Situação Estudo Atual <h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="estudo" id="estudo" value="estudando" type="radio" required <?php echo ($this->view->familia['estudo'] == "estudando") ? "checked" : null; ?>/>Estudando
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="estudo" id="estudo" value="naoestudando" type="radio" required <?php echo ($this->view->familia['estudo'] == "naoestudando") ? "checked" : null; ?>/>Não Estudando
+                    </label>
+                  </div>
+                </div>
+             </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="radios">Situação Trabalho Atual<h11>*</h11></label>
+                <div class="col-lg-4"> 
+                  <div class="input-group">       
+                    <label class="radio-inline" for="radios-0" >
+                    <input name="trabalho" id="trabalho" value="trabalhando" type="radio" required <?php echo ($this->view->familia['trabalho'] == "trabalhando") ? "checked" : null; ?>/>Empregado
+                    </label> 
+                    <label class="radio-inline" for="radios-1">
+                    <input name="trabalho" id="trabalho" value="naotrabalhando" type="radio" required <?php echo ($this->view->familia['trabalho'] == "naotrabalhando") ? "checked" : null; ?>/>Não Empregado
+                    </label>
+                  </div>
+                </div>
+             </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="atividadeAtual">Ocupação Atual</label>
+                <div class="col-lg-6">
+                  <input id="atividadeAtual" name="atividadeAtual" placeholder="O que está fazendo atualmente" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['atividadeAtual'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="tipoIncapacidade">Tipo Incapacidade<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="tipoIncapacidade" name="tipoIncapacidade" class="form-control">
+                    <?php function selected5( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value="1"<?php echo selected5('1', $this->view->familia['tipoIncapacidade']); ?>>Nenhuma Incapacidade</option>
+                    
+                    <option value="2"<?php echo selected5('2', $this->view->familia['tipoIncapacidade']); ?>>Portador de Necessidade Especial</option>
+                    
+                    <option value="3"<?php echo selected5('3', $this->view->familia['tipoIncapacidade']); ?>>Portador de Doença Incapacitante</option>
+                    
+                    <option value="4"<?php echo selected5('4', $this->view->familia['tipoIncapacidade']); ?>>Outras</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/familiaCadastro" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Erro: CPF Inválido! <?php echo ' '.$this->view->familia['cpf']. ', ' ?>Verifique!</small>
+
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Data Nascimento Inválida! <?php echo ' '.$this->view->familia['dtnasc']. ', ' ?>Verifique!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+
+    <script>
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+  
+  </body>
+</html>

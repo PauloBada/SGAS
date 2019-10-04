@@ -1,0 +1,107 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Região Administrativa
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Consulta Região Administrativa</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cdRA">Código Região Administrativa</label>  
+                <div class="col-lg-1">
+                  <input id="CdRA" name="cdRA"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosRA_escolhida['cd_ra_a_consultar'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeRA">Nome Região Administrativa</label>  
+                <div class="col-md-4">
+                  <input id="nomeRA" name="nomeRA" readonly="readonly" class="form-control input-md" type="text" value="<?= $this->view->dadosRA_escolhida['nome_ra_a_consultar'] ?>">              </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dtIncVigRA">Data Início Vigência</label>  
+                <div class="col-lg-2">
+                  <input id="dtIncVigRA" name="dtIncVigRA" readonly="readonly" class="form-control input-md" type="text" value="<?= $this->view->dadosRA_escolhida['dt_inc_ra_a_consultar'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dtFimVigRA">Data Fim Vigência</label>  
+                <div class="col-lg-2">
+                  <input id="dtFimVigRA" name="dtFimVigRA" readonly="readonly" class="form-control input-md" type="text" value="<?= $this->view->dadosRA_escolhida['dt_fim_ra_a_consultar'] ?>">              
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cdEstRA">Situação</label>  
+                <div class="col-md-2">
+                  <input id="cdEstRA" name="cdEstRA" readonly="readonly" class="form-control input-md" type="text" value="<?= $this->view->dadosRA_escolhida['cd_est_ra_a_consultar'] ?>">              
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="EstadoUF">Estado (UF)</label>  
+                <div class="col-md-4">
+                  <select required id="EstadoUF" name="estadoUF" class="form-control" disabled="disabled"> 
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                      <option value="AC"<?php echo selected('AC', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Acre</option>
+                      <option value="AL"<?php echo selected('AL', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Alagoas</option>
+                      <option value="AP"<?php echo selected('AP', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Amapá</option>
+                      <option value="AM"<?php echo selected('AM', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Amazonas</option>
+                      <option value="BA"<?php echo selected('BA', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Bahia</option>
+                      <option value="CE"<?php echo selected('CE', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Ceará</option>
+                      <option value="DF"<?php echo selected('DF', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Distrito Federal</option>
+                      <option value="ES"<?php echo selected('ES', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Espirito Santo</option>
+                      <option value="GO"<?php echo selected('GO', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Goiás</option>
+                      <option value="MA"<?php echo selected('MA', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Maranhão</option>
+                      <option value="MT"<?php echo selected('MT', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Mato Grosso</option>
+                      <option value="MS"<?php echo selected('MS', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Mato Grosso Sul</option>
+                      <option value="MG"<?php echo selected('MG', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Minas Gerais</option>
+                      <option value="PA"<?php echo selected('PA', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Pará</option>
+                      <option value="PB"<?php echo selected('PB', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Paraíba</option>
+                      <option value="PR"<?php echo selected('PR', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Paraná</option>
+                      <option value="PE"<?php echo selected('PE', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Pernambuco</option>
+                      <option value="PI"<?php echo selected('PI', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Piaui</option>
+                      <option value="RJ"<?php echo selected('RJ', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Rio de Janeiro</option>
+                      <option value="RN"<?php echo selected('RN', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Rio Grande do Norte</option>
+                      <option value="RS"<?php echo selected('RS', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Rio Grande do Sul</option>
+                      <option value="RO"<?php echo selected('RO', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Rondonia</option>
+                      <option value="RR"<?php echo selected('RR', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Roraima</option>
+                      <option value="SC"<?php echo selected('SC', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Santa Catarina</option>
+                      <option value="SP"<?php echo selected('SP', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>São Paulo</option>
+                      <option value="SE"<?php echo selected('SE', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Sergipe</option>
+                      <option value="TO"<?php echo selected('TO', $this->view->dadosRA_escolhida['uf_ra_a_consultar']); ?>>Tocantins</option>
+                  </select>
+                  
+                  <input type="hidden" name="estadoUF" value=<?= $this->view->dadosRA_escolhida['uf_ra_a_consultar'] ?>> 
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <a href="/apoioRAConsultar" class="btn btn-success" >Retorna</a>              </div>
+              </div>
+        
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+  </body>
+</html>

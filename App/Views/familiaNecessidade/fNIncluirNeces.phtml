@@ -1,0 +1,132 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com lista de famílias que podem ter sido atendidas antes tendo este solicitante como membro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Incluir Item Necessidade</h4></div>
+          <div class="panel-body">
+            <div class="col-md-12 d-flex">
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Grupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeGrupo ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Evento Necessidade: <?php echo $this->view->nomeEventoNeces ?></label>  
+              </ul>
+            </div>
+
+            <div class="table-responsive-lg">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Código Família</th>
+                  <th scope="col">Nome Família</th>
+                  <th scope="col">Situação Família</th>
+                  <th scope="col">Selecione para Incluir Item</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                    <?php foreach ($this->view->familia as $indice => $familia) { ?>
+                      <tr>
+                        <!-- Passa por $_GET o código da Família para mostrar dados na consulta -->
+                        <td><?php echo $familia['cd_fml']; ?></td>
+
+                        <td><?php echo $familia['nm_grp_fmlr']; ?></td>
+
+                        <td><?php echo $familia['cd_est_situ_fml']; ?></td>
+
+                        <!-- Checkbox para assinalar a Família a ter relatório preenchido -->
+                        <td class="text-center"><input class="familiaEscolhida link-check" type="checkbox" id='<?= $familia['cd_fml'] ?>' value="01" onchange="cbChange(this)"></td>
+                      </tr>
+                    <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+                <a href="/fNPreIncluirNeces" class="btn btn-success" >Retorna</a>
+
+                <a class="btn btn-danger" href="#" onclick="coletaDados()">Incluir Item</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+       </form>
+        
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+            <small class="form-text text-danger">Voluntário sem vínculo cadastrado neste Acompanhamento para família <?php echo ' '.$this->view->Familia.'!'  ?></small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script src="sendPost.js"></script>
+
+    <script>
+      // Para obter os cd_fml marcados no Checkbox (No caso só permitiremos um) //
+      function coletaDados(){
+         var ids = document.getElementsByClassName('familiaEscolhida');
+         coletaIDs(ids);         
+      };  
+              
+      function coletaIDs(dados){
+         var array_dados = dados; 
+         var newArray = [];
+         for(var x = 0; x <= array_dados.length; x++){     
+              if(typeof array_dados[x] == 'object'){
+                if(array_dados[x].checked){
+                   newArray.push(array_dados[x].id)          
+                }          
+              }
+         }   
+
+         if(newArray.length <= 0 || newArray == ''){
+            var fml_escolhida = '';
+         }else{
+            var fml_escolhida = newArray[0];
+         }
+
+         if (fml_escolhida == '') {
+            swal('', 'Não há família escolhida!', 'warning');
+         } else {
+            <?php if ($familia['cd_tip_evt_neces'] == 1) { ?>
+             sendPost('/fNIncluirNecesProxVisitaMenu', {cb_grupo_escolhido:'<?= $familia['cd_grp'] ?>', nomeGrupo:" <?= $this->view->nomeGrupo ?>", cb_subgrupo_escolhido:'<?= $familia['cd_sbgrp'] ?>', nomeSubgrupo:" <?= $this->view->nomeSubgrupo ?>", cb_familia_escolhida:fml_escolhida, cd_tip_evt_neces:'<?= $familia['cd_tip_evt_neces'] ?>'});
+           <?php } else { ?>
+             sendPost('/fNIncluirNecesEventualMenu', {cb_grupo_escolhido:'<?= $familia['cd_grp'] ?>', nomeGrupo:" <?= $this->view->nomeGrupo ?>", cb_subgrupo_escolhido:'<?= $familia['cd_sbgrp'] ?>', nomeSubgrupo:" <?= $this->view->nomeSubgrupo ?>", cb_familia_escolhida:fml_escolhida, cd_tip_evt_neces:'<?= $familia['cd_tip_evt_neces'] ?>'});
+           <?php } ?>
+         }
+      };
+
+      // Para possibiliar que se selecione apenas um checkbox //
+      function cbChange(obj) {
+        var cbs = document.getElementsByClassName("link-check");
+        for (var i = 0; i < cbs.length; i++) {
+           if(cbs[i] !== obj) cbs[i].checked = false;
+         }
+      }
+    </script>
+  </body>
+</html>

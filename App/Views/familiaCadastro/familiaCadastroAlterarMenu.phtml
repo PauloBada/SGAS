@@ -1,0 +1,290 @@
+  <!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de informações da família para possível alteração
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <form class="form-horizontal" action="/familiaCadastroAlterarBase" method="post" id="FormAltera">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Código Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['cd_fml'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_atndt_ant_fml">Código Atendimento Anterior Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_atndt_ant_fml" name="cd_atndt_ant_fml" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['cd_atndt_ant_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_fml_atndt_ant" name="nm_fml_atndt_ant" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['nm_fml_atndt_ant'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_grp_fmlr">Nome Grupo Familiar<h11>*</h11></label>  
+                <div class="col-lg-6">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>
+                    <input id="1" name="nm_grp_fmlr" placeholder="Nome da família" class="form-control input-md" required="" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['nm_grp_fmlr'] ?>" onclick="this.style.borderColor=''">
+                  <?php } else { ?>
+                    <input id="1" name="nm_grp_fmlr" placeholder="Nome da família" class="form-control input-md" required="" type="text" maxlength="100" autofocus value="<?= $this->view->familia['nm_grp_fmlr'] ?>" onclick="this.style.borderColor=''">
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_astd_prin">Nome Assistido(a) Principal<h11>*</h11></label>  
+                <div class="col-lg-6">
+                  <input id="nm_astd_prin" name="nm_astd_prin" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['nm_astd_prin'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_end">Endereço<h11>*</h11></label>
+                <div class="col-lg-8">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>                
+                    <input id="2" name="dsc_end" placeholder="Endereço da residência" class="form-control input-md" type="text" maxlength="100" required="" autofocus value="<?= $this->view->familia['dsc_end'] ?>" onclick="this.style.borderColor=''">
+                  <?php } else { ?>
+                    <input id="2" name="dsc_end" placeholder="Endereço da residência" class="form-control input-md" type="text" maxlength="100" required="" value="<?= $this->view->familia['dsc_end'] ?>" onclick="this.style.borderColor=''">
+                 <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_reg_adm">Região Administrativa<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_reg_adm" name="cd_reg_adm" class="form-control">
+
+                      <!-- Monta o combobox - Foca no registro recebido -->
+                      <?php function selected( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                        <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected($regiao['cod_ra'], $this->view->familia['cd_reg_adm']); ?>><?= $regiao['nome_ra'] ?></option>
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_pto_refe">Ponto de Referência<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <input id="3" name="dsc_pto_refe" placeholder="Local conhecido próxima a residência" class="form-control input-md" type="text" maxlength="120" required="" value="<?= $this->view->familia['dsc_pto_refe'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="fone_1">Contato 1</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_1" name="fone_1" class="form-control" placeholder="(99)9999-9999" type="text" maxlength="15" onkeypress="$(this).mask('(00)0000-0009')" value="<?= $this->view->familia['fone_1'] ?>">
+                  </div>
+                </div>
+                
+                <label class="col-md-3 control-label" for="fone_2">Contato 2</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_2" name="fone_2" class="form-control" placeholder="(99)9999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00)0000-0009')" value="<?= $this->view->familia['fone_2'] ?>">
+                  </div>
+                </div>
+              </div>
+                
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="fone_3">Celular</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_3" name="fone_3" class="form-control" placeholder="(99)99999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00)00000-0009')" value="<?= $this->view->familia['fone_3'] ?>">
+                  </div>
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_cndc_saude">Condição Saúde Família</label>
+                <div class="col-lg-6">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>
+                    <input id="dsc_cndc_saude" name="dsc_cndc_saude" readonly="" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['dsc_cndc_saude'] ?>">
+                  <?php } else { ?>
+                    <input id="dsc_cndc_saude" name="dsc_cndc_saude" placeholder="Condições de saúde geral da família" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['dsc_cndc_saude'] ?>">
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_sust_fml">Condição Sustento Família</label>
+                <div class="col-lg-6">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>
+                    <input id="dsc_sust_fml" name="dsc_sust_fml" readonly="" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['dsc_sust_fml'] ?>">
+                  <?php } else { ?>
+                    <input id="dsc_sust_fml" name="dsc_sust_fml" placeholder="Como a família se sustenta" class="form-control input-md" type="text" maxlength="120" value="<?= $this->view->familia['dsc_sust_fml'] ?>">
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_crit_engjto">Critério de Engajamento<h11>*</h11></label>
+                <div class="col-lg-6">
+                    <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>                
+                      <select id="cd_crit_engjto" name="cd_crit_engjto" disabled="" class="form-control">
+                    <?php } else { ?>
+                      <select id="cd_crit_engjto" name="cd_crit_engjto" class="form-control">
+                    <?php } ?>                  
+
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected1('1', $this->view->familia['cd_crit_engjto']); ?>>A Definir</option>
+                    
+                    <option value="2"<?php echo selected1('2', $this->view->familia['cd_crit_engjto']); ?>>Vulnerabilidade por motivo de doença, idade avançada ou deficiência física-mental</option>
+                    
+                    <option value="3"<?php echo selected1('3', $this->view->familia['cd_crit_engjto']); ?>>Gestante desempregada e sem suporte familiar</option>
+                    
+                    <option value="4"<?php echo selected1('4', $this->view->familia['cd_crit_engjto']); ?>>Família com renda insuficiente e que não se enquadre nas situações anteriores</option>
+                    
+                    <option value="5"<?php echo selected1('5', $this->view->familia['cd_crit_engjto']); ?>>É atendida por outra instituição</option>
+
+                    <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>
+                      <input type="hidden" name="cd_crit_engjto" value=<?= $this->view->familia['cd_crit_engjto'] ?>> 
+                    <?php } ?>                  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_tip_resid">Tipo Residência<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_resid" name="cd_tip_resid" class="form-control">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected2('1', $this->view->familia['cd_tip_resid']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->familia['cd_tip_resid']); ?>>Residência Própria</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->familia['cd_tip_resid']); ?>>Residência Alugada</option>
+                    
+                    <option value="4"<?php echo selected2('4', $this->view->familia['cd_tip_resid']); ?>>Residência Cedida</option>
+                    
+                    <option value="5"<?php echo selected2('5', $this->view->familia['cd_tip_resid']); ?>>Residência Compartilhada</option>
+
+                  </select>
+                </div>
+
+                <label class="col-md-3 control-label" for="cd_tip_edif_resid">Tipo Construção Residência<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_edif_resid" name="cd_tip_edif_resid" class="form-control">
+                    <?php function selected3( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value="1"<?php echo selected3('1', $this->view->familia['cd_tip_edif_resid']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected3('2', $this->view->familia['cd_tip_edif_resid']); ?>>Alvenaria</option>
+                    
+                    <option value="3"<?php echo selected3('3', $this->view->familia['cd_tip_edif_resid']); ?>>Madeira</option>
+                    
+                    <option value="4"<?php echo selected3('4', $this->view->familia['cd_tip_edif_resid']); ?>>Outras (Madeirite, papelão, etc)</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_anot_atnd_fraterno">Anotações Atendimento Fraterno</label>
+                <div class="col-lg-9">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>                
+                    <input id="dsc_anot_atnd_fraterno" name="dsc_anot_atnd_fraterno" readonly="" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->familia['dsc_anot_atnd_fraterno'] ?>">
+                  <?php } else { ?>
+                    <input id="dsc_anot_atnd_fraterno" name="dsc_anot_atnd_fraterno" placeholder="O que escreveu o DAO" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->familia['dsc_anot_atnd_fraterno'] ?>">
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="rsp_enca_DAO">Responsável(is) Encaminhamento</label>
+                <div class="col-lg-6">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>                
+                    <input id="rsp_enca_DAO" name="rsp_enca_DAO" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['rsp_enca_DAO'] ?>">
+                  <?php } else { ?>
+                    <input id="rsp_enca_DAO" name="rsp_enca_DAO" placeholder="Funcionário do DAO que encaminhou a família" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->familia['rsp_enca_DAO'] ?>">
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="vlr_aprox_renda_mensal_fml">Renda Aproximada Família (R$)</label>
+                <div class="col-lg-2">
+                  <?php if ($this->view->familia['estadoSituacaoFamilia'] == 3) { ?>                
+                    <input id="dinheiro" name="vlr_aprox_renda_mensal_fml" value="<?= $this->view->familia['vlr_aprox_renda_mensal_fml'] ?>"maxlength="17" class="dinheiro form-control" readonly="" style="display:inline-block" />
+                  <?php } else { ?>
+                    <input id="dinheiro" name="vlr_aprox_renda_mensal_fml" value="<?= $this->view->familia['vlr_aprox_renda_mensal_fml'] ?>"maxlength="17" class="dinheiro form-control" placeholder="Renda de sustento" style="display:inline-block" />
+                  <?php } ?>                  
+                </div>
+              </div>
+
+              <!-- Não ficará na tela, servirá apenas para comparar se o nome do assistido principal foi alterado -->
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-1">
+                  <input id="assistidoPrincipal" name="assistidoPrincipal" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->familia['assistidoPrincipal'] ?>" disabled="" hidden>
+                </div>
+                <input type="hidden" name="assistidoPrincipal" value="<?= $this->view->familia['assistidoprincipal'] ?>"> 
+              </div>
+
+              <!-- Não ficará na tela, servirá para saber quais campos liberar quando cd_est_situ_fml = 3 -->
+              <div class="form-group">
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-1">
+                  <input id="estadoSituacaoFamilia" name="estadoSituacaoFamilia" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->familia['estadoSituacaoFamilia'] ?>" disabled="" hidden>
+                </div>
+                <input type="hidden" name="estadoSituacaoFamilia" value="<?= $this->view->familia['estadoSituacaoFamilia'] ?>"> 
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+
+                  <a style="color: #fff" href="/familiaCadastroAlterar" class="btn btn-success">Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    
+    <script>
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaAltera.js"></script>
+  </body>
+</html>

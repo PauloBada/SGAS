@@ -1,0 +1,104 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoIncluirBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Inclusão de Subgrupo</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="grupo_escolhido">Grupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="grupo_escolhido" name="grupo_escolhido" class="form-control">
+                      <!-- Foca no registro recebido -->
+                      <?php function selected( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      <?php foreach ($this->view->grupos as $indice => $grupo) { ?>
+                      <option value="<?= $grupo['cod_grupo'] ?>"<?php echo selected($grupo['cod_grupo'], $this->view->subgrupo['grupo_escolhido']); ?>><?= $grupo['nome_grupo'] ?></option>
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nomeSubgrupo">Nome SubGrupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input id="1" name="nomeSubgrupo" placeholder="Digite o nome do Subgrupo" class="form-control input-md" required="" type="text" maxlength="50" minlength="5" autofocus value="<?= $this->view->subgrupo['nomeSubgrupo'] ?>">
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="descricaoSubgrupo">Descrição da Atividade Subgrupo<h11>*</h11></label>  
+                <div class="col-md-5">
+                  <input id="2" name="descricaoSubgrupo" placeholder="Digite atividade do Subgrupo" class="form-control input-md" required="" type="text" maxlength="100" value="<?= $this->view->subgrupo['descricaoSubgrupo'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <label class="col-md-3 control-label" for="ra_escolhida">Região Administrativa<h11>*</h11></label>  
+                <div class="col-md-3">
+                  <select id="ra_escolhida" name="ra_escolhida" class="form-control" required="">
+                      <!-- Foca no registro recebido -->
+                      <?php function selected1( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                      <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected1($regiao['cod_ra'], $this->view->subgrupo['ra_escolhida']); ?>><?= $regiao['nome_ra'] ?></option>
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="descricaoHorario">Descrição do Horário Atuação<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input id="3" name="descricaoHorario" placeholder="Digite o Horário atuação Subgrupo" class="form-control input-md" required="" type="text" maxlength="50" value="<?= $this->view->subgrupo['descricaoHorario'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="Limpar" name="Cancelar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/grupoSubgrupo" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>      
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' '.$this->view->nomeSubgrupo_inserido ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome do Subgrupo Já cadastrado! <?php echo ' '.$this->view->nomeSubgrupo_inserido. ', ' ?>Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>    
+  </body>
+</html>

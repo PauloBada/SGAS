@@ -1,0 +1,97 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Grupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head> 
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/grupoIncluirBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Inclusão de Grupo</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeGrupo">Nome Grupo<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input id="1" name="nomeGrupo" placeholder="Digite o nome do Grupo" class="form-control input-md" required="" type="text" autofocus maxlength="20" minlength="5">              </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="semanaAtuacao">Semana de Atuação<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="2" name="semanaAtuacao" class="form-control">
+                    <option value="1">Primeiro domingo do mês</option>
+                    <option value="2">Segundo domingo do mês</option>
+                    <option value="3">Terceiro domingo do mês</option>
+                    <option value="4">Quarto domingo do mês</option>
+                    <option value="5">Primeira segunda-feira do mês</option>
+                    <option value="6">Segunda segunda-feira do mês</option>
+                    <option value="7">Terceira segunda-feira do mês</option>
+                    <option value="8">Quarta segunda-feira do mês</option>
+                    <option value="9">Primeira terça-feira do mês</option>
+                    <option value="10">Segunda terça-feira do mês</option>
+                    <option value="11">Terceira terça-feira do mês</option>
+                    <option value="12">Quarta terça-feira do mês</option>
+                    <option value="13">Primeira quarta-feira do mês</option>
+                    <option value="14">Segunda quarta-feira do mês</option>
+                    <option value="15">Terceira quarta-feira do mês</option>
+                    <option value="16">Quarta quarta-feira do mês</option>
+                    <option value="17">Primeira quinta-feira do mês</option>
+                    <option value="18">Segunda quinta-feira do mês</option>
+                    <option value="19">Terceira quinta-feira do mês</option>
+                    <option value="20">Quarta quinta-feira do mês</option>
+                    <option value="21">Primeira sexta-feira do mês</option>
+                    <option value="22">Segunda sexta-feira do mês</option>
+                    <option value="23">Terceira sexta-feira do mês</option>
+                    <option value="24">Quarta sexta-feira do mês</option>
+                    <option value="25">Primeiro sábado do mês</option>
+                    <option value="26">Segundo sábado do mês</option>
+                    <option value="27">Terceiro sábado do mês</option>
+                    <option value="28">Quarto sábado do mês</option>
+                  </select>
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="Limpar" name="Cancelar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/grupoSubgrupo" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+			
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' '.$this->view->nomeGrupo_inserido.' - '.$this->view->semana_inserida ?></small>
+          
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Erro: Nome do Item Já cadastrado! <?php echo ' '.$this->view->nomeGrupo_inserido. ', ' ?>Verifique!</small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+    
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+  </body>
+</html>

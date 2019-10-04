@@ -1,0 +1,402 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com dados da família para serem consultados
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" id="FormConsulta" action="" method="post">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Consulta de Família</h4></div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_fml">Código Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['cd_fml'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_atndt_ant_fml">Código Atendimento Anterior Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_atndt_ant_fml" name="cd_atndt_ant_fml" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['cd_atndt_ant_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_fml_atndt_ant" name="nm_fml_atndt_ant" readonly="" class="form-control input-md" type="text" value="<?= $this->view->familia['nm_fml_atndt_ant'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_grp">Grupo</label>  
+                <div class="col-lg-6">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" required="" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_sbgrp">Subgrupo</label>  
+                <div class="col-lg-6">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" required="" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_grp_fmlr">Nome Grupo Familiar</label>  
+                <div class="col-lg-6">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" placeholder="Nome da família" class="form-control input-md" required="" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <?php if ($this->view->familia['cd_est_situ_fml'] == 'Aguardando Triagem') { ?>
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="ptc_atendto_fml">Pontuação no Ranking Atendimento</label>  
+                <div class="col-lg-1">
+                  <input id="ptc_atendto_fml" name="ptc_atendto_fml" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->familia['ptc_atendto_fml'] ?>">
+                </div>
+              
+                <label class="col-md-3 control-label" for="pos_ranking_atendto_fml">Posição no Ranking Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="pos_ranking_atendto_fml" name="pos_ranking_atendto_fml" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->familia['pos_ranking_atendto_fml'] ?>">
+                </div>
+              </div>
+              <?php } ?>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="nm_astd_prin">Nome Assistido(a) Principal</label>  
+                <div class="col-lg-6">
+                  <input id="nm_astd_prin" name="nm_astd_prin" placeholder="Nome do tutor(a) da família" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->familia['nm_astd_prin'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_end">Endereço</label>
+                <div class="col-lg-8">
+                  <input id="dsc_end" name="dsc_end" placeholder="Endereço da residência" class="form-control input-md" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['dsc_end'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_reg_adm">Região Administrativa</label>
+                <div class="col-lg-3">
+                  <select id="cd_reg_adm" name="cd_reg_adm" disabled="" class="form-control">
+
+                      <!-- Monta o combobox - Foca no registro recebido -->
+                      <?php function selected( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+                      
+                      <?php foreach ($this->view->regioes as $indice_ra => $regiao) { ?>
+                        <option value="<?= $regiao['cod_ra'] ?>"<?php echo selected($regiao['cod_ra'], $this->view->familia['cd_reg_adm']); ?>><?= $regiao['nome_ra'] ?></option>
+                      <?php } ?>  
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_pto_refe">Ponto de Referência</label>
+                <div class="col-lg-8">
+                  <input id="dsc_pto_refe" name="dsc_pto_refe" placeholder="Local conhecido próxima a residência" class="form-control input-md" type="text" maxlength="120" readonly="" value="<?= $this->view->familia['dsc_pto_refe'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="fone_1">Contato 1</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_1" name="fone_1" class="form-control" placeholder="(99)9999-9999" type="text" maxlength="15" onkeypress="$(this).mask('(00)0000-0009')" readonly="" value="<?= $this->view->familia['fone_1'] ?>">
+                  </div>
+                </div>
+                
+                <label class="col-md-3 control-label" for="fone_2">Contato 2</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_2" name="fone_2" class="form-control" placeholder="(99)9999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00)0000-0009')" readonly="" value="<?= $this->view->familia['fone_2'] ?>">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">                
+                <label class="col-md-3 control-label" for="fone_3">Celular</label>
+                <div class="col-lg-3">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                    <input id="fone_3" name="fone_3" class="form-control" placeholder="(99)99999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00)00000-0009')" readonly="" value="<?= $this->view->familia['fone_3'] ?>">
+                  </div>
+                </div>
+              </div> 
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_cndc_saude">Condição Saúde Família</label>
+                <div class="col-lg-6">
+                  <input id="dsc_cndc_saude" name="dsc_cndc_saude" placeholder="Condições de saúde geral da família" class="form-control input-md" type="text" readonly="" maxlength="120" value="<?= $this->view->familia['dsc_cndc_saude'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_sust_fml">Condição Sustento Família</label>
+                <div class="col-lg-6">
+                  <input id="dsc_sust_fml" name="dsc_sust_fml" placeholder="Como a família se sustenta" class="form-control input-md" type="text" maxlength="120" readonly="" value="<?= $this->view->familia['dsc_sust_fml'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_crit_engjto">Critério de Engajamento</label>
+                <div class="col-lg-6">
+                  <select id="cd_crit_engjto" name="cd_crit_engjto" class="form-control" disabled="">
+                    
+                    <?php function selected1( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+  s
+                    <option value="1"<?php echo selected1('1', $this->view->familia['cd_crit_engjto']); ?>>A Definir</option>
+                    
+                    <option value="2"<?php echo selected1('2', $this->view->familia['cd_crit_engjto']); ?>>Vulnerabilidade por motivo de doença, idade avançada ou deficiência física-mental</option>
+                    
+                    <option value="3"<?php echo selected1('3', $this->view->familia['cd_crit_engjto']); ?>>Gestante desempregada e sem suporte familiar</option>
+                    
+                    <option value="4"<?php echo selected1('4', $this->view->familia['cd_crit_engjto']); ?>>Família com renda insuficiente e que não se enquadre nas situações anteriores</option>
+                    
+                    <option value="5"<?php echo selected1('5', $this->view->familia['cd_crit_engjto']); ?>>É atendida por outra instituição</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-3 control-label" for="cd_tip_resid">Tipo Residência</label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_resid" name="cd_tip_resid" class="form-control" disabled="">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected2('1', $this->view->familia['cd_tip_resid']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->familia['cd_tip_resid']); ?>>Residência Própria</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->familia['cd_tip_resid']); ?>>Residência Alugada</option>
+                    
+                    <option value="4"<?php echo selected2('4', $this->view->familia['cd_tip_resid']); ?>>Residência Cedida</option>
+                    
+                    <option value="5"<?php echo selected2('5', $this->view->familia['cd_tip_resid']); ?>>Residência Compartilhada</option>
+
+                  </select>
+                </div>
+
+                <label class="col-md-3 control-label" for="cd_tip_edif_resid">Tipo Construção Residência<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_edif_resid" name="cd_tip_edif_resid" class="form-control" disabled="">
+                    <?php function selected3( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+                    
+                    <option value="1"<?php echo selected3('1', $this->view->familia['cd_tip_edif_resid']); ?>>Não Sabe</option>
+                    
+                    <option value="2"<?php echo selected3('2', $this->view->familia['cd_tip_edif_resid']); ?>>Alvenaria</option>
+                    
+                    <option value="3"<?php echo selected3('3', $this->view->familia['cd_tip_edif_resid']); ?>>Madeira</option>
+                    
+                    <option value="4"<?php echo selected3('4', $this->view->familia['cd_tip_edif_resid']); ?>>Outras (Madeirite, papelão, etc)</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dsc_anot_atnd_fraterno">Anotações Atendimento Fraterno</label>
+                <div class="col-lg-9">
+                  <input id="dsc_anot_atnd_fraterno" name="dsc_anot_atnd_fraterno" placeholder="O que escreveu o DAO" class="form-control input-md" type="text" maxlength="200" readonly="" value="<?= $this->view->familia['dsc_anot_atnd_fraterno'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="rsp_enca_DAO">Responsável(is) Encaminhamento</label>
+                <div class="col-lg-6">
+                  <input id="rsp_enca_DAO" name="rsp_enca_DAO" placeholder="Funcionário do DAO que encaminhou a família" class="form-control input-md" type="text" maxlength="100" readonly="" value="<?= $this->view->familia['rsp_enca_DAO'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="vlr_aprox_renda_mensal_fml">Renda Aproximada Família (R$)</label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" name="vlr_aprox_renda_mensal_fml" value="<?= $this->view->familia['vlr_aprox_renda_mensal_fml'] ?>"maxlength="17" class="dinheiro form-control" readonly="" placeholder="Renda de sustento" style="display:inline-block" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_est_situ_fml">Situação Família</label>
+                <div class="col-md-6">
+                  <input id="cd_est_situ_fml" name="cd_est_situ_fml" value="<?= $this->view->familia['cd_est_situ_fml'] ?>"maxlength="100" class="form-control" readonly="" />
+                </div>
+              </div>
+
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+                  <?php if (isset($_POST['rota'])) { ?>
+                    <?php if ($this->view->familia['rota'] == 'rota_01' || $_POST['rota'] == 'rota_01') { ?>
+                      <a href="/familiaCadastroConsultar" class="btn btn-success">Retorna</a>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_02' || $_POST['rota'] == 'rota_02') { ?>
+                      <button id="btretorna_3" class="btn btn-success" type="Submit">Retorna</button>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_03' || $_POST['rota'] == 'rota_03') { ?>
+                      <a href="/subgrupoConsultarSemVinculoFamilia" class="btn btn-success">Retorna</a>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_05' || $_POST['rota'] == 'rota_05') { ?>
+                      <!-- Para retornar com $_POST quando dor Pré-Inclusão de Família -->
+                      <button id="btretorna" class="btn btn-success" type="Submit">Retorna</button>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_06' || $_POST['rota'] == 'rota_06') { ?>
+                      <!-- Para retornar com $_POST quando dor Pré-Inclusão de Família -->
+                      <button id="btretorna_6" class="btn btn-success" type="Submit">Retorna</button>
+                    <?php }  ?>
+                  
+                  <?php } else { ?>
+                    <?php if ($this->view->familia['rota'] == 'rota_01') { ?>
+                      <a href="/familiaCadastroConsultar" class="btn btn-success">Retorna</a>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_02') { ?>
+                      <button id="btretorna_3" class="btn btn-success" type="Submit">Retorna</button>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_03') { ?>
+                      <a href="/subgrupoConsultarSemVinculoFamilia" class="btn btn-success">Retorna</a>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_05') { ?>
+                      <!-- Para retornar com $_POST quando dor Pré-Inclusão de Família -->
+                      <button id="btretorna" class="btn btn-success" type="Submit">Retorna</button>
+
+                    <?php } else if ($this->view->familia['rota'] == 'rota_06') { ?>
+                      <!-- Para retornar com $_POST quando dor Pré-Inclusão de Família -->
+                      <button id="btretorna_6" class="btn btn-success" type="Submit">Retorna</button>
+
+                    <?php }  ?>
+                  <?php }  ?>
+
+                  <button id="btdetalhaIntegrantes" class="btn btn-danger" type="Submit">Detalha Integrantes</button>
+
+                </div>
+              </div>
+             
+              <!-- Campos abaixo para tratar os redirecionamentos entre as diversas chamadas a este Programa -->
+              <div class="form-group">                
+                <!-- Para ser usado abaixo para se saber para onde retornar, pois pode ser chamado por vários caminhos -->
+                <div class="col-md-6">
+                    <input id="rota" name="rota" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['rota'] ?>" hidden>
+                    <input type="hidden" name="rota" value="<?= $this->view->familia['rota'] ?>"> 
+                </div>
+
+                <div class="col-md-6">
+                  <input id="nm_astd_pre" name="nm_astd_pre" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['nm_astd_pre'] ?>" hidden>
+                  <input type="hidden" name="nm_astd_pre" value="<?= $this->view->familia['nm_astd_pre'] ?>"> 
+                </div>
+
+                <div class="col-md-6">
+                  <input id="cpf_pre" name="cpf_pre" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['cpf_pre'] ?>" hidden>
+                  <input type="hidden" name="cpf_pre" value="<?= $this->view->familia['cpf_pre'] ?>"> 
+                </div>
+
+                <div class="col-md-6">
+                  <?php if ($_POST['rota'] == 'rota_02') { ?>
+                    <input id="dt_inc" name="dt_inc" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['dt_inc'] ?>" hidden>
+                    <input type="hidden" name="dt_inc" value="<?= $_POST['dt_inc'] ?>"> 
+                  <?php } else { ?>  
+                    <input id="dt_inc" name="dt_inc" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['dt_inc'] ?>" hidden>
+                    <input type="hidden" name="dt_inc" value="<?= $this->view->familia['dt_inc'] ?>"> 
+                  <?php } ?>                
+                </div>
+
+                <div class="col-md-6">
+                  <?php if ($_POST['rota'] == 'rota_02') { ?>
+                    <input id="dt_fim" name="dt_fim" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['dt_fim'] ?>" hidden>
+                    <input type="hidden" name="dt_fim" value="<?= $_POST['dt_fim'] ?>"> 
+                  <?php } else { ?>                  
+                    <input id="dt_fim" name="dt_fim" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['dt_fim'] ?>" hidden>
+                    <input type="hidden" name="dt_fim" value="<?= $this->view->familia['dt_fim'] ?>"> 
+                  <?php } ?>                                  
+                </div>
+
+                <div class="col-md-6">
+                  <?php if ($_POST['rota'] == 'rota_02') { ?>
+                    <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_grupo_escolhido'] ?>" hidden>
+                    <input type="hidden" name="cb_grupo_escolhido" value="<?= $_POST['cb_grupo_escolhido'] ?>"> 
+                  <?php } else { ?>
+                    <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['cb_grupo_escolhido'] ?>" hidden>
+                    <input type="hidden" name="cb_grupo_escolhido" value="<?= $this->view->familia['cb_grupo_escolhido'] ?>"> 
+                  <?php } ?>
+                </div>
+
+                <div class="col-md-6">
+                  <?php if ($_POST['rota'] == 'rota_02') { ?>
+                    <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_subgrupo_escolhido'] ?>" hidden>
+                    <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $_POST['cb_subgrupo_escolhido'] ?>"> 
+                  <?php } else { ?>
+                    <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['cb_subgrupo_escolhido'] ?>" hidden>
+                    <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $this->view->familia['cb_subgrupo_escolhido'] ?>"> 
+                  <?php } ?>
+                </div>
+
+                <!-- Valor de nm_astd_pre neste momento, para não mudar a lógica já implementada -->
+                <div class="col-md-6">
+                  <?php if ($_POST['rota'] == 'rota_06') { ?>
+                    <input id="nome_grupo_fmlr" name="nome_grupo_fmlr" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['nome_grupo_fmlr'] ?>" hidden>
+                    <input type="hidden" name="nome_grupo_fmlr" value="<?= $_POST['nm_astd_pre'] ?>"> 
+                  <?php } else { ?>
+                    <input id="nome_grupo_fmlr" name="nome_grupo_fmlr" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->familia['nm_astd_pre'] ?>" hidden>
+                  <?php } ?>
+                </div>
+
+                <div class="col-md-6">
+                    <?php if (isset($_POST['familia_escolhida'])) { ?>
+                    <input id="familia_escolhida" name="familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['familia_escolhida'] ?>" hidden>
+                        <input type="hidden" name="familia_escolhida" value="<?= $_POST['familia_escolhida'] ?>"> 
+                    <?php } ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+
+    <script>
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+
+      $("#btretorna, #btretorna_3, #btretorna_6, #btdetalhaIntegrantes").click(function(){
+        //Recebe o id do botão clicado
+        var id = $(this).attr('id');
+        //Verifica qual foi o botão clicado através do id do mesmo e seta o action correspondente
+
+        if (id == 'btretorna'){
+            $('#FormConsulta').attr('action', '/familiaCadastroPreIncluirMenu').submit();
+        } else if (id == 'btretorna_3') {
+            $('#FormConsulta').attr('action', '/subgrupoConsultarVinculoFamiliaMenu').submit();
+
+        } else if (id == 'btretorna_6') {
+            $('#FormConsulta').attr('action', '/familiaCadastroConsultaPesquisaMenu').submit();
+
+        } else {
+            $('#FormConsulta').attr('action', '/familiaCadastroPreIncluirIntegrantesMenu').submit();
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
+

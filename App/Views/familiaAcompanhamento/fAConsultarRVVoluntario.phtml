@@ -1,0 +1,93 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com lista de famílias que podem ter sido atendidas antes tendo este solicitante como membro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Voluntário na Visita</h4></div>
+          <div class="panel-body">
+            <div class="col-md-12 d-flex">
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Grupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeGrupo ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Família: <?php echo $this->view->codFamilia. ' - '. $this->view->nomeFamilia ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Nr. Acompanhamento: <?php echo $this->view->seqlAcomp ?></label>  
+              </ul>
+
+            </div>
+
+            <div class="table-responsive-lg">
+              <table id="tabelaVoluntarios" class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Código Voluntário</th>
+                  <th scope="col">Nome Voluntário</th>
+                  <th scope="col">Atuação Acompanhamento</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                  <?php foreach ($this->view->dadosVoluntarios as $indice => $dadosVlnt) { ?>
+                    <tr>
+                      <td id="cd_vlnt" class="cd_vlnt" name="cd_vlnt"><?php echo $dadosVlnt['cd_vlnt']; ?></td>
+
+                      <td id="nm_vlnt" class="nm_vlnt" name="nm_vlnt"><?php echo $dadosVlnt['nm_vlnt']; ?></td>
+
+                      <td id="cd_atua_vlnt_acomp" class="cd_atua_vlnt_acomp" name="cd_atua_vlnt_acomp"><?php echo $dadosVlnt['cd_atua_vlnt_acompD']; ?></td>
+                    </tr>
+                  <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group text-center">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+                
+                <?php if ($this->view->origem == 'conclusaoRelatorio') { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/fAConcluirRVMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', nome_grupo:'<?= $this->view->nomeGrupo ?>', nome_subgrupo:'<?= $this->view->nomeSubgrupo ?>', origem:'<?= $this->view->origem ?>'});">Retorna
+                  </a>
+
+                <?php } else if ($this->view->origem == 'consultaRelatorios') { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/fAConsultarRVMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', seql_acomp:'<?= $this->view->seqlAcomp ?>'});">Retorna
+                  </a>
+
+                <?php } else { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/fARevisarRVMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', nome_grupo:'<?= $this->view->nomeGrupo ?>', nome_subgrupo:'<?= $this->view->nomeSubgrupo ?>', origem:'<?= $this->view->origem ?>'});">Retorna
+                  </a>
+                <?php } ?>
+
+              
+              </div>
+            </div>
+
+          </div>
+        </div>
+       </form>
+      </div>
+    </section>
+
+    <script src="sendPost.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de Item de Necessidade
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha e com formatação - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa"> 
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/apoioItemIncluirBase" method="post" id="FormIncluir">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Inclusão de Item de Necessidade Almoxarifado</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeItem">Nome Item<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <input id="1" name="nomeItem" placeholder="Digite o nome do Item" class="form-control input-md" required="" type="text" autofocus maxlength="30">              
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="evento">Evento Necessidade<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="2" name="evento" class="form-control">
+                    <option value="1">Necessidada para Próxima Visita</option>
+                    <option value="2">Necessidade Eventual</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <!--<button class="btn btn-primary" type="Submit">Cadastrar</button>-->
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="Limpar" name="Cancelar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
+                  <a href="/apoioItemSubitem" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <div class="col infoErro text-center" >
+      <?php if ($this->view->erroApoio == 1) { ?>
+         <small class="form-text text-danger">Inclusão realizada com Sucesso!<?php echo ' '.$this->view->nomeItem_inserido ?></small>
+      <?php } else if ($this->view->erroApoio == 2) { ?>
+         <small class="form-text text-danger">Erro: Nome do Item Já cadastrado! <?php echo ' '.$this->view->nomeItem_inserido. ', ' ?>Verifique!</small>
+      <?php } ?>
+    </div>
+
+    <!-- Para mostrar Alerta de Confima ou Não -->
+    <script src="alertaConfirmaInclui.js"></script>
+  </body>
+</html>

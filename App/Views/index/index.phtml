@@ -1,0 +1,80 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 11/07/2019                       
+      Objetivo:  Menu Inicial do sistema
+--> 
+
+<html lang="pt-br">
+	<body>
+ 		<section class="caixa">
+			<div class="container-fluid h-100 infoTelaInicial">
+				<div class="row">
+
+			    <div class="col-md-2">
+			    	<div class="row h-100 justify-content-center align-items-center">
+			    		<div>
+								<img src="/img/Logotipo-CEB2.png" />
+							</div>
+						</div>
+			   	</div>
+
+			    <div class="col-md-10 pt-4 pl-5 pr-5">
+						<form method="post" action="/autenticar">
+							<div class="row">
+								<div class="col">
+									<input type="text" name="email" class="form-control" placeholder="E-mail" value="">
+								</div>
+							
+								<div class="col">
+									<input type="password" name="senha" class="form-control" placeholder="Senha">
+								</div>
+							
+								<div class="col-auto">
+									<button type="submit" class="btn btn-primary mb-2">Entrar</button>
+								</div>
+							</div>
+
+							<?php if ($this->view->login == 'erro') { ?>
+								<div class="row">
+									<div class="col">
+										<!--<span class="text text-danger">E-mail ou Senha inválido(s)!</span>-->
+										<span class="msgLogin">E-mail ou Senha inválido(s)! E-mail:  
+														<?= $_GET['email'] ?></span>
+									</div>
+								</div>
+							<?php } ?>
+						</form>
+			    </div>
+
+			    <div class="col-md-12 d-none d-md-block">
+			    	<div class="row h-100 justify-content-center align-items-center">
+			    		<div>
+								<img src="/img/Auta-de-Souza.jpg" />
+							</div>
+						</div>
+					</div>
+
+			    <div class="col-md-12 banner">
+			    	<div class="row h-100 justify-content-center align-items-center">
+							<div class="communicationItem">
+								<i class="mr-4"></i>
+								DPS - Divisão de Promoção Social
+							</div>
+							
+							<div class="communicationItem">
+								<i class="mr-4"></i>
+								Grupo Auta de Souza
+							</div>
+							
+							<div class="communicationItem">
+								<i class="mr-4"></i>
+								Apoio às Famílias
+							</div>  
+						</div>
+					</div>
+
+			  </div>
+
+			</div>
+		</section>
+	</body>
+</html>

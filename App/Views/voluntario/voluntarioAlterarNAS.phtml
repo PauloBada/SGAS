@@ -1,0 +1,69 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu Alteração de Nível de Acesso e/ou Senha do Voluntário
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/voluntarioAlterarNASMenu" method="post">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Alteração de Nível de Acesso e/ou Senha - Voluntário DPS</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="voluntario_escolhido">Voluntário<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="voluntario_escolhido" name="voluntario_escolhido" class="form-control">
+                    <?php foreach ($this->view->voluntarios as $indice => $voluntario) { ?>
+                      <option value=<?= $voluntario['cd_vlntID'] ?>><?= $voluntario['nm_vlnt'] ?></option>
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+                 
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Cadastrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" type="Submit">Buscar</button>
+
+                  <a href="/voluntario" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+             <small class="form-text text-danger">Alteração de Senha realizada com Sucesso!<?php echo ' '.$this->view->codigoAlteracao.' - '.
+             $this->view->nomeAlteracao.'! '.$this->view->situacao_envio_email ?></small>
+
+          <?php } else if ($this->view->erroValidacao == 2) { ?>
+             <small class="form-text text-danger">Alteração de Nível realizada com Sucesso!<?php echo ' '.$this->view->codigoAlteracao.' - '.
+             $this->view->nomeAlteracao ?></small>
+
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+             <small class="form-text text-danger">Alteração de Senha e Nível realizada com Sucesso!<?php echo ' '.$this->view->codigoAlteracao.' - '.$this->view->nomeAlteracao.'! '.$this->view->situacao_envio_email ?></small>
+
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro na Alteração!<?php echo ' '.$this->view->erroException ?></small>
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+  </body>
+</html>

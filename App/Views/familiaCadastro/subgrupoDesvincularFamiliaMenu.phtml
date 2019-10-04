@@ -1,0 +1,91 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de efetivação de encerramento de vínculo de família com grupo/subgrupo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/subgrupoDesvincularFamiliaBase" method="post" id="FormDesvincula">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Encerrar Vínculo Família com Grupo e Subgrupo</h4></div>
+              
+            <div class="panel-body">
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codGrupo">Código Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodGrupo" name="codGrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVFS['cod_grupo'] ?>>              
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeGrupo">Nome Grupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeGrupo" name="nomeGrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosTVFS['nome_grupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+                  
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codSubgrupo">Código Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="CodSubgrupo" name="codSubgrupo"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVFS['cod_subgrupo'] ?>>              
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeSubgrupo">Nome Subgrupo</label>  
+                <div class="col-md-4">
+                  <input id="NomeSubgrupo" name="nomeSubgrupo" class="form-control input-md" required="" type="text" value="<?= $this->view->dadosTVFS['nome_subgrupo'] ?>" readonly="readonly" >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="codFamilia">Código Familia</label>  
+                <div class="col-lg-1">
+                  <input id="CodFamilia" name="codFamilia"class="form-control input-md" readonly="readonly" type="text" value=<?= $this->view->dadosTVFS['cod_familia'] ?>>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nomeFamilia">Nome Família</label>  
+                <div class="col-lg-4">
+                  <input id="NomeFamilia" name="nomeFamilia"class="form-control input-md" readonly="readonly" type="text" value="<?= $this->view->dadosTVFS['nome_familia'] ?>">              
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Encerrar"></label>
+                <div class="col-md-8">
+                  <button class="btn btn-primary" id="btnDesvincular" type="button">Encerrar</button>
+
+                  <a href="/subgrupoDesvincularFamilia" class="btn btn-success" >Retorna</a>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <!-- Hidden -sequencial da tabela tb_vncl_fml_sbgrp em função do cd_vlntID, cd_grpID e cd_fmlID para retornar para encerramento -->
+                <label class="col-md-2 control-label"></label>  
+                <div class="col-md-4">
+                  <input id="Sequencial" name="sequencial" class="form-control input-md" type="text" value="<?= $this->view->dadosTVFS['sequencial'] ?>" disabled="" hidden >
+                </div>
+                <input type="hidden" name="sequencial" value=<?= $this->view->dadosTVFS['sequencial'] ?>> 
+              </div>
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaDesvincula.js"></script>
+  </body>
+</html>
