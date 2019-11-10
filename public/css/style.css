@@ -48,15 +48,17 @@ td >a:hover {
     text-decoration: none;
 }
 
+/* Para setar o tamanho do checkbox (Que é o único input em tabela */
+td > input {
+    width: 20px; 
+    height: 20px;
+}
+
 /* Para mudar a cor do titulo das tabelas */
 .table .thead-light th {
- 
   color: white;
- 
   background-color: #3E8CCE;  /* Azul dos menus internos o sistema */;
- 
   border-color: #792700;
- 
 }
 
 /* ========== Classes ============== */
@@ -202,4 +204,23 @@ td >a:hover {
     font-size: 85%;
     color: #3E8CCE;
 }
+
+.larguraColunaPedidoResumido {
+    width: 300px;
+    padding: 10px;
+    _width: 355px;
+}
+
+.larguraColunaPedidoResumidoAutoriza {
+    width: 250px;
+    padding: 10px;
+    _width: 255px;
+}
+
+/* Pare setar o tamanho do checkbox, mas substitui pelo comando no alto da página
+.big-checkbox  > input {
+    width: 20px; 
+    height: 20px;
+}
+*/ 
 

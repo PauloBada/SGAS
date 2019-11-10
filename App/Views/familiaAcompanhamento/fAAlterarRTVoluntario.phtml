@@ -14,7 +14,7 @@
       <div class="container">
        <form class="form-horizontal" action="" method="post" id="FormTabela">
         <div class="panel panel-primary">
-          <div class="panel-heading"><h4>Alterar Vínculo Voluntário na Triagem ou Visita</h4></div>
+          <div class="panel-heading"><h4>Voluntário Participante na Triagem ou Visita</h4></div>
           <div class="panel-body">
             <div class="col-md-12 d-flex">
               <ul class="list-group">
@@ -41,22 +41,27 @@
                   <!-- Nome das Colunas -->
                   <th scope="col">Código Voluntário</th>
                   <th scope="col">Nome Voluntário</th>
-                  <th scope="col">Atuação Acompanhamento</th>
-                  <th scope="col">Selecione para Excluir Vínculo</th>
+                  <th scope="col">Participante da Triagem/Visita</th>
+                  <th scope="col">Selecione para Incluir ou Cancelar Participação</th>
                 </tr>
                 </thead>
                 
                 <tbody>
                   <?php foreach ($this->view->dadosVoluntarios as $indice => $dadosVlnt) { ?>
-                    <tr>
+                    <?php if ($dadosVlnt['vinculado'] == 'Não') { ?>
+                      <tr style="color: red">
+                    <?php } else { ?>
+                      <tr style="color: blue">
+                    <?php } ?>                      
+
                       <td id="cd_vlnt" class="cd_vlnt" name="cd_vlnt"><?php echo $dadosVlnt['cd_vlnt']; ?></td>
 
                       <td id="nm_vlnt" class="nm_vlnt" name="nm_vlnt"><?php echo $dadosVlnt['nm_vlnt']; ?></td>
 
-                      <td id="cd_atua_vlnt_acomp" class="cd_atua_vlnt_acomp" name="cd_atua_vlnt_acomp"><?php echo $dadosVlnt['cd_atua_vlnt_acompD']; ?></td>
+                      <td id="vinculado" class="vinculado" name="vinculado"><?php echo $dadosVlnt['vinculado']; ?></td>
 
                       <!-- Checkbox para assinalar o voluntário -->
-                      <td class="text-center"><input class="voluntarioEscolhido link-check" type="checkbox" id='<?= $dadosVlnt['cd_vlnt'] ?>' onchange="cbChange(this)"></td>
+                      <td class="text-center"><input class="voluntarioEscolhido link-check" type="checkbox" id='<?= $dadosVlnt['cd_vlnt_sn'] ?>'></td>
                     </tr>
                   <?php } ?>  
                 </tbody>
@@ -67,27 +72,49 @@
               <label class="col-md-2 control-label"></label>
               <div class="col-md-8">
 
+                <!-- 'relatorioTriagem' ==> alteração no relatório triagem -->
                 <?php if ($this->view->origem == 'relatorioTriagem') { ?>
                   <a class="btn btn-success" href="#" onclick="sendPost('/fAAlterarRTMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>'});">Retorna
                   </a>
+
+                <!-- 'conclusaoRelatorio' ==> conclui para poder haver revisão -->
+                <?php } else if ($this->view->origem == 'conclusaoRelatorio') { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/fAConcluirRTMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>'});">Retorna
+                  </a>
+                <?php } else if ($this->view->origem == 'conclusaoRelatorioV') { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/fAConcluirRVMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', nome_grupo:'<?= $this->view->nomeGrupo ?>', nome_subgrupo:'<?= $this->view->nomeSubgrupo ?>', origem:'<?= $this->view->origem ?>', cadastro:'<?= $_POST['cadastro'] ?>'});">Retorna
+                  </a>
+
                 <?php } else { ?>
                   <a class="btn btn-success" href="#" onclick="sendPost('/fAAlterarRVMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>'});">Retorna
                   </a>
                 <?php } ?>
 
-                <a class="btn btn-danger" href="#" onclick="coletaDados()">Excluir Vinculo Voluntário</a>
+                <a class="btn btn-primary" href="#" onclick="coletaDadosI()">Inclui Participação de Voluntário</a>
+                
+                <a class="btn btn-danger" href="#" onclick="coletaDadosE()">Cancela Participação de Voluntário</a>
+
               </div>
             </div>
-
           </div>
         </div>
        </form>
 
        <div class="col infoErro text-center" >
          <?php if ($this->view->erroValidacao == 1) { ?>
-            <small class="form-text text-danger">Exclusão de vínculo realizada com Sucesso!</small>
-            <small class="form-text text-danger"><?php echo 'Voluntário: '.$this->view->voluntario.' - '.$this->view->nomeVoluntario.'!' ?></small>
-            <small class="form-text text-danger"><?php echo 'Atuação: '.$this->view->atuacao ?></small>
+            <small class="form-text text-danger">Inclusão realizada com Sucesso!</small>
+
+         <?php } else if ($this->view->erroValidacao == 2) { ?>
+            <small class="form-text text-danger">Não há voluntários atrelados ao Grupo/Subgrupo!</small>
+            <small class="form-text text-danger">OU</small>
+            <?php if ($this->view->origem == 'conclusaoRelatorioV') { ?>
+              <small class="form-text text-danger">Relatório ainda não Atualizado!</small>
+            <?php } else { ?>         
+              <small class="form-text text-danger">Não há relatório ou segmento ainda cadastrado!</small>
+            <?php } ?>            
+
+         <?php } else if ($this->view->erroValidacao == 3) { ?>
+            <small class="form-text text-danger">Cancelamento realizado com Sucesso!</small>
          <?php } ?>
        </div>
 
@@ -97,18 +124,14 @@
     <script src="sendPost.js"></script>
 
     <script>
-      // Para obter os cd_fml marcados no Checkbox (No caso só permitiremos um) //
-      function coletaDados(){
+      function coletaDadosE(){
          var ids = document.getElementsByClassName('voluntarioEscolhido');
-         coletaIDs(ids);         
+         coletaIDsE(ids);         
       };  
               
-      function coletaIDs(dados){
+      function coletaIDsE(dados){
         var array_dados = dados; 
         var newArray = [];
-
-        var newArrayCombo = [];
-        var indice_atuacao = [];
 
         for(var x = 0; x <= array_dados.length; x++){     
             if(typeof array_dados[x] == 'object'){
@@ -118,40 +141,128 @@
             }
          }   
 
-         if(newArray.length <= 0){
+         if(newArray.length <= 0  || newArray == ''){
             var vlnt_escolhido = '';
-         }
+         } 
 
+        /*
+        // Para dar display no Console em javascript
+        $('document').ready(function() {
+          console.log(newArray, newArray.length);
+        });
+        */
+        
          if (vlnt_escolhido == '') {
             swal('', 'Não há voluntário escolhido!', 'warning');
+
          } else {
 
-            swal({
-                title: '',
-                text: 'Confirma a exclusão?',
-                type: 'warning',                  //"warning", "error", "success", "info"
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#D80C1B',
-                confirmButtonText: 'Sim',
-                cancelButtonText: 'Não',
-                closeOnClickOutside: false
+            var remetePost = 1;
 
-              }, function(isConfirm) {
-                if (isConfirm) {
-                   sendPost('/fAAlterarRTVoluntarioBase', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', nm_grp:'<?= $this->view->nomeGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', nm_sbgrp:'<?= $this->view->nomeSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', nm_grp_fmlr:'<?= $this->view->nomeFamilia ?>', seql_acomp:'<?= $this->view->seqlAcomp ?>', cb_voluntario_escolhido:newArray[0], origem:'<?= $this->view->origem ?>'});
-                }
-            })
+            for (var p = 0; p < newArray.length; p++) {
+              var vlnt_sn_escolhido = newArray[p];
+              vlnt_sn_escolhido = vlnt_sn_escolhido.split(';');
+              var vlnt_escolhido = vlnt_sn_escolhido[0]
+              var sn_escolhido = vlnt_sn_escolhido[1]
+
+              if (sn_escolhido == 'n') {
+                remetePost = 0;
+                break;
+              }
+            }
+
+            if (remetePost == 1) {
+              swal({
+                  title: '',
+                  text: 'Confirma o cancelamento da Participação?',
+                  type: 'warning',                  //"warning", "error", "success", "info"
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#D80C1B',
+                  confirmButtonText: 'Sim',
+                  cancelButtonText: 'Não',
+                  closeOnClickOutside: false
+
+                }, function(isConfirm) {
+                  if (isConfirm) {
+                     sendPost('/fAAlterarRTVoluntarioBase', {cd_grp:'<?= $this->view->codGrupo ?>', nm_grp:'<?= $this->view->nomeGrupo ?>', cd_sbgrp:'<?= $this->view->codSubgrupo ?>', nm_sbgrp:'<?= $this->view->nomeSubgrupo ?>', cd_fml:'<?= $this->view->codFamilia ?>', nm_grp_fmlr:'<?= $this->view->nomeFamilia ?>', seql_acomp:'<?= $this->view->seqlAcomp ?>', cb_voluntario_escolhido:newArray, origem:'<?= $this->view->origem ?>', situacao:'exclui', cadastro:'<?= $_POST['cadastro'] ?>'});
+                  }
+              })
+            } else {
+              swal('', 'Há voluntário sem Participação escolhido!', 'error');  
+            }
           }
       }
 
-      // Para possibiliar que se selecione apenas um checkbox //
-      function cbChange(obj) {
-        var cbs = document.getElementsByClassName("link-check");
-        for (var i = 0; i < cbs.length; i++) {
-           if(cbs[i] !== obj) cbs[i].checked = false;
-         }
-       }
+      function coletaDadosI(){
+         var ids = document.getElementsByClassName('voluntarioEscolhido');
+         coletaIDsI(ids);         
+      };  
+              
+      function coletaIDsI(dados){
+        var array_dados = dados; 
+        var newArray = [];
+
+        for(var x = 0; x <= array_dados.length; x++){     
+            if(typeof array_dados[x] == 'object'){
+              if(array_dados[x].checked){
+                newArray.push(array_dados[x].id);
+              }          
+            }
+         }   
+
+         if(newArray.length <= 0  || newArray == ''){
+            var vlnt_escolhido = '';
+         } 
+
+         /*
+        // Para dar display no Console em javascript
+        $('document').ready(function() {
+          console.log(newArray, newArray.length);
+        });
+        */
+        
+         if (vlnt_escolhido == '') {
+            swal('', 'Não há voluntário escolhido!', 'warning');
+
+         } else {
+
+            var remetePost = 1;
+
+            for (var p = 0; p < newArray.length; p++) {
+              var vlnt_sn_escolhido = newArray[p];
+              vlnt_sn_escolhido = vlnt_sn_escolhido.split(';');
+              var vlnt_escolhido = vlnt_sn_escolhido[0]
+              var sn_escolhido = vlnt_sn_escolhido[1]
+
+              if (sn_escolhido == 's') {
+                remetePost = 0;
+                break;
+              }
+            }
+
+            if (remetePost == 1) {
+              swal({
+                  title: '',
+                  text: 'Confirma a inclusão da Participação?',
+                  type: 'warning',                  //"warning", "error", "success", "info"
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#D80C1B',
+                  confirmButtonText: 'Sim',
+                  cancelButtonText: 'Não',
+                  closeOnClickOutside: false
+
+                }, function(isConfirm) {
+                  if (isConfirm) {
+                     sendPost('/fAAlterarRTVoluntarioBase', {cd_grp:'<?= $this->view->codGrupo ?>', nm_grp:'<?= $this->view->nomeGrupo ?>', cd_sbgrp:'<?= $this->view->codSubgrupo ?>', nm_sbgrp:'<?= $this->view->nomeSubgrupo ?>', cd_fml:'<?= $this->view->codFamilia ?>', nm_grp_fmlr:'<?= $this->view->nomeFamilia ?>', seql_acomp:'<?= $this->view->seqlAcomp ?>', cb_voluntario_escolhido:newArray, origem:'<?= $this->view->origem ?>', situacao:'inclui', cadastro:'<?= $_POST['cadastro'] ?>'});
+                  }
+              })
+            } else {
+              swal('', 'Há voluntário já Participando escolhido!', 'error');  
+            }
+          }
+      }
 
     </script>
   </body>

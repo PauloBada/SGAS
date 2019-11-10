@@ -110,14 +110,14 @@ class TbItemNecesFml extends Model {
 
 		if (null !== ($this->__get('dt_prev_disponib_item'))) {
 			if (empty($this->__get('dt_prev_disponib_item'))) {
-				$dt_prev_disponib_item = new \DateTime();
+				$dt_prev_disponib_item = new \DateTime('31/12/9998');
 				$dt_prev_disponib_item	= $dt_prev_disponib_item->format("d/m/Y");
 			} else {
 				$dt_prev_disponib_item = $this->__get('dt_prev_disponib_item');
 				$dt_prev_disponib_item = Funcoes::formatarNumeros('data', $dt_prev_disponib_item, 10, "AMD");
 			}
 		} else {
-			$dt_prev_disponib_item = new \DateTime();
+			$dt_prev_disponib_item = new \DateTime('31/12/9998');
 			$dt_prev_disponib_item	= $dt_prev_disponib_item->format("d/m/Y");
 		}
 
@@ -133,14 +133,14 @@ class TbItemNecesFml extends Model {
 
 		if (null !== ($this->__get('dt_disponib_item_entrega'))) {
 			if (empty($this->__get('dt_disponib_item_entrega'))) {
-				$dt_disponib_item_entrega = new \DateTime();
+				$dt_disponib_item_entrega = new \DateTime('31-12-9998');
 				$dt_disponib_item_entrega	= $dt_disponib_item_entrega->format("d/m/Y");
 			} else {
 				$dt_disponib_item_entrega = $this->__get('dt_disponib_item_entrega');
 				$dt_disponib_item_entrega = Funcoes::formatarNumeros('data', $dt_disponib_item_entrega, 10, "AMD");
 			}
 		} else {
-			$dt_disponib_item_entrega = new \DateTime();
+			$dt_disponib_item_entrega = new \DateTime('31-12-9998');
 			$dt_disponib_item_entrega	= $dt_disponib_item_entrega->format("d/m/Y");
 		}
 
@@ -503,7 +503,7 @@ class TbItemNecesFml extends Model {
 
 			$this->__set ('seql_max', $nr_registros_1['qtde']);
 		}
-	}
+	}	// Fim function getProximoSequencial
 
 // ====================================================== //
 
@@ -523,9 +523,1584 @@ class TbItemNecesFml extends Model {
 		$stmt->bindValue('dt_prev_disponib_item', $this->__get('dt_prev_disponib_item'));
 		$stmt->execute();
 
-		return $stmt->fetch(\PDO::FETCH_ASSOC);	
-	}
+		return $this;	
 
+	}	// Fim function deleteItemSubitemNeces
+
+// ====================================================== //
+
+	public function getQtdItemSubitemNecesNaoKH() {
+		$query = "
+				select count(*) as qtde
+				from  tb_item_neces_fml
+				where cd_fmlID                 = :cd_fml
+				and   dt_prev_disponib_item   >= now() 
+				and   cd_situ_item_solicitado  = 1 
+				and   cd_disponib_item         = 1";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getQtdItemSubitemNecesNaoKH
+
+// ====================================================== //
+
+	public function cancelaItemSubitemNecesNaoKH() {
+		$query = "
+				update  tb_item_neces_fml
+				set     cd_situ_item_solicitado = 3
+				where cd_fmlID                 = :cd_fml
+				and   dt_prev_disponib_item   >= now() 
+				and   cd_situ_item_solicitado  = 1 
+				and   cd_disponib_item         = 1";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->execute();
+
+		return $this;	
+
+	}	// Fim function cancelaItemSubitemNecesNaoKH
+
+// ====================================================== //
+
+	public function getDadosNecesEspecifica() {
+		$query = "
+				select *,
+		        case when cd_situ_item_solicitado = 1 THEN 'Pendente'
+					 when cd_situ_item_solicitado = 2 THEN 'Atendido'
+					 when cd_situ_item_solicitado = 3 THEN 'Cancelado/Indisponível'
+				end	as nm_situ_item_solicitado				
+
+				from  tb_item_neces_fml
+				where cd_fmlID          = :cd_fml
+				and   cd_itemID         = :cd_item
+				and   cd_sbitemID       = :cd_sbitem
+				and   seql_item_necesID = :seql_item_neces";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('seql_item_neces', $this->__get('seql_item_neces'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosNecesEspecifica
+
+// ====================================================== //
+
+	public function alteraItemSubitemNecesPV() {
+
+		if (null !== ($this->__get('vlr_neces'))) {
+			if (empty($this->__get('vlr_neces'))) {
+				$vlr_neces = 0;
+			} else {
+				$vlr_neces = str_replace('.','', $this->__get('vlr_neces'));
+				$vlr_neces = str_replace(',','.', $vlr_neces);
+			}
+		} else {
+			$vlr_neces = 0;
+		}
+
+		$query = "
+				update tb_item_neces_fml
+				set obs_sobre_item      = :obs_sobre_item,
+					dsc_item_neces      = :dsc_item_neces,
+					qtd_item_neces      = :qtd_item_neces,
+					vlr_neces           = :vlr_neces,
+					cd_tip_unid_item    = :cd_tip_unid_item,
+					cd_vlnt_resp_cadas  = :cd_vlnt_resp_cadas
+				where cd_fmlID          = :cd_fml
+				and   cd_itemID         = :cd_item
+				and   cd_sbitemID       = :cd_sbitem
+				and   seql_item_necesID = :seql_item_neces";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('seql_item_neces', $this->__get('seql_item_neces'));
+		$stmt->bindValue('obs_sobre_item', $this->__get('obs_sobre_item'));
+		$stmt->bindValue('dsc_item_neces', $this->__get('dsc_item_neces'));
+		$stmt->bindValue('qtd_item_neces', $this->__get('qtd_item_neces'));
+		$stmt->bindValue('vlr_neces', $vlr_neces);
+		$stmt->bindValue('cd_tip_unid_item', $this->__get('cd_tip_unid_item'));
+		$stmt->bindValue('cd_vlnt_resp_cadas', $this->__get('cd_vlnt_resp_cadas'));
+
+		$stmt->execute();
+
+		return $this;
+
+	}	// Fim function alteraItemSubitemNecesPV
+
+// ====================================================== //
+
+	public function excluiLogicamenteItemSubitemNeces() {
+		$query = "
+				update tb_item_neces_fml
+				set    cd_situ_item_solicitado = 3,
+				       cd_disponib_item        = 3,
+					   obs_sobre_item          = :obs_sobre_item,
+					   dsc_item_neces          = :dsc_item_neces,
+					   cd_vlnt_resp_disponib   = :cd_vlnt_resp_disponib
+				where cd_fmlID          = :cd_fml
+				and   cd_itemID         = :cd_item
+				and   cd_sbitemID       = :cd_sbitem
+				and   seql_item_necesID = :seql_item_neces";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('seql_item_neces', $this->__get('seql_item_neces'));
+		$stmt->bindValue('obs_sobre_item', $this->__get('obs_sobre_item'));
+		$stmt->bindValue('dsc_item_neces', $this->__get('dsc_item_neces'));
+		$stmt->bindValue('cd_vlnt_resp_disponib', $this->__get('cd_vlnt_resp_disponib'));
+		$stmt->execute();
+
+		return $this;
+
+	}	// Fim function excluiLogicamenteItemSubitemNeces
+
+// ====================================================== //
+
+	// Somente Grupo para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_01() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_01
+
+// ====================================================== //
+
+	// Somente Grupo e Subgrupo para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_02() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_02
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo e Família para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_03() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and	  a.cd_fmlID                = e.cd_fmlID
+
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_03
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Família e Setor Responsável para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_04() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and   a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_04
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Família, Setor Responsável e Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_05() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and   a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_05
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Família, Setor Responsável, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_06() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and   a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_06
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo e Setor Responsável para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_07() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_07
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Setor Responsável e Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_08() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_08
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Setor Responsável, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_09() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_09
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo e Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_10() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_10
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_11() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_11
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Família, Setor Responsável, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_12() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_12
+
+// ====================================================== //
+
+	// Somente Grupo, Subgrupo, Família, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_13() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = :cd_fml
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_sbgrpID              = :cd_sbgrp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_13
+
+
+// ====================================================== //
+
+	// Somente Grupo e Setor Responsável para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_14() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_14
+
+// ====================================================== //
+
+	// Somente Grupo, Setor Responsável e Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_15() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_15
+
+// ====================================================== //
+
+	// Somente Grupo, Setor Responsável, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_16() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_setor_resp           = :cd_setor_resp
+				and	  a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_setor_resp', $this->__get('cd_setor_resp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_16
+
+// ====================================================== //
+
+	// Somente Grupo e Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_17() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_17
+
+// ====================================================== //
+
+	// Somente Grupo, Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_18() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_grpID                = :cd_grp
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_18
+
+// ====================================================== //
+
+	// Somente Item para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_19() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml,
+						f.cd_grpID as cd_grp,
+						f.nm_grp as nm_grp
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_19
+
+// ====================================================== //
+
+	// Somente Item e Subitem para Pesquisar Item Necessidade da Família
+	public function getDadosPesquisaOpcao_20() {
+		$query = "
+				select 	b.cd_fmlID, 
+						a.cd_itemID, 
+						a.cd_sbitemID, 
+				        a.seql_item_necesID,
+				        a.cd_setor_resp, 
+				        case when a.cd_setor_resp = 1 THEN 'Almoxarifado'
+							 when a.cd_setor_resp = 2 THEN 'Grupo de Família'
+							 when a.cd_setor_resp = 3 THEN 'Setor Orientação Profissional'
+							 when a.cd_setor_resp = 4 THEN 'Biblioteca Canguru'
+							 when a.cd_setor_resp = 5 THEN 'Biblioteca Canguru - Contadores de História'                              
+							 when a.cd_setor_resp = 6 THEN 'Grupo de Desobesessão Auta de Souza'                              
+							 when a.cd_setor_resp = 7 THEN 'Implantação do Evenagelho no Lar'
+							 when a.cd_setor_resp = 8 THEN 'Parcerias Médicas'
+							 when a.cd_setor_resp = 9 THEN 'Grupo de Apoio/Atendimento sede Comunhão'
+							 when a.cd_setor_resp = 10 THEN 'Direção Comunhão'                              
+						end	as nm_setor_resp,        
+						b.nm_grp_fmlr as nm_grp_fmlr,         
+				        c.nm_item as nm_item,      
+				        d.nm_sbitem as nm_sbitem, 
+				        g.nm_sbgrp as nm_sbgrp,
+				        DATE_FORMAT(a.dt_prev_disponib_item, '%d/%m/%Y') as dt_prev_disponib_item,
+				        a.cd_tip_evt_neces as cd_tip_evt_neces,
+				        case when a.cd_tip_evt_neces = 1 THEN 'Próxima Vista'
+							 when a.cd_tip_evt_neces = 2 THEN 'Quando disponível'
+						end	as nm_tip_evt_neces,
+                        g.cd_sbgrpID as cd_sbgrp,
+				        case when b.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (Início/Término)'
+							 when b.cd_est_situ_fml = 3 THEN 'Em Atendimento'
+							 when b.cd_est_situ_fml = 4 THEN 'Atendimento Encerrado'
+						end	as nm_est_situ_fml,
+						b.cd_est_situ_fml,
+						f.cd_grpID as cd_grp,
+						f.nm_grp as nm_grp
+				from tb_item_neces_fml a,
+					 tb_fml b, 
+				     tb_item_suprimt c,
+				     tb_sbitem_suprimt d,
+				     tb_vncl_fml_sbgrp e,
+				     tb_grp f,
+				     tb_sbgrp g
+				where a.cd_fmlID                = e.cd_fmlID
+				and   e.cd_est_vncl             = 1
+				and   e.cd_grpID                = f.cd_grpID
+				and   e.cd_grpID                = g.cd_grpID
+				and   e.cd_sbgrpID              = g.cd_sbgrpID
+				and   a.cd_fmlID                = b.cd_fmlID                    
+				and   a.cd_itemID               = :cd_item
+				and   a.cd_sbitemID             = :cd_sbitem
+				and   a.cd_itemID               = c.cd_itemID
+				and   a.cd_itemID               = d.cd_itemID
+				and   a.cd_sbitemID             = d.cd_sbitemID                    
+				and   b.cd_est_situ_fml         in (2, 3, 4)
+				and   a.cd_situ_item_solicitado = :cd_situ_item_solicitado
+				and   a.cd_disponib_item        = :cd_disponib_item
+				order by b.nm_grp_fmlr, a.dt_prev_disponib_item, a.cd_itemID, a.cd_sbitemID";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->bindValue('cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->bindValue('cd_situ_item_solicitado', $this->__get('cd_situ_item_solicitado'));
+		$stmt->bindValue('cd_disponib_item', $this->__get('cd_disponib_item'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosPesquisaOpcao_20
 
 
 }	// Fim da Classe

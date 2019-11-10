@@ -2,7 +2,8 @@
 	"name": "miniframework",
 	"require": {
 		"php": ">= 7.0",
-		"phpmailer/phpmailer": "^6.0"
+		"phpmailer/phpmailer": "^6.0",
+		"tecnickcom/tcpdf": "^6.3"
 	},
 	"authors": [
 		{

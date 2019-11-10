@@ -41,31 +41,31 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Nome Fórum</label>  
                 <div class="col-md-6">
-                  <input id="nomeforum" name="nomeforum" placeholder="Nome cadastrado no fórum" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['nomeforum'] ?>" disabled="">
+                  <input id="nomeforum" name="nomeforum" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['nomeforum'] ?>" disabled="">
                 </div>
               </div>
                   
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Nr. Sócio Comunhão</label>  
                 <div class="col-lg-2">
-                  <input id="nrsocio" name="nrsocio" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" pattern="[0-9]+$" value="<?= $this->view->voluntario['nrsocio'] ?>" disabled="">
+                  <input id="nrsocio" name="nrsocio" class="form-control input-md" type="text" maxlength="11" pattern="[0-9]+$" value="<?= $this->view->voluntario['nrsocio'] ?>" disabled="">
                 </div>
 
                 <label class="col-md-2 control-label" for="Nome">Nr. Identidade</label>  
                 <div class="col-lg-2">
-                  <input id="nridentidade" name="nridentidade" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" pattern="[0-9]+$" value="<?= $this->view->voluntario['nridentidade'] ?>" disabled="">
+                  <input id="nridentidade" name="nridentidade" class="form-control input-md" type="text" maxlength="15" pattern="[0-9]+$" value="<?= $this->view->voluntario['nridentidade'] ?>" disabled="">
                 </div>
               </div>
                 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">CPF</label>  
                 <div class="col-lg-2">
-                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" disabled="" value=<?= $this->view->voluntario['cpf'] ?>>
+                  <input id="cpf" name="cpf" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" disabled="" value=<?= $this->view->voluntario['cpf'] ?>>
                 </div>
                 
-                <label class="col-md-1 control-label" for="Nome">Nascimento</label>  
+                <label class="col-md-2 control-label" for="Nome">Nascimento</label>  
                 <div class="col-lg-2">
-                  <input id="dtnasc" name="dtnasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" disabled="" value=<?= $this->view->voluntario['dtnasc'] ?>>
+                  <input id="dtnasc" name="dtnasc" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" disabled="" value=<?= $this->view->voluntario['dtnasc'] ?>>
                 </div>
               </div>
 
@@ -73,7 +73,7 @@
                 <label class="col-md-2 control-label" for="prependedtext">Naturalidade</label>
                 <div class="col-lg-2">
                   <div class="input-group">     
-                  <input id="naturalidade" name="naturalidade" class="form-control" placeholder="Cidade de Nascimento" type="text" maxlength="20" value="<?= $this->view->voluntario['naturalidade'] ?>" disabled="">
+                  <input id="naturalidade" name="naturalidade" class="form-control" type="text" maxlength="20" value="<?= $this->view->voluntario['naturalidade'] ?>" disabled="">
                   </div>
                 </div> 
 
@@ -135,7 +135,7 @@
                 <div class="col-lg-3">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                    <input id="fonecomercial" name="fonecomercial" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15" onkeypress="$(this).mask('(00) 0000-0009')" disabled="" value="<?= $this->view->voluntario['fonecomercial'] ?>">
+                    <input id="fonecomercial" name="fonecomercial" class="form-control" type="text" maxlength="15" onkeypress="$(this).mask('(00) 0000-0009')" disabled="" value="<?= $this->view->voluntario['fonecomercial'] ?>">
                   </div>
                 </div>
                 
@@ -143,7 +143,7 @@
                 <div class="col-lg-3">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                    <input id="foneresidencial" name="foneresidencial" class="form-control" placeholder="(99) 9999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 0000-0009')" disabled="" value="<?= $this->view->voluntario['foneresidencial'] ?>">
+                    <input id="foneresidencial" name="foneresidencial" class="form-control" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 0000-0009')" disabled="" value="<?= $this->view->voluntario['foneresidencial'] ?>">
                   </div>
                 </div>
               </div>
@@ -153,7 +153,7 @@
                 <div class="col-lg-3">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                    <input id="celular" name="celular" class="form-control" disabled="" placeholder="(99) 99999-9999" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 00000-0009')" value="<?= $this->view->voluntario['celular'] ?>">
+                    <input id="celular" name="celular" class="form-control" disabled="" type="text" maxlength="15"  onkeypress="$(this).mask('(00) 00000-0009')" value="<?= $this->view->voluntario['celular'] ?>">
                   </div>
                 </div>
               </div> 
@@ -171,14 +171,14 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="CEP">CEP</label>
                 <div class="col-lg-2">
-                  <input id="cep" name="cep" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="8" minlength="8" onkeypress="$(this).mask('00.000-000')" disabled="" value="<?= $this->view->voluntario['cep'] ?>">
+                  <input id="cep" name="cep" class="form-control input-md" type="text" maxlength="8" minlength="8" onkeypress="$(this).mask('00.000-000')" disabled="" value="<?= $this->view->voluntario['cep'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="CEP">Endereço</label>
                 <div class="col-lg-4">
-                  <input id="endereco" name="endereco" disabled="" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['endereco'] ?>">
+                  <input id="endereco" name="endereco" disabled="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['endereco'] ?>">
                 </div>
 
                 <label class="col-md-2 control-label" for="RA">Região Administrativa</label>
@@ -243,7 +243,7 @@
                 <label class="col-md-2 control-label" for="prependedtext">Descrição Fase ESDE</label>
                 <div class="col-lg-3">
                   <div class="input-group">     
-                    <input id="descfaseesde" name="descfaseesde" class="form-control" placeholder="Descreva a fase em que está" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['descfaseesde'] ?>">
+                    <input id="descfaseesde" name="descfaseesde" class="form-control" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['descfaseesde'] ?>">
                   </div>
                 </div>
               </div>
@@ -251,57 +251,67 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Dia Semana para Atuação</label>  
                 <div class="col-lg-2">
-                  <input id="diasemana" name="diasemana" disabled="" placeholder="" class="form-control input-md" type="text" maxlength="15" value="<?= $this->view->voluntario['diasemana'] ?>" >
+                  <input id="diasemana" name="diasemana" disabled="" class="form-control input-md" type="text" maxlength="15" value="<?= $this->view->voluntario['diasemana'] ?>" >
                 </div>
 
                 <label class="col-md-2 control-label" for="Nome">Horário de Atuação</label>  
                 <div class="col-lg-2">
-                  <input id="horario" name="horario" disabled="" placeholder="" class="form-control input-md" type="text" maxlength="20" value="<?= $this->view->voluntario['horario'] ?>">
+                  <input id="horario" name="horario" disabled="" class="form-control input-md" type="text" maxlength="20" value="<?= $this->view->voluntario['horario'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Outra Atividade Voluntariado</label>  
                 <div class="col-lg-6">
-                  <input id="outraatividade" name="outraatividade" disabled="" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['outraatividade'] ?>">
+                  <input id="outraatividade" name="outraatividade" disabled="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['outraatividade'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Conhecimentos Específicos</label>  
                 <div class="col-lg-6">
-                  <input id="conhecimentoespecifico" name="conhecimentoespecifico" placeholder="" class="form-control input-md" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['conhecimentoespecifico'] ?>">
+                  <input id="conhecimentoespecifico" name="conhecimentoespecifico" class="form-control input-md" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['conhecimentoespecifico'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Atividade de Preferência voluntariado</label>  
                 <div class="col-md-6">
-                  <input id="atividadepreferencia" name="atividadepreferencia" placeholder="" class="form-control input-md" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['atividadepreferencia'] ?>">
+                  <input id="atividadepreferencia" name="atividadepreferencia" class="form-control input-md" type="text" maxlength="100" disabled="" value="<?= $this->view->voluntario['atividadepreferencia'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Habilidades</label>  
                 <div class="col-md-9">
-                  <input id="habilidades" name="habilidades" disabled="" placeholder="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['habilidades'] ?>">
+                  <input id="habilidades" name="habilidades" disabled="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->voluntario['habilidades'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Nome">Observação</label>  
                 <div class="col-md-9">
-                  <input id="observacao" name="observacao" disabled="" splaceholder="" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->voluntario['observacao'] ?>">
+                  <input id="observacao" name="observacao" disabled="" class="form-control input-md" type="text" maxlength="200" value="<?= $this->view->voluntario['observacao'] ?>">
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Cadastrar"></label>
                 <div class="col-md-8">
-                  <a href="/voluntarioConsultar" class="btn btn-success">Retorna</a>
+                 
+                  <?php if ($this->view->voluntario['rotaV'] == 'cv') { ?>
+                    <!--Retorna para consulta normal de Voluntário na Aba Voluntário -->
+                    <a href="/voluntarioConsultar" class="btn btn-success">Retorna</a>
+                  
+                  <?php } else { ?>  <!-- 'cvvgs' -->
+                    <!--Retorna para consulta de Vínculo Voluntário com Grupo e Subgrupo -->
+                    <a class="btn btn-success" href="#" onclick="sendPost('/subgrupoConsultarVinculoVoluntarioMenu', {dt_inc:'<?= $_POST['dt_inc'] ?>', dt_fim:'<?= $_POST['dt_fim'] ?>', cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>'});">Retorna</a>
+
+                  <?php } ?>
+              
                 </div>
               </div>
-      
+
             </div>
           </div>
         </form>
@@ -313,5 +323,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
   </body>
 </html>

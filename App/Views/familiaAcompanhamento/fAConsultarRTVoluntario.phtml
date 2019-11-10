@@ -72,7 +72,7 @@
                   <a class="btn btn-success" href="#" onclick="sendPost('/fAConsultarRTMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>', seql_acomp:'<?= $this->view->seqlAcomp ?>'});">Retorna
                   </a>
 
-                <?php } else { ?>
+                <?php } else { ?> <!-- 'conclusaoRevisao' -->
                   <a class="btn btn-success" href="#" onclick="sendPost('/fARevisarRTMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', cb_familia_escolhida:'<?= $this->view->codFamilia ?>'});">Retorna
                   </a>
                 <?php } ?>

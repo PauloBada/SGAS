@@ -14,7 +14,7 @@
       <div class="container">
        <form class="form-horizontal" action="" method="post" id="FormTabela">
         <div class="panel panel-primary">
-          <div class="panel-heading"><h4>Conclusão de Relatório Visita</h4></div>
+          <div class="panel-heading"><h4>Relatório Visita</h4></div>
           <div class="panel-body">
             <div class="col-md-12 d-flex">
               <ul class="list-group">
@@ -22,7 +22,7 @@
               </ul>
 
               <ul class="list-group">
-                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
+                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
               </ul>
             </div>
 
@@ -33,7 +33,7 @@
                   <!-- Nome das Colunas -->
                   <th scope="col">Código Família</th>
                   <th scope="col">Nome Família</th>
-                  <th scope="col">Data Triagem</th>
+                  <th scope="col">Data Visita</th>
                   <th scope="col">Situação Família</th>
                   <th scope="col">Selecione para concluir Relatório</th>
                 </tr>
@@ -52,7 +52,7 @@
                         <td><?php echo $familia['cd_est_situ_fml']; ?></td>
 
                         <!-- Checkbox para assinalar a Família a ter relatório preenchido -->
-                        <td class="text-center"><input class="familiaEscolhida link-check" type="checkbox" id='<?= $familia['cd_fml'] ?>' value="01" onchange="cbChange(this)"></td>
+                        <td class="text-center"><input class="familiaEscolhida link-check" type="checkbox" id='<?= $familia['cadastro'] ?>' value="01" onchange="cbChange(this)"></td>
                       </tr>
                     <?php } ?>  
                 </tbody>
@@ -70,7 +70,6 @@
 
           </div>
         </div>
-
        </form>
         
         <div class="col infoErro text-center" >
@@ -87,9 +86,22 @@
             <small class="form-text text-danger">Relatório Atualizado com Sucesso!</small>
             <small class="form-text text-danger"><?php echo ' Família '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
 
-          <?php } else if ($this->view->erroValidacao == 4) { ?>
-            <small class="form-text text-danger">Relatório Concluído com Sucesso! <?php echo ' '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
 
+          <?php } else if ($this->view->erroValidacao == 4) { ?>
+            <small class="form-text text-danger">Relatório Concluído com Sucesso!</small>
+            <small class="form-text text-danger"><?php echo ' '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
+
+<!-- Passaram para fAConcluirRVMenu       
+          ?php } else if ($this->view->erroValidacao == 5) { ?>
+            <small class="form-text text-danger">Erro: Conclusão da Revisão Não Efetivada!</small>
+            <small class="form-text text-danger">Relatório Deve ser Atualizado ANTES de Concluída a Revisão!</small>
+            <small class="form-text text-danger">?php echo ' Família '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
+
+          ?php } else if ($this->view->erroValidacao == 6) { ?>
+            <small class="form-text text-danger">Erro: Conclusão da Revisão Não Efetivada!</small>
+            <small class="form-text text-danger">Relatório Deve ter pelo menos um Voluntário Cadastrado!</small>
+            <small class="form-text text-danger">?php echo ' Família '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
+-->
 
           <?php } ?>
         </div>
@@ -119,14 +131,18 @@
 
          if(newArray.length <= 0 || newArray == ''){
             var fml_escolhida = '';
-         }else{
-            var fml_escolhida = newArray[0];
+         } else {
+            // Como foi pego cadastro, está "cd_fml;s" ou "cd_fml;n"
+            var fml_escolhida_c = newArray[0];
+            fml_escolhida_c = fml_escolhida_c.split(';');
+            var fml_escolhida = fml_escolhida_c[0];
+            var cadastrado = fml_escolhida_c[1];
          }
 
          if (fml_escolhida == '') {
             swal('', 'Não há família escolhida!', 'warning');
          } else {
-           sendPost('/fAConcluirRVMenu', {cb_grupo_escolhido:'<?= $familia['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $familia['cd_sbgrp'] ?>', cb_familia_escolhida:fml_escolhida, nome_grupo:'<?= $this->view->nomeGrupo ?>', nome_subgrupo:'<?= $this->view->nomeGrupo ?>', origem:"concluirRelatorio"});
+           sendPost('/fAConcluirRVMenu', {cb_grupo_escolhido:'<?= $familia['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $familia['cd_sbgrp'] ?>', cb_familia_escolhida:fml_escolhida, nome_grupo:'<?= $this->view->nomeGrupo ?>', nome_subgrupo:'<?= $this->view->nomeSubgrupo ?>', origem:"concluirRelatorio", cadastro:cadastrado});
          }
       };
 

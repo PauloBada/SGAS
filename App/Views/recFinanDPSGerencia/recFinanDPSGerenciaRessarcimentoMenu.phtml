@@ -1,0 +1,209 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 07/11/2019
+      Objetivo:  Menu de Inclusão de dados Ressarcimento de Pedidos de Recursos Financeiros
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera" enctype="multipart/form-data">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Recurso Financeiro - Ressarcimento</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="col-md-12 control-label text-center">
+                <?php if ($this->view->erroValidacao == 3) { ?>
+                  <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Inclusão da Solicitação de Ressarcimento realizada com sucesso!</small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao == 4) { ?>
+                  <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Atualização da Solicitação de Ressarcimento realizada com sucesso!</small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao == 5) { ?>
+                  <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Cancelamento de Solicitação de Ressarcimento realizada com sucesso!</small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao >= 11 && $this->view->erroValidacao <= 14) { ?>
+                  <small class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: <?php echo ' '.$this->view->msg ?></small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao == 0) { ?>
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } ?>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_grupo_escolhido", devido ao $_POST no retorno deste programa-->  
+                  <input id="cd_grp" name="cb_grupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->ressarcimentoRecFinan['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nome_grupo" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->ressarcimentoRecFinan['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_subgrupo_escolhido", devido ao $_POST no retorno deste programa-->                    
+                  <input id="cd_sbgrp" name="cb_subgrupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->ressarcimentoRecFinan['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nome_subgrupo" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->ressarcimentoRecFinan['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="seql_pedido_finan">Sequencial Solicitação</label>  
+                <div class="col-lg-1">
+                  <input id="seql_pedido_finan" name="seql_pedido_finan" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->ressarcimentoRecFinan['seql_pedido_finan'] ?>">
+                </div>
+              </div>
+
+              <?php if ($this->view->ressarcimentoRecFinan['origem'] == 'gerenciamento') { ?>
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="seql_ressar_pedido_finan">Sequencial Ressarcimento</label>  
+                  <div class="col-lg-1">
+                    <input id="seql_ressar_pedido_finan" name="seql_ressar_pedido_finan" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->ressarcimentoRecFinan['seql_ressar_pedido_finan'] ?>">
+                  </div>
+                </div>
+              <?php } ?>  
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="vlr_doc_ressar">Valor Ressarcimento (R$)</label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" name="vlr_doc_ressar" value="<?= $this->view->ressarcimentoRecFinan['vlr_doc_ressar'] ?>"maxlength="17" class="dinheiro form-control" readonly="" style="display:inline-block" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dt_doc_ressar">Data Documento<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="dt_doc_ressar" name="dt_doc_ressar" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->ressarcimentoRecFinan['dt_doc_ressar'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+
+                <label class="col-md-2 control-label" for="cd_tip_doc_ressar">Tipo Documento<h11>*</h11></label>
+                <div class="col-lg-2">
+                  <select id="cd_tip_doc_ressar" name="cd_tip_doc_ressar" class="form-control">
+                    
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected('1', $this->view->ressarcimentoRecFinan['cd_tip_doc_ressar']); ?>>Nota Fiscal</option>
+                    <option value="2"<?php echo selected('2', $this->view->ressarcimentoRecFinan['cd_tip_doc_ressar']); ?>>Recibo</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">                    
+                <label class="col-md-2 control-label" for="bco_cred_ressar">Banco p/Crédito<h11>*</h11></label>  
+                <div class="col-lg-1">
+                  <input id="1" name="bco_cred_ressar" autofocus="" placeholder="nr. bco" class="form-control input-md" type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->ressarcimentoRecFinan['bco_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+              
+              <div class="form-group">                    
+                <label class="col-md-2 control-label" for="ag_cred_ressar">Agência p/Crédito<h11>*</h11></label>  
+                <div class="col-lg-1">
+                  <input id="2" name="ag_cred_ressar" placeholder="nr. ag." class="form-control input-md" type="text" maxlength="4" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->ressarcimentoRecFinan['ag_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">                    
+                <label class="col-md-2 control-label" for="cta_cred_ressar">Conta p/Crédito<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="3" name="cta_cred_ressar" placeholder="nr. cta" class="form-control input-md" type="text" maxlength="15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->ressarcimentoRecFinan['cta_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+
+                <label class="col-md-1 control-label" for="cta_cred_ressar">DV<h11>*</h11></label>  
+                <div class="col-lg-1">
+                  <input id="4" name="dig_verifica_cta_cred_ressar" placeholder="nr." class="form-control input-md" type="text" maxlength="1" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->ressarcimentoRecFinan['dig_verifica_cta_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cpf_cred_ressar">CPF p/Crédito<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="cpf_cred_ressar" name="cpf_cred_ressar" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value="<?= $this->view->ressarcimentoRecFinan['cpf_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              
+                <label class="col-md-2 control-label" for="cnpj_cred_ressar">CNPJ p/Crédito<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="cnpj_cred_ressar" name="cnpj_cred_ressar" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="14" onkeypress="$(this).mask('00.000.000/0000-00');" value="<?= $this->view->ressarcimentoRecFinan['cnpj_cred_ressar'] ?>" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+             
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="btnIncluir"></label>
+                <div class="col-md-8">
+
+                  <?php if ($this->view->ressarcimentoRecFinan['origem'] == 'inclusao' || $this->view->ressarcimentoRecFinan['origem'] == 'gerenciamento') { ?>
+                    <a href="#" onclick="sendPost('/recFinanDPSGerenciaRessarcimento', {cb_grupo_escolhido:'<?= $this->view->ressarcimentoRecFinan['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->ressarcimentoRecFinan['cd_sbgrp'] ?>'});" class="btn btn-success">Retorna</a>                  
+                  <?php } ?>                    
+
+                  <?php if ($this->view->ressarcimentoRecFinan['origem'] == 'inclusao') { ?>
+                    <button class="btn btn-primary" type="button" id="btnIncluir">Incluir Solicitação</button>
+                  <?php } ?>  
+
+                  <?php if ($this->view->ressarcimentoRecFinan['origem'] == 'gerenciamento') { ?>
+                    <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar Solicitação</button>
+
+                    <button class="btn btn-danger" type="button" id="btnCancelar">Cancelar Solicitação</button>
+
+                    <button class="btn btn-primary" type="button" id="btnConcluir">Marcar como Enviada para DAF</button>
+                  <?php } ?>  
+                </div>
+              </div>
+
+              <!-- Hidden, para repassar vis $_POST para inclusão ou alteração na base -->
+              <div class="form-group">
+                <input id="origem" name="origem" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->ressarcimentoRecFinan['origem'] ?>" disabled="" hidden>
+                <input type="hidden" name="origem" value=<?= $this->view->ressarcimentoRecFinan['origem'] ?>> 
+              </div>
+     
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+    
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    
+    <!-- script src="alertaConfirmaIncluiAlteraConcluiRecFinan.js"></script>-->
+    <script src="alertaConfirmaIncAltConcluRessarRecFinan.js"></script>
+    
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

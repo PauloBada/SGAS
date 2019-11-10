@@ -417,6 +417,7 @@ class TbAcompFml extends Model {
 				select max(seql_acompID) as seql_max
 				from  tb_acomp_fml
 				where cd_fmlID    = :cd_fml";
+
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue(':cd_fml', $this->__get('cd_fml'));
 		$stmt->execute();
@@ -896,6 +897,73 @@ class TbAcompFml extends Model {
 		$stmt->execute();
 
 		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+	}
+
+// =================================================== //
+
+	public function updateRTAtualiza_D() {
+
+		if (null !== ($this->__get('dsc_mtv_cd_avalia_triagem'))) {
+			if (empty($this->__get('dsc_mtv_cd_avalia_triagem'))) {
+				$dsc_mtv_cd_avalia_triagem = null;
+			} else {
+				$dsc_mtv_cd_avalia_triagem = $this->__get('dsc_mtv_cd_avalia_triagem');
+			}
+		} else {
+			$dsc_mtv_cd_avalia_triagem = null;
+		}
+
+		if (null !== ($this->__get('cd_fml_subs_triagem'))) {
+			if (empty($this->__get('cd_fml_subs_triagem'))) {
+				$cd_fml_subs_triagem = 0;
+			} else {
+				$cd_fml_subs_triagem = $this->__get('cd_fml_subs_triagem');
+			}
+		} else {
+			$cd_fml_subs_triagem = 0;
+		}
+
+		$query = "
+				update tb_acomp_fml
+				set  dt_acomp                  = str_to_date(:dt_acomp, '%d/%m/%Y'),
+					 cd_est_acomp              = :cd_est_acomp,
+					 cd_avalia_triagem         = :cd_avalia_triagem,
+					 dsc_mtv_cd_avalia_triagem = :dsc_mtv_cd_avalia_triagem,
+					 cd_fml_subs_triagem       = :cd_fml_subs_triagem,
+					 dsc_consid_finais_triagem = :dsc_consid_finais_triagem,
+				     ts_est_acomp              = CURRENT_TIMESTAMP
+				where cd_fmlID     = :cd_fml
+				and   seql_acompID = :seql_acomp";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('seql_acomp', $this->__get('seql_acomp'));
+		$stmt->bindValue('dt_acomp', $this->__get('dt_acomp'));
+		$stmt->bindValue('cd_est_acomp', $this->__get('cd_est_acomp'));
+		$stmt->bindValue('cd_avalia_triagem', $this->__get('cd_avalia_triagem'));
+		$stmt->bindValue('dsc_mtv_cd_avalia_triagem', $dsc_mtv_cd_avalia_triagem);
+		$stmt->bindValue('cd_fml_subs_triagem', $cd_fml_subs_triagem);
+		$stmt->bindValue('dsc_consid_finais_triagem', $this->__get('dsc_consid_finais_triagem'));
+		$stmt->execute();
+
+		return $this;
+	}
+
+// =================================================== //
+
+	public function getAtvdAcomp() {
+		$query = "
+				select cd_atvd_acomp,
+	 				   cd_est_acomp
+				from  tb_acomp_fml
+				where cd_fmlID     = :cd_fml
+				and   seql_acompID = :seql_acomp";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		$stmt->bindValue('seql_acomp', $this->__get('seql_acomp'));
+		$stmt->execute();
+		
+		return $stmt->fetch(\PDO::FETCH_ASSOC);		
+
 	}
 
 

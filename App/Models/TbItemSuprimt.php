@@ -159,5 +159,23 @@ class TbItemSuprimt extends Model {
 
 	}	//	Fim function getDadosItemAll3
 
+// =================================================== //
+
+	public function getDadosItemEspecifico() {
+		$query = "
+				select 	nm_item as nome_item,
+						cd_tip_evt_suprimt as cd_evento
+					from tb_item_suprimt
+					where cd_itemID = :cd_item";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_item', $this->__get('cd_item'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	//	Fim function getDadosItemEspecifico
+
+
+
 } 	// FIm da classe
 ?>

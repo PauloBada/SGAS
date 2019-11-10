@@ -22,6 +22,28 @@
               </div>
 
               <div class="form-group">
+                <label class="col-md-2 control-label" for="voluntario_escolhido">Voluntário<h11>*</h11></label>  
+                <div class="col-md-4">
+                  <select required id="voluntario_escolhido" name="voluntario_escolhido" class="form-control">
+
+                    <?php function selected( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <!-- Para simular "placeholder" no combobox -->
+                    <option value="">Escolha Voluntário</option> 
+
+                    <?php foreach ($this->view->voluntarios as $indice => $volunt) { ?>
+                      <?php if ($volunt['vinculo'] === 'com subgrupo') { ?>
+                        <option value="<?= $volunt['cd_vlnt'] ?>"<?php echo selected($volunt['cd_vlnt'], $this->view->vinculo['voluntario_escolhido']); ?>><?= $volunt['nm_vlnt'] ?></option>
+                      <?php } else { ?>
+                        <option style="color: red" value="<?= $volunt['cd_vlnt'] ?>"<?php echo selected($volunt['cd_vlnt'], $this->view->vinculo['voluntario_escolhido']); ?>><?= $volunt['nm_vlnt'] ?></option>
+                      <?php } ?>                                                  
+                    <?php } ?>  
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-group">
                 <label class="col-md-2 control-label" for="cb_grupo_escolhido">Grupo<h11>*</h11></label>  
                 <div class="col-md-4">
                   <select required id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control">
@@ -35,28 +57,6 @@
                 <div class="col-md-4">
                   <select id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control">
                     <option value="">Escolha Subgrupo</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="col-md-2 control-label" for="voluntario_escolhido">Voluntário<h11>*</h11></label>  
-                <div class="col-md-4">
-                  <select required id="voluntario_escolhido" name="voluntario_escolhido" class="form-control">
-
-                    <?php function selected( $value, $selected ) {
-                        return $value==$selected ? ' selected="selected"' : ''; } ?>
-
-                    <!-- Para simular "placeholder" no combobox -->
-                    <option value="">Escolha Voluntário</option> 
-
-                    <?php foreach ($this->view->voluntarios as $indice => $volunt) { ?>
-                      <?php if ($indice == 0) { ?>
-                        <option value="<?= $volunt['cd_vlntID'] ?>"<?php echo selected($volunt['cd_vlntID'], $this->view->vinculo['voluntario_escolhido']); ?>><?= $volunt['nm_vlnt'] ?></option>
-                      <?php } else { ?>
-                        <option value="<?= $volunt['cd_vlntID'] ?>"<?php echo selected($volunt['cd_vlntID'], $this->view->vinculo['voluntario_escolhido']); ?>><?= $volunt['nm_vlnt'] ?></option>
-                      <?php } ?>                                                  
-                    <?php } ?>  
                   </select>
                 </div>
               </div>
@@ -83,11 +83,10 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Vincular"></label>
                 <div class="col-md-8">
-                  <!--<button class="btn btn-primary" id="btnBuscar" type="Submit" disabled="">Vincular</button>-->
-                  <button class="btn btn-primary" id="btnBuscar" type="button" disabled="">Vincular</button>
+                  <a href="/grupoSubgrupo" class="btn btn-success" >Retorna</a>
 
-                  <a href="/voluntario" class="btn btn-success" >Retorna</a>
-                  
+                  <button class="btn btn-primary" id="btnBuscar" type="button" disabled="">Vincular</button>
+                 
                   <a class="btn" id="btnGrupo"></a>
                 </div>
               </div>

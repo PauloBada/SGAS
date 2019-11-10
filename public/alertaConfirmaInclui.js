@@ -36,6 +36,23 @@ $("#btnIncluir").click(function(){
     document.getElementById(registro).style.borderColor = "#ff0000";
 
   } else {
+
+    var cpf = document.getElementById('cpf').value;
+
+    if (cpf != '') {
+      valida_cpf = validaCPF(cpf);
+
+      if (valida_cpf != 0) {
+       swal('', 'CPF inválido!', 'warning');
+       document.getElementById('cpf_cred_ressar').focus(); 
+       document.getElementById('cpf_cred_ressar').style.borderColor = "#ff0000";
+      
+      } else {
+        enviaAlert();     
+      }
+    }
+
+
     // Testar se data é válida //
     try {
       if (document.getElementById('dataFormulario').value != '') {
@@ -108,6 +125,10 @@ $("#btnIncluir").click(function(){
         enviaAlert();
       }
     }
+
+
+
+
   }
 }); 
 

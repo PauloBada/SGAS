@@ -23,30 +23,30 @@
 
               <div class="col-md-12 control-label text-center" >
                 <?php if ($this->view->erroValidacao == 1) { ?>
-                  <p class="form-text text-danger">Inclusão realizada com sucesso!
+                  <p class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Inclusão realizada com sucesso!
                   <?php echo ' [Item: '.$this->view->codItem. ' - '.$this->view->nomeItem.' || ' ?>
                   <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
 
                 <?php } else if ($this->view->erroValidacao == 2) { ?>
-                  <p class="form-text text-danger">Erro: Item e Subitem precisam ser escolhidos!</p>
+                  <p class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: Item e Subitem precisam ser escolhidos!</p>
 
                 <?php } else if ($this->view->erroValidacao == 3) { ?>
-                  <p class="form-text text-danger">Erro: Item e Subitem Já cadastrados!
+                  <p class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: Item e Subitem Já cadastrados!
                   <?php echo ' [Item: '.$this->view->codItem. ' - '.$this->view->nomeItem.' || ' ?>
                   <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
 
                 <?php } else if ($this->view->erroValidacao == 4) { ?>
-                  <p class="form-text text-danger">Erro: Data Menor que Data Atual!
+                  <p class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: Data Menor que Data Atual!
                   <?php echo ' [Item: '.$this->view->codItem. ' - '.$this->view->nomeItem.' || ' ?>
                   <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
 
                 <?php } else if ($this->view->erroValidacao == 5) { ?>
-                  <p class="form-text text-danger">Erro: Valor tem que ser maior que Zero!
+                  <p class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: Valor tem que ser maior que Zero!
                   <?php echo ' [Item: '.$this->view->codItem. ' - '.$this->view->nomeItem.' || ' ?>
                   <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
 
                 <?php } else if ($this->view->erroValidacao == 6) { ?>
-                  <p class="form-text text-danger">Erro: Descrição do item sem preenchimento!
+                  <p class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: Descrição do item sem preenchimento!
                   <?php echo ' [Item: '.$this->view->codItem. ' - '.$this->view->nomeItem.' || ' ?>
                   <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
 
@@ -304,9 +304,9 @@
               <div class="form-group">
                 <label class="col-md-3 control-label" for="Cadastrar"></label>
                 <div class="col-md-8">
-                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
-                 
                   <a href="#" onclick="sendPost('/fNIncluirNeces', {cb_grupo_escolhido:'<?= $this->view->dadosNecessidade['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->dadosNecessidade['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $this->view->dadosNecessidade['cd_fml'] ?>', cd_tip_evt_neces:'<?= $this->view->dadosNecessidade['cd_tip_evt_neces'] ?>'});" class="btn btn-success">Retorna</a>
+
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
 
                   <a class="btn" id="btnOculto"></a>    
                 </div>              

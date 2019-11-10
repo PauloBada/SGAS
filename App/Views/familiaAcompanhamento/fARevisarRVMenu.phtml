@@ -21,6 +21,16 @@
                 <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
               </div>
 
+              <div class="col-md-12 control-label text-center">
+                <?php if ($this->view->erroValidacao == 4) { ?>
+                  <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Atualização da Revisão realizada com sucesso!</small>
+
+                <?php } else if ($this->view->erroValidacao == 0) { ?>
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } ?>
+              </div>
+
               <div class="form-group">
                 <label class="col-md-3 control-label" for="cd_grp">Grupo</label>  
                 <div class="col-lg-1">
@@ -141,15 +151,38 @@
               <div class="form-group text-center">
                 <label class="col-md-2 control-label" for="btnAlterar"></label>
                 <div class="col-md-8">
-                  <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar</button>
+                  <a href="#" onclick="sendPost('/fARevisarRV', {cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>'});" class="btn btn-success">Retorna</a>
+                  
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar Revisão</button>
 
                   <button class="btn btn-primary" type="button" id="btnRevisar">Formalizar Revisão</button>
 
                   <a href="#" onclick="sendPost('/fAConsultarRVVoluntario', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', origem:'conclusaoRevisao'});" class="btn btn-info">Voluntários
                   </a>
-
-                  <a href="#" onclick="sendPost('/fARevisarRV', {cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>'});" class="btn btn-success">Retorna</a>
                 </div>
+              </div>
+
+              <!-- Hidden, para repassar vis $_POST para inclusão ou alteração na base -->
+              <div class="form-group">
+                <div class="col-md-1">
+                  <input id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>" disabled="" hidden>
+                </div>
+                <input type="hidden" name="cb_familia_escolhida" value="<?= $this->view->dadosAcompanhamento['cd_fml'] ?>"> 
+
+                <div class="col-md-1">
+                  <input id="nome_grupo" name="nome_grupo" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>" disabled="" hidden>
+                </div>
+                <input type="hidden" name="nome_grupo" value="<?= $this->view->dadosAcompanhamento['nm_grp'] ?>"> 
+
+                <div class="col-md-1">
+                  <input id="nome_subgrupo" name="nome_subgrupo" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>" disabled="" hidden>
+                </div>
+                <input type="hidden" name="nome_subgrupo" value="<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>"> 
+
+                <div class="col-md-1">
+                  <input id="origem " name="origem" class="form-control input-md" type="text" maxlength="3" value="conclusaoRevisao" disabled="" hidden>
+                </div>
+                <input type="hidden" name="origem" value='conclusaoRevisao'> 
               </div>
       
             </div>

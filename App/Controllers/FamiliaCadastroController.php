@@ -44,7 +44,7 @@ class FamiliaCadastroController extends Action {
 		$this->view->nivelRequerido = 2;
 		$this->view->nivelLogado = 0;
 
-		$this->atualizaqtdFamiliasSemVinculo();
+		//$this->atualizaqtdFamiliasSemVinculo();
 
 		$this->render('familiaCadastro');
 	}
@@ -222,7 +222,7 @@ class FamiliaCadastroController extends Action {
 							'nomeFamiliaAnterior' => $_POST['nomeFamiliaAnterior']
 				);
 
-				$this->atualizaqtdFamiliasSemVinculo();
+				//$this->atualizaqtdFamiliasSemVinculo();
 
 				$this->render('familiaCadastroIncluir');				
 			}
@@ -271,7 +271,7 @@ class FamiliaCadastroController extends Action {
 						'nomeFamiliaAnterior' => $_POST['nomeFamiliaAnterior']
 			);
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastroIncluir');				
 		}
@@ -368,7 +368,7 @@ class FamiliaCadastroController extends Action {
 				$this->view->codigoInclusao = $prox_cd_fml;
 				$this->view->nomeInclusao = $_POST['nome'];
 
-				$this->atualizaqtdFamiliasSemVinculo();
+				//$this->atualizaqtdFamiliasSemVinculo();
 				
 				$this->render('familiaCadastro');
 			
@@ -376,7 +376,7 @@ class FamiliaCadastroController extends Action {
 				$this->view->erroValidacao = 9;
 				$this->view->erroException = $e;
 
-				$this->atualizaqtdFamiliasSemVinculo();
+				//$this->atualizaqtdFamiliasSemVinculo();
 
 				$this->render('familiaCadastro');
 			}
@@ -400,7 +400,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -820,7 +820,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -1095,7 +1095,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -1443,7 +1443,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -1718,6 +1718,9 @@ class FamiliaCadastroController extends Action {
 		}
 	}	// Fim da function familiaCadastroConsultarIntegranteMenu
 
+
+// AQUI - INICIO
+
 // ====================================================== //	
 	
 	public function subgrupoVincularFamilia() {
@@ -1734,7 +1737,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -1935,7 +1938,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -2075,10 +2078,8 @@ class FamiliaCadastroController extends Action {
 		$this->view->nomeFamilia = $_POST['nomeFamilia'];
 
 		$this->render('subgrupoDesvincularFamilia');
-		// */
 
 	}	// Fim da function subgrupoDesvincularFamiliaBase
-
 
 // ====================================================== //	
 	
@@ -2096,7 +2097,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -2132,7 +2133,7 @@ class FamiliaCadastroController extends Action {
 
 	public function subgrupoConsultarVinculoFamiliaMenu() {
 		
-		$this->validaAutenticacao();		
+		$this->validaAutenticacao();	
 
 		$this->view->erroValidacao = 0;
 
@@ -2144,10 +2145,11 @@ class FamiliaCadastroController extends Action {
 			$this->view->datas = array (
 				'data_inicial' => $_POST['dt_inc'],
 				'data_final' => $_POST['dt_fim'],
-				'rota' => $_POST['rota_02']
+				'rota' => $_POST['rota']
 			);
 			
 			$this->render('subgrupoConsultarVinculoFamilia');	
+
 		} else {
 			// Validar se datas válidas
 			
@@ -2184,6 +2186,7 @@ class FamiliaCadastroController extends Action {
 					);
 					
 					$this->render('subgrupoConsultarVinculoFamilia');	
+
 				} else {
 					// Busca Nome Grupo
 					$nomeGrupoBase = Container::getModel('TbGrp');
@@ -2267,7 +2270,7 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			$this->atualizaqtdFamiliasSemVinculo();
+			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -2302,6 +2305,7 @@ class FamiliaCadastroController extends Action {
 		}
 	}	// Fim da function subgrupoConsultarSemVinculoFamilia
 
+/* Passou para grupoSubgrupo.phtml
 // ================================================== //
 
 	public function atualizaqtdFamiliasSemVinculo() {
@@ -2311,6 +2315,7 @@ class FamiliaCadastroController extends Action {
 
 		$this->view->qtdFamiliasSemVinculo = $qtdSemVinculoFmlr['qtde'];
 	}
+*/
 	
 // ================================================== //
 

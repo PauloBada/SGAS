@@ -1,0 +1,39 @@
+
+
+<h2>Usando a biblioteca MPDF</h2>
+<p>Teste para imprimir no PHP</p>
+
+
+<!--
+?php
+
+use Mpdf\Mpdf;
+
+// Criando a instancia do Objeto
+$pdf = new Mpdf();
+
+
+$html = "<h2>Usando a biblioteca MPDF</h2>";
+
+$pdf->SetDisplayMode('fullpage');
+
+// SetFooter ==> rodapé
+$pdf->SetFooter('wifiaqui.com.br');   
+
+$pdf->WriteHTML("css/print.css",1);
+$pdf->WriteHTML($html);
+
+// Gerando o PDF direto no ncurses_savetty()gador
+$pdf->Output();
+
+
+/*
+$mpdf = new Mpdf();
+$mpdf->Bookmark('Start of the document');
+$mpdf->WriteHTML('<div>Section 1 text</div>');
+
+$mpdf->Output();
+/*
+
+?>
+-->

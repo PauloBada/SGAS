@@ -145,5 +145,23 @@ class TbSbitemSuprimt extends Model {
 		
 	}	// Fim function alteraSubitem
 
+// =================================================== //
+
+	public function getDadosSubitemEspecifico() {
+		$query = "
+				select 	nm_sbitem as nome_subitem
+					from  tb_sbitem_suprimt
+					where cd_itemID   = :cd_item
+					and   cd_sbitemID = :cd_sbitem";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':cd_item', $this->__get('cd_item'));
+		$stmt->bindValue(':cd_sbitem', $this->__get('cd_sbitem'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	//	Fim function getDadosSubitemEspecifico
+
+
 } 	// FIm da classe
 ?>

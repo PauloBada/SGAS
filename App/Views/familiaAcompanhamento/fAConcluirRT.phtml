@@ -14,7 +14,7 @@
       <div class="container">
        <form class="form-horizontal" action="" method="post" id="FormTabela">
         <div class="panel panel-primary">
-          <div class="panel-heading"><h4>Conclusão de Relatório Triagem</h4></div>
+          <div class="panel-heading"><h4>Relatório Triagem</h4></div>
           <div class="panel-body">
             <div class="col-md-12 d-flex">
               <ul class="list-group">
@@ -22,7 +22,7 @@
               </ul>
 
               <ul class="list-group">
-                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
+                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
               </ul>
             </div>
 
@@ -73,30 +73,21 @@
                 <a class="btn btn-danger" href="#" onclick="coletaDados()">Atualizar/Concluir Relatório</a>
               </div>
             </div>
-
           </div>
         </div>
-
        </form>
         
         <div class="col infoErro text-center" >
           <?php if ($this->view->erroValidacao == 1) { ?>
             <small class="form-text text-danger">Voluntário sem vínculo cadastrado neste Acompanhamento para família <?php echo ' '.$this->view->Familia.'!'  ?></small>
 
-
           <?php } else if ($this->view->erroValidacao == 2) { ?>
             <small class="form-text text-danger">Voluntário sem nível de atuação apropriado neste Acompanhamento para família <?php echo ' '.$this->view->Familia.'!'  ?></small>
             <small class="form-text text-danger">Nível Atuação Requerido:  <?php echo ' '.$this->view->atuacaoRequerida ?> </small>
             <small class="form-text text-danger">Seu Nível Atuação:  <?php echo ' '.$this->view->atuacaoLogado ?> </small>
 
-          <?php } else if ($this->view->erroValidacao == 3) { ?>
-            <small class="form-text text-danger">Relatório Atualizado com Sucesso!</small>
-            <small class="form-text text-danger"><?php echo ' Família '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
-
           <?php } else if ($this->view->erroValidacao == 4) { ?>
             <small class="form-text text-danger">Relatório Concluído com Sucesso! <?php echo ' '.$this->view->codFamilia.'-'.$this->view->nomeFamilia.'!'  ?></small>
-
-
           <?php } ?>
         </div>
 
@@ -125,7 +116,7 @@
 
          if(newArray.length <= 0 || newArray == ''){
             var fml_escolhida = '';
-         }else{
+         } else {
             var fml_escolhida = newArray[0];
          }
 

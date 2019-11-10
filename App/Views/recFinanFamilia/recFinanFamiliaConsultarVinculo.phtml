@@ -1,0 +1,77 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 02/11/2019
+      Objetivo:  Menu com lista de famílias que podem ser incluídas na solicitação de pedido financeiro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Família Beneficiada em Solicitação Pedido Financeiro</h4></div>
+          <div class="panel-body">
+            <div class="col-md-12 d-flex">
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Grupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeGrupo ?></label>  
+              </ul>
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Subgrupo: <?php echo $this->view->codSubgrupo. ' - '. $this->view->nomeSubgrupo ?></label>  
+              </ul>
+              
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Seq. Solicitação: <?php echo $this->view->seqlPedidoFinan ?></label>  
+              </ul>
+            </div>
+
+            <div class="table-responsive-lg">
+              <table id="tabelaVoluntarios" class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Código Família</th>
+                  <th scope="col">Nome Família</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                  <?php foreach ($this->view->dadosFamilias as $indice => $dadosFml) { ?>
+                      <tr style="color: blue">
+
+                      <td id="cd_fml" class="cd_fml text-center" name="cd_fml"><?php echo $dadosFml['cd_fml']; ?></td>
+
+                      <td id="nm_grp_fmlr" class="nm_grp_fmlr text-center" name="nm_grp_fmlr"><?php echo $dadosFml['nm_grp_fmlr']; ?></td>
+
+                    </tr>
+                  <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+
+                <?php if ($this->view->origem == 'gerenciamentoDPS' || $this->view->origem == 'gerenciamentoDPSCA' || $this->view->origem == 'gerenciamentoDPSC') { ?>
+                  <a class="btn btn-success" href="#" onclick="sendPost('/recFinanFamiliaSolicitarMenu', {cb_grupo_escolhido:'<?= $this->view->codGrupo ?>', nome_grupo:'<?= $this->view->nomeGrupo ?>', cb_subgrupo_escolhido:'<?= $this->view->codSubgrupo ?>', nome_subgrupo:'<?= $this->view->nomeSubgrupo ?>', seql_pedido_finan:'<?= $this->view->seqlPedidoFinan ?>', origem:'<?= $this->view->origem ?>'});">Retorna
+                  </a>
+                <?php } ?>
+
+              </div>
+            </div>
+          </div>
+        </div>
+       </form>
+      </div>
+    </section>
+
+    <script src="sendPost.js"></script>
+
+  </body>
+</html>

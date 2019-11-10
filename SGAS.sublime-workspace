@@ -4,8 +4,308 @@
 		"selected_items":
 		[
 			[
+				"menor_",
+				"menor_valor_encontra"
+			],
+			[
+				"valida",
+				"valida_cpf"
+			],
+			[
+				"cpf",
+				"cpf_cred_ressar"
+			],
+			[
+				"seql",
+				"seql_ressar_pedido_finan"
+			],
+			[
+				"cd",
+				"cd_sbgrp"
+			],
+			[
+				"data",
+				"data_hoje_f"
+			],
+			[
+				"nome",
+				"nome_grupo"
+			],
+			[
+				"q",
+				"qtdRPRF"
+			],
+			[
+				"cb",
+				"cb_subgrupo_escolhido"
+			],
+			[
+				"seql_ressa",
+				"seql_ressar_pedido_finanID"
+			],
+			[
+				"seql_",
+				"seql_ressar_pedido_finan"
+			],
+			[
+				"cd_vlnt_",
+				"cd_vlnt_resp_envio_daf"
+			],
+			[
 				"dt",
-				"dt_atual"
+				"dt_envio_ressar_daf"
+			],
+			[
+				"cd_v",
+				"cd_vlnt_resp_autoriza"
+			],
+			[
+				"cd_vlnt",
+				"cd_vlnt_resp_autoriza"
+			],
+			[
+				"ba",
+				"background\tproperty"
+			],
+			[
+				"al",
+				"alignment-baseline\tproperty"
+			],
+			[
+				"c",
+				"column-rule-color\tproperty"
+			],
+			[
+				"b",
+				"box-sizing\tproperty"
+			],
+			[
+				"bor",
+				"border-color\tproperty"
+			],
+			[
+				"dads",
+				"dadosOrc"
+			],
+			[
+				"vlr",
+				"vlr_solicitacao"
+			],
+			[
+				"cd_",
+				"cd_grpID"
+			],
+			[
+				"cd_fm",
+				"cd_fmlID"
+			],
+			[
+				"vlr_",
+				"vlr_recur_orc"
+			],
+			[
+				"TbV",
+				"TbVlrMinimoRefOrc"
+			],
+			[
+				"arr",
+				"array\t$… = array (…)"
+			],
+			[
+				"seq",
+				"seqlPedidoFinan"
+			],
+			[
+				"or",
+				"origem"
+			],
+			[
+				"cd_tip_enquadra_",
+				"cd_tip_enquadra_pedido"
+			],
+			[
+				"cd_est",
+				"cd_est_vlr_minimo_ref"
+			],
+			[
+				"dir",
+				"dir_guarda_arq"
+			],
+			[
+				"cd_vl",
+				"cd_vlnt_resp_pedido"
+			],
+			[
+				"arq",
+				"arq_orc_pedido"
+			],
+			[
+				"dsc",
+				"dsc_sucinta_pedido"
+			],
+			[
+				"cd_g",
+				"cd_grpID"
+			],
+			[
+				"nm",
+				"nm_vlnt"
+			],
+			[
+				"sub",
+				"subgrupo_escolhido"
+			],
+			[
+				"seqL",
+				"seql_pedido_finan"
+			],
+			[
+				"cd_s",
+				"cd_sbgrpID"
+			],
+			[
+				"cd_sb",
+				"cd_sbgrpID"
+			],
+			[
+				"cd_gr",
+				"cd_grp"
+			],
+			[
+				"nom",
+				"nome_imagem"
+			],
+			[
+				"cami",
+				"caminho_imagem"
+			],
+			[
+				"can",
+				"caminho_imagem"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"dad",
+				"dados_pesquisa_array"
+			],
+			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"st",
+				"string"
+			],
+			[
+				"sin",
+				"sinaliza_data"
+			],
+			[
+				"cd_resp",
+				"cd_vlnt_resp_disponib"
+			],
+			[
+				"cd_vnt",
+				"cd_vlnt_resp_disponib"
+			],
+			[
+				"cd_tip",
+				"cd_tip_evt_neces"
+			],
+			[
+				"ha",
+				"ha_item"
+			],
+			[
+				"h",
+				"ha_setor_responsavel"
+			],
+			[
+				"grupo",
+				"grupoSubgrupo"
+			],
+			[
+				"cd_fml_su",
+				"cd_fml_substituta"
+			],
+			[
+				"th",
+				"this"
+			],
+			[
+				"grup",
+				"grupoSubgrupo"
+			],
+			[
+				"cd_es",
+				"cd_est_situ_fml"
+			],
+			[
+				"cd_at",
+				"cd_atvd_acomp"
+			],
+			[
+				"cd_A",
+				"cd_atua_vlnt_acomp"
+			],
+			[
+				"cd_a",
+				"cd_atvd_acomp"
+			],
+			[
+				"cada",
+				"cadastro"
+			],
+			[
+				"_",
+				"_POST"
+			],
+			[
+				"ca",
+				"cadastro"
+			],
+			[
+				"em",
+				"empty"
+			],
+			[
+				"vol",
+				"voluntario_e"
+			],
+			[
+				"vlnt",
+				"vlnt_sn_escolhido"
+			],
+			[
+				"vl",
+				"vlnt_sn_escolhido"
+			],
+			[
+				"new",
+				"newArray"
+			],
+			[
+				"vlnt_escolhido",
+				"vlnt_escolhido_c"
+			],
+			[
+				"sim",
+				"simNao"
+			],
+			[
+				"Y",
+				"Y-m-d"
+			],
+			[
+				"data_",
+				"data_hoje"
 			],
 			[
 				"dt_at",
@@ -16,24 +316,8 @@
 				"nm_sbgrp"
 			],
 			[
-				"nm",
-				"nm_grp"
-			],
-			[
-				"_",
-				"_POST"
-			],
-			[
 				"ano",
 				"ano_mes_pv"
-			],
-			[
-				"cd",
-				"cd_grp"
-			],
-			[
-				"cb",
-				"cb_item_escolhido"
 			],
 			[
 				"tipo",
@@ -42,10 +326,6 @@
 			[
 				"tb",
 				"tb_item_suprimt"
-			],
-			[
-				"cd_",
-				"cd_tip_evt_neces"
 			],
 			[
 				"cd_t",
@@ -60,22 +340,6 @@
 				"str_replace"
 			],
 			[
-				"cd_gr",
-				"cd_grp"
-			],
-			[
-				"cd_est",
-				"cd_est_acomp"
-			],
-			[
-				"seql",
-				"seql_acomp"
-			],
-			[
-				"seq",
-				"seql_acomp"
-			],
-			[
 				"cd_e",
 				"cd_est_acomp"
 			],
@@ -88,10 +352,6 @@
 				"dt_acomp_invertida"
 			],
 			[
-				"data",
-				"data_invertida"
-			],
-			[
 				"mes",
 				"mes_ano_dt_acomp"
 			],
@@ -102,10 +362,6 @@
 			[
 				"soma",
 				"soma_comunhao"
-			],
-			[
-				"sub",
-				"substr"
 			],
 			[
 				"print",
@@ -124,28 +380,12 @@
 				"cd_itemID"
 			],
 			[
-				"ha",
-				"ha_menor_7_anos"
-			],
-			[
-				"cd_es",
-				"cd_est_integ_fml"
-			],
-			[
-				"cd_at",
-				"cd_atendto_fml_subs"
-			],
-			[
 				"text",
 				"text-center"
 			],
 			[
 				"aut",
 				"autofocus\tAttr"
-			],
-			[
-				"nome",
-				"nome_grupo"
 			],
 			[
 				"NM",
@@ -156,28 +396,12 @@
 				"scrollTo"
 			],
 			[
-				"cd_v",
-				"cd_vlnt"
-			],
-			[
 				"btn",
 				"btnAlterar"
 			],
 			[
-				"h",
-				"ha_2_vinculos"
-			],
-			[
-				"cd_fm",
-				"cd_fml"
-			],
-			[
 				"TbVnc",
 				"TbVnclVlntAcompFml"
-			],
-			[
-				"cd_sb",
-				"cd_sbgrp"
 			],
 			[
 				"sess",
@@ -185,14 +409,6 @@
 			],
 			[
 				"seql_acomp",
-				"seql_acompID"
-			],
-			[
-				"cd_vl",
-				"cd_vlntID"
-			],
-			[
-				"seql_",
 				"seql_acompID"
 			],
 			[
@@ -206,10 +422,6 @@
 			[
 				"nm_gr",
 				"nm_grp_fmlr"
-			],
-			[
-				"arr",
-				"array"
 			],
 			[
 				"lis",
@@ -236,10 +448,6 @@
 				"indice_atuacao"
 			],
 			[
-				"new",
-				"newArrayCombo"
-			],
-			[
 				"dados",
 				"dados2"
 			],
@@ -248,16 +456,8 @@
 				"link-check"
 			],
 			[
-				"vl",
-				"vlntEscolhido"
-			],
-			[
 				"coletaDados",
 				"coletaDados2"
-			],
-			[
-				"cd_s",
-				"cd_sbgrp"
 			],
 			[
 				"di",
@@ -268,16 +468,8 @@
 				"cd_segmto_triagem"
 			],
 			[
-				"bor",
-				"border-width\tproperty"
-			],
-			[
 				"d",
 				"div\tTag"
-			],
-			[
-				"font",
-				"font-size\tproperty"
 			],
 			[
 				"bod",
@@ -286,10 +478,6 @@
 			[
 				"pad",
 				"padding-left\tproperty"
-			],
-			[
-				"ba",
-				"background-color\tproperty"
 			],
 			[
 				"marg",
@@ -302,10 +490,6 @@
 			[
 				"col",
 				"color\tproperty"
-			],
-			[
-				"st",
-				"style\tTag"
 			],
 			[
 				"fnt",
@@ -330,204 +514,11 @@
 			[
 				"bac",
 				"background\tproperty"
-			],
-			[
-				"fl",
-				"float\tproperty"
-			],
-			[
-				"imag",
-				"imagens"
-			],
-			[
-				"wh",
-				"width\tproperty"
-			],
-			[
-				"li",
-				"line-height\tproperty"
-			],
-			[
-				"wi",
-				"width\tproperty"
-			],
-			[
-				"a",
-				"auto"
-			],
-			[
-				"back",
-				"background-color\tproperty"
-			],
-			[
-				"se",
-				"select\tTag"
-			],
-			[
-				"in",
-				"interesses"
-			],
-			[
-				"met",
-				"meta\tTag"
-			],
-			[
-				"dsc_re",
-				"dsc_recado_to_coordenacao"
-			],
-			[
-				"dsc_r",
-				"dsc_resumo_visita"
-			],
-			[
-				"dsc",
-				"dsc_item_doado_comunhao_visita"
-			],
-			[
-				"nr",
-				"nr_bolsa_canguru"
-			],
-			[
-				"cd_sg",
-				"cd_segmto"
-			],
-			[
-				"dsc_rea",
-				"dsc_recado_coordenacao_to_sbgrp"
-			],
-			[
-				"dsc_ec",
-				"dsc_recado_to_coordenacao"
-			],
-			[
-				"dsc_item_doa",
-				"dsc_item_doado_sbgrp_visita"
-			],
-			[
-				"dsc_item",
-				"dsc_item_doado_comunhao_visita"
-			],
-			[
-				"vlr_",
-				"vlr_doado_finan_comunhao_visita"
-			],
-			[
-				"dsc_co",
-				"dsc_consid_finais_triagem"
-			],
-			[
-				"cd_se",
-				"cd_segmto_triagem"
-			],
-			[
-				"au",
-				"autofocus\tAttr"
-			],
-			[
-				"su",
-				"submit"
-			],
-			[
-				"b",
-				"button"
-			],
-			[
-				"Su",
-				"Submit"
-			],
-			[
-				"bnt",
-				"btnAlterar"
-			],
-			[
-				"familia",
-				"familia_atendida_anteriormente"
-			],
-			[
-				"tr",
-				"transitorio"
-			],
-			[
-				"ne",
-				"newArray1"
-			],
-			[
-				"qtd",
-				"qtd_linhas"
-			],
-			[
-				"rota",
-				"rota_05"
-			],
-			[
-				"rota_",
-				"rota_02"
-			],
-			[
-				"POST",
-				"post_get"
-			],
-			[
-				"postP",
-				"postPre"
-			],
-			[
-				"postPre",
-				"postPre_2"
-			],
-			[
-				"bt",
-				"btretorna_3"
-			],
-			[
-				"cod",
-				"codigo_familia"
-			],
-			[
-				"cpf",
-				"cpf_pre"
-			],
-			[
-				"btreto",
-				"btretorna_2"
-			],
-			[
-				"em",
-				"empty"
-			],
-			[
-				"mi",
-				"minlength\tAttr"
-			],
-			[
-				"post",
-				"post_get"
-			],
-			[
-				"situ",
-				"situ_trab_formatado"
-			],
-			[
-				"sit",
-				"situ_estudo_formatado"
-			],
-			[
-				"sex",
-				"sexo_formatado"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "App/Views/app/menuPrincipal.phtml",
-			"settings":
-			{
-				"buffer_size": 4673,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -562,157 +553,146 @@
 	"expanded_folders":
 	[
 		"/C/0-Bada/projetos/SGAS",
-		"/C/0-Bada/projetos/SGAS/App",
-		"/C/0-Bada/projetos/SGAS/App/Controllers",
-		"/C/0-Bada/projetos/SGAS/App/Models",
-		"/C/0-Bada/projetos/SGAS/App/Views",
-		"/C/0-Bada/projetos/SGAS/App/Views/app",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade",
-		"/C/0-Bada/projetos/SGAS/public",
-		"/C/0-Bada/projetos/SGAS/public/css",
-		"/C/0-Bada/projetos/SGAS/vendor",
-		"/C/0-Bada/projetos/SGAS/vendor/MF",
-		"/C/0-Bada/projetos/SGAS/vendor/MF/Init",
-		"/C/0-Bada/projetos/SGAS/vendor/MF/Model"
+		"/C/0-Bada/projetos/SGAS/vendor"
 	],
 	"file_history":
 	[
-		"/C/0-Bada/projetos/SGAS/App/Models/TbFml.php",
+		"/C/0-Bada/projetos/SGAS/composer.lock",
+		"/C/0-Bada/projetos/SGAS/composer.json",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/AuthController.php",
+		"/C/Users/paulo/Documents/twitter_clone/vendor/composer/autoload_real.php",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/VoluntarioController.php",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraVoluntario.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioAlterarMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiVoluntario.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioIncluir.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/RecFinanDPSGerenciaController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSGerencia/recFinanDPSGerenciaRessarcimento.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbRessarPedidoRecurFinan.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSGerencia/recFinanDPSGerenciaRessarcimentoMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncAltConcluRessarRecFinan.js",
+		"/C/0-Bada/projetos/SGAS/App/Route.php",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/Funcoes.php",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbPedidoRecurFinan.php",
+		"/C/0-Bada/projetos/SGAS/public/calcularCNPJ.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSGerencia/recFinanDPSGerencia.phtml",
+		"/C/0-Bada/projetos/SGAS/public/css/style.css",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaConsultarVinculo.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaSolicitarMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/RecFinanFamiliaController.php",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncAltConcluAutorizaRecFinan.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSGerencia/recFinanDPSGerenciaCancelaAutorizacao.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbVnclOrcPedido.php",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbOrcDps.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSGerencia/recFinanDPSGerenciaAutorizacao.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbFmlPedidoFinan.php",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/RecFinanDPSRecursoController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSRecurso/recFinanDPSRecurso.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSRecurso/recFinanDPSRecursoRealGerencia.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSRecurso/recFinanDPSRecursoReal.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraCancelaRecFinan.js",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiRecFinanReal.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSRecurso/recFinanDPSRecursoVMR.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbVlrMinimoRefOrc.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPSRecurso/recFinanDPSRecursoVMRMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiRecFinanVMR.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/app/menuPrincipal.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanDPS/finanDPSRecurso.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConcluirRT.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/FamiliaAcompanhamentoController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConcluirRV.phtml",
+		"/C/0-Bada/projetos/SGAS/public/Apagueme - Nova Lógica TU.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaConsultar.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaPreConsultar.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/familiaFinanceiro.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaPreSolicitar.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/FamiliaCadastroController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaSolicitar.phtml",
 		"/C/0-Bada/projetos/SGAS/App/Controllers/FamiliaNecessidadeController.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNIncluirNecesProxVisitaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiNecesProxVisita.js",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiAlteraConcluiRecFinan.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaVincular.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTVoluntario.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbVnclVlntGrp.php",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbFml.php",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbAcompFml.php",
+		"/C/xampp/htdocs/Paginas/cadPaginaPDF.php",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/RecFinanDPSController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fARevisarRVMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRV.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRVMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaIncluir.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinanFamilia/recFinanFamiliaPreIncluir.phtml",
+		"/C/xampp/htdocs/Paginas/index.html",
+		"/C/xampp/htdocs/Paginas/index_OLD.html",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/RecFinanDSPController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinan/familiaFinanceiro.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinan/finanDPSRecurso.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinan/finanDPSGerencia.phtml",
+		"/C/xampp/htdocs/Paginas/cadPagina.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/recFinan/financeiro.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/financeiroRecFinan/familiaFinanceiro.phtml",
+		"/C/xampp/htdocs/CkCesar/index.php",
+		"/C/0-Bada/projetos/SGAS/App/Connection.php",
+		"/C/xampp/htdocs/index.pthml.html",
+		"/C/Users/paulo/Downloads/Como gravar-recuperar imagens diretórios - CkCesar/index.php",
+		"/C/Users/paulo/Downloads/Como gravar-recuperar imagens diretórios - CkCesar/classe/fotos.php",
+		"/C/Users/paulo/Downloads/Como gravar-recuperar imagens diretórios - CkCesar/classe/Uploads.php",
+		"/C/Users/paulo/Downloads/Como gravar-recuperar imagens diretórios - CkCesar/classe/deletar_foto.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/financeiroRecFinan/financeiro.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/FinanceiroRecFinanController.php",
+		"/C/0-Bada/Projeto Familia DPS/Documentos Tecnicos/Regras de Negócio/Não implementados/PesquisaArray.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNAlterarNeces.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNPreAlterarNeces.phtml",
+		"/C/Users/paulo/Downloads/fNAlterarNeces.phtml",
+		"/C/0-Bada/projetos/SGAS/vendor/tecnickcom/tcpdf/config/tcpdf_config.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNImprimeNeces.phtml",
+		"/C/0-Bada/projetos/SGAS/public/index.php",
 		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNIncluirNecesEventualMenu.phtml",
 		"/C/0-Bada/projetos/SGAS/App/Models/TbItemNecesFml.php",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaIncluiNeces.js",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNIncluirNeces.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNPreIncluirNeces.phtml",
-		"/C/0-Bada/projetos/SGAS/vendor/MF/Init/Bootstrap.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/apoio/apoioItemIncluir.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/layout.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbVnclFmlSbgrp.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/grupoSubgrupo/grupoSubgrupo.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoVincularFamilia.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoDesvincularFamilia.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoDesvincularFamiliaMenu.phtml",
 		"/C/0-Bada/projetos/SGAS/public/ConsultaCbDependente.php",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaInclui.js",
-		"/C/0-Bada/projetos/SGAS/public/css/style.css",
-		"/C/0-Bada/projetos/SGAS/App/Route.php",
-		"/C/0-Bada/PHP/cursoPHP (htdocs)/data e time/exemplo-01.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNAlterarNecesEventualMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNAlterarNecesProxVisitaMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraNecesEventual.js",
 		"/C/0-Bada/PHP/cursoPHP (htdocs)/data e time/exemplo-02.php",
-		"/C/0-Bada/PHP/cursoPHP (htdocs)/data e time/exemplo-05.php",
-		"/C/0-Bada/PHP/cursoPHP (htdocs)/data e time/exemplo-04.php",
-		"/C/0-Bada/PHP/cursoPHP (htdocs)/data e time/exemplo-03.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/familiaNecessidade.phtml",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraNecesProxVisita.js",
+		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraConcluiRV.js",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNIncluirNecesProxVisitaMenu.phtml",
 		"/C/0-Bada/projetos/SGAS/App/Models/TbSbitemSuprimt.php",
 		"/C/0-Bada/projetos/SGAS/App/Models/TbItemSuprimt.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreAlterarRT.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Controllers/FamiliaAcompanhamentoController.php",
-		"/C/0-Bada/projetos/SGAS/App/Controllers/ApoioController.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/apoio/apoioSubitemIncluir.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemMoradiaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemSaudeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/familiaNecessidade.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/app/menuPrincipal.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastroConsultarIntegranteMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastroPreIncluirIntegrantesMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastroConsultar.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastroConsultarMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastro.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompanhamento.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompanhamento_old.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbAcompFml.php",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbSegmtoTriagemFml.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConsultarRTRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreIncluirRD.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRDMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAIncluirRD.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Controllers/FamiliaCadastroController.php",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbVnclFmlSbgrp.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoConsultarVinculoFamiliaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoDesvincularFamilia.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/familiaCadastroConsultarIntegrante.phtml",
-		"/C/0-Bada/projetos/SGAS/public/index.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConsultarRankingFml.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRankingFml.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Controllers/Funcoes.php",
-		"/C/0-Bada/Projeto Familia DPS/Documentos Tecnicos/Regras de Negócio/OrdenaArray.php",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbIntegFml.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTRVPendentes.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConsultarRTRVPendentes.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRDMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRVVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbCadLoginSess.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTAspectoIntMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTCapProfissionalMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTRendaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTDespesaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTSaudeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTMoradiaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTReligiosidadeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConsultarRTEducacaoMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraConcluiRV.js",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraRevisaRV.js",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraConclui.js",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraRevisa.js",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAltera.js",
-		"/C/0-Bada/projetos/SGAS/App/Views/layout.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoConsultarVinculoVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemEducacaoMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNPreIncluirNeces.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaNecessidade/fNIncluirNeces.phtml",
 		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoVincularVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/apoio/apoioSubitemAlterar.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreRevisarRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConcluirRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarDadosRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAIncluirDadosRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fARevisarRTMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRTMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreRevisarRT.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreConcluirRT.phtml",
-		"/C/0-Bada/Python/Sistema Controle Financeiro Pessoal/PgmFuncoes.py",
-		"/C/0-Bada/projetos/SGAS/public/alertaConfirmaAlteraConcluirRD.js",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAIncluirRDMenu.phtml",
-		"/C/0-Bada/Projeto Familia DPS/Documentos Tecnicos/Regras de Negócio/ProximaDataVisita.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompanhamentoPreIncluirRelTriagem.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fARevisarRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fARevisarRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRT.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompanhamentoIncluirRelTriagem.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemVoluntario.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemRendaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemReligiosidadeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemDespesaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemCapProfissionalMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompIncRelTriagemAspectoIntMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAIncluirRVMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/familiaAcompanhamentoIncluirRelTriagemMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAIncluirRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAPreIncluirRV.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioAlterarMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioIncluir.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fARevisarRT.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTEducacaoMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Models/TbVnclVlntAcompFml.php",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTAspectoIntMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTCapProfissionalMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTRendaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTDespesaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTSaudeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTMoradiaMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAAlterarRTReligiosidadeMenu.phtml",
-		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRT.phtml"
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioConsultarMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoConsultarVinculoVoluntarioMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntarioConsultar.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoConsultarVinculoVoluntario.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaCadastro/subgrupoConsultarVinculoFamilia.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Models/TbVlnt.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/voluntario.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoDesvincularVoluntario.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/voluntario/subgrupoDesvincularVoluntarioMenu.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/apoio/apoioRA.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/suprimentoAlmoxarifado/suprimentoAlmoxarifado.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/familiaAcompanhamento/fAConcluirRT.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/SuprimentoAlmoxarifadoController.php",
+		"/C/0-Bada/projetos/SGAS/App/Controllers/SuprimentoCadastroController.php",
+		"/C/0-Bada/projetos/SGAS/App/Views/suprimentoCadastro/apoioSubitemConsultar.phtml",
+		"/C/0-Bada/projetos/SGAS/App/Views/suprimentoCadastro/apoioSubitemConsultarMenu.phtml"
 	],
 	"find":
 	{
-		"height": 42.4
+		"height": 40.8
 	},
 	"find_in_files":
 	{
-		"height": 107.0,
+		"height": 107.2,
 		"where_history":
 		[
 		]
@@ -722,134 +702,134 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"hidden",
-			"cd_setor_resp",
-			"cd_tip_unid_item",
-			"\t\t\tif (empty($_POST['dsc_item_neces'])) {",
-			"cd_tip_unid_item",
-			"selected8",
-			"RelimpaCampos",
-			"Sexo",
-			"cd_tip_unid_item",
-			"removeAttr",
-			"RelimpaCampos",
-			"echo",
-			"nr_corporal",
-			"cd_tip_evt_neces",
-			"if ($_POST['cd_tip_evt_neces'] ",
-			"$this->view->nomeEventoNeces",
-			"cd_tip_evt_neces",
-			"cd_tempo_idade",
-			"nr_corporal",
-			"vlr_neces",
-			"cd_tip_clas_item",
-			"cd_setor_resp",
-			"hidden",
-			"cd_tip_sexo",
-			"selected7",
+			"seta",
+			"tcpdf",
+			"mpdf",
+			"cpf",
+			"validaCPF",
 			"enviaAlert",
-			"item ",
-			"item",
-			"LimpaCampos",
-			"                  <!-- Complemento ao disabled='disabled' definido abaixo no script -->",
-			"hidden",
-			"cd_tip_sexo",
-			"cd_tip_evt_neces",
-			"this->view->item",
-			"$item",
-			"$this->view->item",
-			"nomeSubitem",
-			"$this->view->subitem",
-			"$subitem;",
-			"$subitem ",
-			"$this->view->nomeItem",
-			"$this->view->item",
-			"$nomeItem ",
-			"$this->view->item",
-			"$item ",
-			"$item",
-			"cd_tip_clas_item",
-			"vlr_neces",
-			"retornoErroInclusaoNeces",
+			"enviaAlert1",
+			"dataFormularioN",
+			"dataFormulario",
+			"voluntarioInc",
+			"recFinanDPSGerenciaRessarcimento",
+			"updateRessarPRF",
+			"\n\t\t",
+			"insereRPRF",
+			"retornoValidacao",
+			"formatarNumeros",
+			"cpf",
+			"recFinanDPSGerenciaRessarcimentoMenu()",
+			"updatePRFRemeteDAF",
+			"cd_situ_envio_ressar_pedido",
+			"getProximoSequencial",
+			"cd_tip_doc_ressar",
+			"substr",
+			"primeiros_numeros_cnpj",
+			"multiplica_cnpj",
+			"validaCNPJ",
+			"primeiros_numeros_cnpj",
+			"cnpj_original",
+			"....\n",
+			"Identi",
+			"$this->view->pedidoRecFinan",
+			"qtd",
+			"\n\t\t",
+			"sum(",
+			"sum",
+			"getDadosPedidoRecurFinanRessarcimento",
+			"getDadosPedidoRecurFinanAutorizacao",
+			"hoje",
+			"updatePRFCdEstadoAutoriza",
+			"recFinanDPSGerenciaAutorizacao",
+			"recFinanDPSGerenciaautorizacao",
+			"updatePRFCdEstadoAutoriza",
+			"recFinanDPSGerenciaAutorizacaoBase",
+			"recFinanDPSGerenciaCancelaSolicitacaoBase",
+			"recFinanDPSGerenciaCancelaAutorizacaoBase",
+			"recFinanDPSGerenciaCancelaSolicitacaoBase",
+			"btnCancelarSolicitacao",
+			"gerenciamentoDPSCA",
+			"btnCancelarSolicitacao",
+			"gerenciamentoDPS",
+			"recFinanFamiliaSolicitarMenu",
+			"coletaDadosC",
+			"echo",
+			"getVnclOrcPedido",
+			"updateSaldoSituacaoOrcDps",
+			"getDadosOrcDps",
+			"gerenciamentoDPS",
+			"enviaAlert5",
+			"DPSCA",
+			"DPS",
+			"recFinanDPSGerenciaAutorizacao",
+			"AQUI",
+			"updateSaldoSituacaoOrcDps",
+			"recFinanDPSGerenciaAutorizacao",
+			"insertFmlPedidoFinan",
+			"getDadosOrcDps2",
+			"updatePRFRemeteDAF",
+			"str_",
+			"TbDpsOrc",
+			"getFmlPedidoFinan",
+			"$this->view->fmlPedidoFinan",
+			"getFmlPedidoFinan",
+			"familiaEscolhida",
+			"$this->view->codGrupo",
+			"coletaDadosE",
+			"coletaDadosI",
+			"recFinanFamiliaVincular",
+			"recFinanFamiliaSolicitarMenu",
+			"link-check",
+			"cbChange",
+			"pedidoEscolhido",
+			"chamaInsereDados",
+			"validaAcesso",
+			"recFinanFamiliaSolicitar",
+			"recFinanDPSRecursoReal",
+			"recFinanDPSRecursoRealGerencia",
+			"getDadosOrcDps",
+			"recFinanDPSRecursoReal",
+			"str_",
+			"recFinanDPSRecursoReal",
+			"$insereVMR",
+			"getSequencial",
+			"$vlr_minimo_ref",
+			"pedido_escolhido",
+			"chamaInsereDados",
+			"link-check",
+			"pedidoEscolhido",
+			"cbChange",
+			"VMR",
+			"getDadosVMR",
+			"sendPost",
+			"MVR",
+			"nivel_atuacao_requerido",
+			"validaAutenticacao",
 			"validaAcessoAcompanhamento",
-			"retornoErroInclusaoNeces",
-			"trata_inclusao",
-			"qtd_item_neces",
-			"idade_aparente_pessoa",
-			"cd_tip_sexo",
-			"date_default_timezone_set",
-			"hidden",
-			"Reset",
-			"cd_estrut_corporal",
-			"dinheiro",
-			"getDadosItemEvtNeces",
-			"itemEvtNeces",
-			"getDadosItemEvtNeces",
-			"Não",
-			"enviaAlert1",
-			"getMaxDataAcomp",
-			"infoCampoObrigatorioFormulario",
-			"vlr_neces",
-			"explode",
-			"expl",
-			"seql_acomp",
-			"enviaAlert1",
-			"iss",
-			"$this->view->dadosNecessidade",
-			"dt_proxima_visita",
-			"Funcoes",
-			"obtemDataProximaVisita",
-			"getDadosItemEvtNeces",
-			"getDadosSubitemEvtEspecifico",
-			"getDadosItemEvtEspecifico",
-			"getDadosSubitemAll",
-			"subitem",
-			"getDadosItemEvtNeces",
-			"itemEvtNeces",
-			"explode",
-			"itemEvtNeces",
-			"getDadosSubitemAll",
-			"subitem",
-			"getDadosSubitemEvtEspecifico",
-			"getDadosItemAll",
-			"item",
-			"insertItemSubitemNeces",
-			"cd_tip_evt_neces",
-			"$this->view->dadosNecessidade",
-			"getNomeSubitemAlteracao",
-			"= :cd_tip_evt_suprimt",
-			"nomeFami",
-			"$this->view->dadosAcompanhamento",
-			"cd_grp",
-			"dinheiro",
-			"vlr_neces",
-			"cd_fml",
-			"getConsultaFamiliasNeces",
-			"getConsultaFamiliasAcompanhamento",
-			"colorLabelTituloList",
-			"6",
-			".attr",
-			"list-group-item-info",
-			"trata_valor_renda",
-			"updateFamilia",
-			"vlr_aprox_renda_mensal_fml",
-			"str_replace",
-			"AQUI",
-			"str_replace",
-			"insertAcompanhamentoFamilia",
-			"AQUI",
-			"obtemEstSituFml",
-			"seql_atvd",
-			"AQUI",
-			"getDadosConsultaAcompanhamento",
-			"AQUI",
-			"getConsultaFamiliasAcompanhamento",
-			"AQUI",
-			"getDadosConsultaAcompanhamento",
-			"getConsultaFamiliasAcompanhamento",
-			"getDadosConsultaAcompanhamento",
-			"getConsultaFamiliasAcompanhamento",
-			"AQUI"
+			"validaAcesso",
+			"validaAcessoAcompanhamento",
+			"echo ",
+			"/*",
+			"fAPreConsultarRankingFml",
+			"/*",
+			"fAAlterarRVRetorno",
+			"/*",
+			"fAAlterarRTRetorno",
+			"fAObtemDadosTriagem",
+			"TU",
+			"familiaAcompIncRelTriagemCapProfissionalMenu",
+			"fAPreRevisarRV",
+			"familiaAcompIncRelTriagemTratamento",
+			"familiaAcompIncRelTriagemVoluntario",
+			"familiaAcompIncRelTriagemTratamento",
+			"str_",
+			"recFinanFamiliaConsultar",
+			"rota",
+			"getDadosSubgrupoAllE",
+			"subgrupoE",
+			"cb_familia_escolhida",
+			"subgrupoConsultarVinculoFamilia"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -857,6 +837,40 @@
 		"regex": false,
 		"replace_history":
 		[
+			"alteraRPRF",
+			"$this->view->ressarcimentoRecFinan",
+			"$insereORC",
+			"$vlr_recur_orc",
+			"recurso_escolhido",
+			"Real",
+			"validaAcesso",
+			"recFinanFamiliaPreConsultar",
+			"$dadosFml",
+			"fml_sn_escolhida",
+			"fml_escolhida",
+			"familiaEscolhida",
+			"$caminho_arquivo",
+			"$caminho_pdf",
+			"$nome_pdf",
+			"pedidoRecFinan",
+			"recFinanFamiliaSolicitar",
+			"recFinanFamiliaPreSolicitar",
+			"pedido_escolhido",
+			"pedidoEscolhido",
+			"trataPDF",
+			"$arqPDF",
+			"$this->view->dadosRecFinan",
+			"$this->retornoValidaAcesso",
+			"validaAcesso",
+			"$imagem2",
+			"",
+			"$imagem1",
+			"$imagem",
+			"$imagem1",
+			"familiaNecessidade",
+			"atualizaQtdRankingFamilias",
+			"&nbsp;",
+			"&nbsp;&nbsp;",
 			"                  <!-- Complemento ao disabled='disabled' definido abaixo no script - para retorno $_POST-->",
 			"$this->view->dadosNecessidade",
 			"$dadosFamilia",
@@ -907,39 +921,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "App/Views/app/menuPrincipal.phtml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4673,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2741,
-								2741
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 900.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -982,7 +965,7 @@
 	"project": "SGAS.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -991,6 +974,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"",
+				"App\\Models\\TbFml.php"
+			]
 		],
 		"width": 0.0
 	},
@@ -1020,7 +1007,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 343.0,
+	"side_bar_width": 437.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

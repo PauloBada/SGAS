@@ -389,7 +389,68 @@ class TbVnclVlntGrp extends Model {
 										  from  tb_vncl_vlnt_acomp_fml
 										  where cd_fmlID     = :cd_fml
 										  and   seql_acompID = :seql_acomp)				
+			
 				order by b.nm_vlnt";
+
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		//TU $stmt->bindValue('cd_fml', $this->__get('cd_fml'));
+		//TU $stmt->bindValue('seql_acomp', $this->__get('seql_acomp'));
+		$stmt->bindValue('cd_atu_vlnt', $this->__get('cd_atu_vlnt'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+// ====================================================== //
+
+	public function getVoluntariosGrupoSubgrupoAcomp() {
+
+		$query = "
+				select b.cd_vlntID as cd_vlnt, 
+					   b.nm_vlnt as nm_vlnt,
+					   'n' as simNao
+				from  tb_vncl_vlnt_grp a,
+				      tb_vlnt b
+				where a.cd_grpID    = :cd_grp
+				and   a.cd_sbgrpID  = :cd_sbgrp
+				and   a.cd_atu_vlnt = :cd_atu_vlnt
+				and   a.cd_vlntID   = b.cd_vlntID
+				and   a.cd_est_vncl = 1
+
+				and   a.cd_vlntID not in (select cd_vlntID
+										  from  tb_vncl_vlnt_acomp_fml
+										  where cd_fmlID     = :cd_fml
+										  and   seql_acompID = :seql_acomp)				
+
+				and    :cd_fml in (select distinct cd_fmlID
+								   from tb_acomp_fml
+								   where cd_atvd_acomp = 1)
+
+				union all
+
+				select b.cd_vlntID as cd_vlnt, 
+					   b.nm_vlnt as nm_vlnt,
+					   's' as simNao
+				from  tb_vncl_vlnt_grp a,
+				      tb_vlnt b
+				where a.cd_grpID    = :cd_grp
+				and   a.cd_sbgrpID  = :cd_sbgrp
+				and   a.cd_atu_vlnt = :cd_atu_vlnt
+				and   a.cd_vlntID   = b.cd_vlntID
+				and   a.cd_est_vncl = 1
+
+				and   a.cd_vlntID in (select cd_vlntID
+									  from  tb_vncl_vlnt_acomp_fml
+									  where cd_fmlID     = :cd_fml
+									  and   seql_acompID = :seql_acomp)				
+
+				and    :cd_fml in (select distinct cd_fmlID
+								   from tb_acomp_fml
+								   where cd_atvd_acomp = 1)
+
+				order by 3, 2";
 
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
@@ -400,6 +461,128 @@ class TbVnclVlntGrp extends Model {
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+	}
+
+// =================================================== //
+
+	public function getDadosVVGAll_2() {
+
+		if (empty($this->__get('codSubgrupo_pesq'))) {
+			$query = "
+					select a.seql_vnclID as sequencial_base,					
+						   a.cd_vlntID as cd_vlnt,
+                           b.nm_vlnt,
+						   DATE_FORMAT(a.dt_inc_vncl, '%d/%m/%Y') as data_inicio_vinculo,
+						   DATE_FORMAT(a.dt_fim_vncl, '%d/%m/%Y') as data_fim_vinculo,
+						   case when a.cd_est_vncl = 1 THEN 'Ativo'
+							    when a.cd_est_vncl = 2 THEN 'Encerrado'
+						   end as estado_vinculo,	
+						   case when a.cd_atu_vlnt = 1 THEN 'Coordenador Cadastral'
+							    when a.cd_atu_vlnt = 2 THEN 'Coordenador Financeiro'
+							    when a.cd_atu_vlnt = 3 THEN 'Coordenador Revisor'
+							    when a.cd_atu_vlnt = 4 THEN 'Coordenador Geral'
+							    when a.cd_atu_vlnt = 5 THEN 'Voluntário'
+						   end as cod_atuacao_base,
+               c.nm_sbgrp as nm_sbgrp
+						from tb_vncl_vlnt_grp a,
+                             tb_vlnt b,
+                             tb_sbgrp c
+						where a.cd_grpID   = :cd_grp
+              and (a.dt_inc_vncl between str_to_date(:dt_inc_vncl, '%d/%m/%Y') and 
+							   				        str_to_date(:dt_fim_vncl, '%d/%m/%Y')
+					     or a.dt_fim_vncl > str_to_date(:dt_fim_vncl, '%d/%m/%Y'))                                                
+              and a.cd_vlntID  = b.cd_vlntID
+              and a.cd_grpID   = c.cd_grpID
+              and a.cd_sbgrpID = c.cd_sbgrpID                     
+
+					union all
+
+					select a.seql_vnclID as sequencial_base,					
+						   a.cd_vlntID as cd_vlnt,
+                           b.nm_vlnt,
+						   DATE_FORMAT(a.dt_inc_vncl, '%d/%m/%Y') as data_inicio_vinculo,
+						   DATE_FORMAT(a.dt_fim_vncl, '%d/%m/%Y') as data_fim_vinculo,
+						   case when a.cd_est_vncl = 1 THEN 'Ativo'
+							    when a.cd_est_vncl = 2 THEN 'Encerrado'
+						   end as estado_vinculo,	
+						   case when a.cd_atu_vlnt = 1 THEN 'Coordenador Cadastral'
+							    when a.cd_atu_vlnt = 2 THEN 'Coordenador Financeiro'
+							    when a.cd_atu_vlnt = 3 THEN 'Coordenador Revisor'
+							    when a.cd_atu_vlnt = 4 THEN 'Coordenador Geral'
+							    when a.cd_atu_vlnt = 5 THEN 'Voluntário'
+						   end as cod_atuacao_base,
+               '*' as nm_sbgrp
+						from tb_vncl_vlnt_grp a,
+                             tb_vlnt b
+						where a.cd_grpID   = :cd_grp
+              and (a.dt_inc_vncl between str_to_date(:dt_inc_vncl, '%d/%m/%Y') and 
+							   				        str_to_date(:dt_fim_vncl, '%d/%m/%Y')
+					     or a.dt_fim_vncl > str_to_date(:dt_fim_vncl, '%d/%m/%Y'))                                                
+              and a.cd_vlntID  = b.cd_vlntID                     
+              and a.cd_sbgrpID is null                       
+                                                
+            order by 3, 8, 1;";
+
+			$stmt = $this->db->prepare($query);
+			$stmt->bindValue(':cd_grp', $this->__get('codGrupo_pesq'));
+			$stmt->bindValue('dt_inc_vncl', $this->__get('dataInicio_pesq'));
+			$stmt->bindValue('dt_fim_vncl', $this->__get('dataFim_pesq'));
+			$stmt->execute();
+		
+		} else {
+			$query = "
+					select a.seql_vnclID as sequencial_base,					
+						   a.cd_vlntID as cd_vlnt,
+                           b.nm_vlnt,
+						   DATE_FORMAT(a.dt_inc_vncl, '%d/%m/%Y') as data_inicio_vinculo,
+						   DATE_FORMAT(a.dt_fim_vncl, '%d/%m/%Y') as data_fim_vinculo,
+						   case when a.cd_est_vncl = 1 THEN 'Ativo'
+							    when a.cd_est_vncl = 2 THEN 'Encerrado'
+						   end as estado_vinculo,	
+						   case when a.cd_atu_vlnt = 1 THEN 'Coordenador Cadastral'
+							    when a.cd_atu_vlnt = 2 THEN 'Coordenador Financeiro'
+							    when a.cd_atu_vlnt = 3 THEN 'Coordenador Revisor'
+							    when a.cd_atu_vlnt = 4 THEN 'Coordenador Geral'
+							    when a.cd_atu_vlnt = 5 THEN 'Voluntário'
+						   end as cod_atuacao_base,
+						   '' as nm_sbgrp
+						from tb_vncl_vlnt_grp a,
+                             tb_vlnt b
+						where a.cd_grpID   = :cd_grp
+						and   a.cd_sbgrpID = :cd_sbgrp
+                        and  (a.dt_inc_vncl between str_to_date(:dt_inc_vncl, '%d/%m/%Y') and 
+							   				        str_to_date(:dt_fim_vncl, '%d/%m/%Y')
+					    or    a.dt_fim_vncl > str_to_date(:dt_fim_vncl, '%d/%m/%Y'))                                                
+                        and   a.cd_vlntID  = b.cd_vlntID
+                        order by b.nm_vlnt, a.seql_vnclID";
+			$stmt = $this->db->prepare($query);
+			$stmt->bindValue('cd_grp', $this->__get('codGrupo_pesq'));
+			$stmt->bindValue('cd_sbgrp', $this->__get('codSubgrupo_pesq'));
+			$stmt->bindValue('dt_inc_vncl', $this->__get('dataInicio_pesq'));
+			$stmt->bindValue('dt_fim_vncl', $this->__get('dataFim_pesq'));
+			$stmt->execute();
+		}
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	//	Fim function getDadosVVGAll_2
+
+// ====================================================== //
+
+	public function getNivelAtuacaoGrupo() {
+		$query = "
+			select count(*) as qtde
+			from tb_vncl_vlnt_grp
+			where cd_vlntID   = :cd_vlnt
+			and   cd_grpID    = :cd_grp
+			and   cd_est_vncl = 1";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':cd_vlnt', $this->__get('codVoluntario'));
+		$stmt->bindValue(':cd_grp', $this->__get('codGrupo'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
+
 	}
 
 

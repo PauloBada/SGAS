@@ -52,10 +52,10 @@
               <div class="form-group">
                 <label class="col-md-2 control-label"></label>
                 <div class="col-md-8">
-                  <button class="btn btn-primary" id="btnBuscar" type="Submit" disabled="">Buscar</button>
+                  <a href="/grupoSubgrupo" class="btn btn-success" >Retorna</a>
 
-                  <a href="/familiaCadastro" class="btn btn-success" >Retorna</a>
-                  
+                  <button class="btn btn-primary" id="btnBuscar" type="Submit" disabled="">Buscar</button>
+                 
                   <a class="btn" id="btnOculto"></a>
                 </div>
               </div>
@@ -158,13 +158,6 @@
 
         // Para remeter dois argumentos e no programa "ConsultaCbDependente.php" utiliza função explode() para ler
         var $grupoSubgrupo = grupo + ";" + subgrupo;
-        
-        /*
-        // Para dar display no Console em javascript
-        $('document').ready(function() {
-          console.log($grupoSubgrupo);
-        });
-        */
 
         $.getJSON('ConsultaCbDependente.php?opcao=familiaVnclFmlSbgrp&valor='+$grupoSubgrupo, 
         function (dados){ 
@@ -174,8 +167,6 @@
               $.each(dados, function(i, obj){
                   option += '<option value="'+obj.cod_familia+'">'+obj.nome_familia+'</option>';
               })
-            }else{
-              Reset(); 
             }
 
            $('#cb_familia_escolhida').html(option).show(); 

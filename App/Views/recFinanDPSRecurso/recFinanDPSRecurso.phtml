@@ -1,0 +1,95 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 24/10/2019
+      Objetivo:  Menu Inicial de opções de Recursos Financeiros
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="" method="post">
+          <div class="panel panel-primary"> 
+            <div class="panel-heading"><h4>Recurso Financeiro DPS</h4></div>
+            <div class="panel-body">
+              
+              <div class="form-group">
+                <div class="col-md-12 d-flex">
+                  <ul class="list-group">
+                      <label class="col-md-12 control-label colorLabelTituloList">Valor Mínimo de Referência - VMR</label>  
+                  </ul>
+                </div>
+           
+                <div class="col-md-3">
+                  <ul class="list-group text-center">
+                      <a class="list-group-item list-group-item-info" href="/recFinanDPSRecursoVMR">Gerenciamento de VMR</a>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12 d-flex">
+                  <ul class="list-group">
+                      <label class="col-md-12 control-label colorLabelTituloList">Recursos Financeiros - DPS</label>  
+                  </ul>
+                </div>
+
+                <div class="col-md-3">
+                  <ul class="list-group text-center">
+                      <a class="list-group-item list-group-item-info" href="/recFinanDPSRecursoReal">Gerenciamento de Recursos</a>
+                  </ul>
+                </div>
+             
+                <div class="col-md-3">
+                  <ul class="list-group text-center">
+                      <a class="list-group-item list-group-item-info" href="#">Consultar Utilização</a>
+                  </ul>
+                </div>
+              </div>
+
+               <div class="form-group">
+                <div class="col-md-12 d-flex">
+                  <ul class="list-group">
+                      <label class="col-md-12 control-label colorLabelTituloList">Gerencial</label>  
+                  </ul>
+                </div>
+
+                <div class="col-md-3">
+                  <ul class="list-group text-center">
+                      <a class="list-group-item list-group-item-info" href="/fAPreConsultarRTRV">Relatório Financeiro</a>
+                  </ul>
+                </div>
+
+                <div class="col-md-12 d-flex">
+                  <ul class="list-group">
+                      <a class="list-group-item active bg-success" href="/menuPrincipal">Retorna</a>
+                  </ul>
+                </div>
+              </div>
+      
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 1) { ?>
+           <small class="form-text text-danger">Erro: Voluntário sem nível de acesso apropriado!</small>
+           <small class="form-text text-danger">Deve ter nível Gerencial 1 ou 2. Verifique seu acesso!</small>
+          
+          <?php } else if ($this->view->erroValidacao == 9) { ?>
+             <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+  </body>
+
+</html>

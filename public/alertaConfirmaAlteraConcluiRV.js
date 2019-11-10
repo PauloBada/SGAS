@@ -219,7 +219,7 @@ $("#btnConcluir").click(function(){
 function enviaAlert() {
   swal({
       title: '',
-      text: 'Confirma a atualização da conclusão do relatório?',
+      text: 'Confirma a atualização do relatório?',
       type: 'warning',                  //"warning", "error", "success", "info"
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -231,7 +231,6 @@ function enviaAlert() {
     }, function(isConfirm) {
 
       if (isConfirm) {
-        //$("#FormAltera");
         $('#FormAltera').attr('action', '/fAConcluirRVBaseAtualiza').submit();
       }
   })

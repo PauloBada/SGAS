@@ -62,7 +62,7 @@ class TbVnclFmlSbgrp extends Model {
 		
 		return $stmt->fetch(\PDO::FETCH_ASSOC);	
 
-	}	//	Fim function getQtdSubgrupoVinculoFamilia
+	}	//	Fim function getDadosVinculoFamilia
 
 // =================================================== //
 

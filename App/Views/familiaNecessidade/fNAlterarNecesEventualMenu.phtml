@@ -1,0 +1,428 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 29/09/2019
+      Objetivo:  Menu de Inclusão de dados de Necessidade de Próxima Visita para Famílias
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAlterar">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Gerenciar Item Necessidade de Família - Eventual</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_grp" name="cd_grp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosNecessidade['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nm_grp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <input id="cd_sbgrp" name="cd_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosNecessidade['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nm_sbgrp" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_fml">Família</label>  
+                <div class="col-lg-1">
+                  <input id="cd_fml" name="cd_fml" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->dadosNecessidade['cd_fml'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp_fmlr" name="nm_grp_fmlr" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_grp_fmlr'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="dt_incl_item_neces">Data Inclusão</label>  
+                <div class="col-lg-2">
+                  <input id="dt_incl_item_neces" readonly="" name="dt_incl_item_neces"class="form-control input-md" type="text" value="<?= $this->view->dadosNecessidade['dt_incl_item_neces'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="dt_proxima_visita">Data Prevista p/Entrega</label>  
+                <div class="col-lg-2">
+                  <input id="dt_prev_disponib_item" readonly="" name="dt_prev_disponib_item"class="form-control input-md" type="text" value="<?= $this->view->dadosNecessidade['dt_prev_disponib_item'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="dt_disponib_item_entrega">Data Disponibilidade</label>  
+                <div class="col-lg-2">
+                  <input id="dt_disponib_item_entrega" readonly="" name="dt_disponib_item_entrega"class="form-control input-md" type="text" value="<?= $this->view->dadosNecessidade['dt_disponib_item_entrega'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="nm_vlnt_resp_cadas">Resp. Inclusão</label>
+                <div class="col-lg-4">
+                  <input id="nm_vlnt_resp_cadas" name="nm_vlnt_resp_cadas" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_vlnt_resp_cadas'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="nm_vlnt_resp_disponib">Resp. Disponib/Baixa</label>
+                <div class="col-lg-4">
+                  <input id="nm_vlnt_resp_disponib" name="nm_vlnt_resp_disponib" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_vlnt_resp_disponib'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_item_escolhido">Item<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <input id="cb_item_escolhido" readonly="" name="cb_item_escolhido"class="form-control input-md" type="text" value="<?= $this->view->dadosNecessidade['nm_item'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subitem_escolhido">Subitem<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <input id="cb_subitem_escolhido" readonly="" name="cb_subitem_escolhido"class="form-control input-md" type="text" value="<?= $this->view->dadosNecessidade['nm_sbitem'] ?>">
+                </div>
+
+                <label class="col-md-2 control-label" for="nm_situ_item_solicitado">Situação Item/Subitem</label>
+                <div class="col-lg-3">
+                  <input id="nm_situ_item_solicitado" name="nm_situ_item_solicitado" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['nm_situ_item_solicitado'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cd_setor_resp">Setor Responsável Atendimento<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_setor_resp" name="cd_setor_resp" class="form-control" disabled="">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1"<?php echo selected2('1', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Almoxarifado</option>
+                    
+                    <option value="2"<?php echo selected2('2', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Grupo/Subgrupo</option>
+                    
+                    <option value="3"<?php echo selected2('3', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Setor Orientação Profissional</option>
+                    
+                    <option value="4"<?php echo selected2('4', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Biblioteca Canguru</option>
+                    
+                    <option value="5"<?php echo selected2('5', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Biblioteca Canguru - Contadores de História</option>
+
+                    <option value="6"<?php echo selected2('6', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Grupo de Desobsessão Auta de Souza</option>
+
+                    <option value="7"<?php echo selected2('7', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Implantação do Evangelho no Lar</option>
+
+                    <option value="8"<?php echo selected2('8', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Parcerias Médicas</option>
+
+                    <option value="9"<?php echo selected2('9', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Grupo de Apoio e Atendimento na sede da Comunhão</option>
+
+                    <option value="10"<?php echo selected2('10', $this->view->dadosNecessidade['cd_setor_resp']); ?>>Direção da Comunhão</option>
+
+                  </select>
+                  <!-- Complemento ao disabled='disabled' acima, para passar o estadoUF como $_POST -->
+                  <input type="hidden" name="cd_setor_resp" value=<?= $this->view->dadosNecessidade['cd_setor_resp'] ?>> 
+                </div>
+              </div>
+
+
+
+              <?php if ($_POST['cb_situ_item_solicitado'] == '1') { ?>              
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="obs_sobre_item">Observação</label>
+                  <div class="col-lg-9">
+                    <input id="1" name="obs_sobre_item" placeholder="Descreva alguma observação que achar necessária" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['obs_sobre_item'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_item_neces">Descrição do Item</label>
+                  <div class="col-lg-9">
+                    <input id="2" name="dsc_item_neces" placeholder="Descreva alguma coisa que achar necessária" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['dsc_item_neces'] ?>">
+                  </div>
+                </div>
+              <?php } else { ?>
+              <div class="form-group">
+                  <label class="col-md-2 control-label" for="obs_sobre_item">Observação</label>
+                  <div class="col-lg-9">
+                    <input id="obs_sobre_item" name="obs_sobre_item" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['obs_sobre_item'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="dsc_item_neces">Descrição do Item</label>
+                  <div class="col-lg-9">
+                    <input id="dsc_item_neces" name="dsc_item_neces" readonly="" class="form-control input-md" type="text" maxlength="100" value="<?= $this->view->dadosNecessidade['dsc_item_neces'] ?>">
+                  </div>
+                </div>             
+              <?php } ?>              
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cd_tip_sexo">Sexo<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_sexo" name="cd_tip_sexo" class="form-control" disabled="">
+                    
+                    <?php function selected7( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0"<?php echo selected7('0', $this->view->dadosNecessidade['cd_tip_sexo']); ?>>Nenhum Específico</option>
+                    
+                    <option value="1"<?php echo selected7('1', $this->view->dadosNecessidade['cd_tip_sexo']); ?>>Masculino</option>
+                    
+                    <option value="2"<?php echo selected7('2', $this->view->dadosNecessidade['cd_tip_sexo']); ?>>Feminino</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cd_estrut_corporal">Estrutura Corporal<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_estrut_corporal" name="cd_estrut_corporal" class="form-control" disabled="">
+                    
+                    <?php function selected3( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0"<?php echo selected3('0', $this->view->dadosNecessidade['cd_estrut_corporal']); ?>>Nenhum Específico</option>
+                    
+                    <option value="1"<?php echo selected3('1', $this->view->dadosNecessidade['cd_estrut_corporal']); ?>>Bebê</option>
+                    
+                    <option value="2"<?php echo selected3('2', $this->view->dadosNecessidade['cd_estrut_corporal']); ?>>Infantil</option>
+                    
+                    <option value="3"<?php echo selected3('3', $this->view->dadosNecessidade['cd_estrut_corporal']); ?>>Adulto</option>
+                    
+                    <option value="4"<?php echo selected3('4', $this->view->dadosNecessidade['cd_estrut_corporal']); ?>>Geriatra</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cd_tam_corporal">Tamanho Corporal<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tam_corporal" name="cd_tam_corporal" class="form-control" disabled="">
+                    
+                    <?php function selected4( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0"<?php echo selected4('0', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Nenhum Específico</option>
+                    
+                    <option value="1"<?php echo selected4('1', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Recém Nascido</option>
+                    
+                    <option value="2"<?php echo selected4('2', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Pequeno</option>
+                    
+                    <option value="3"<?php echo selected4('3', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Médio</option>
+                    
+                    <option value="4"<?php echo selected4('4', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Grande</option>
+                    
+                    <option value="5"<?php echo selected4('5', $this->view->dadosNecessidade['cd_tam_corporal']); ?>>Extra Grande</option>
+                  </select>
+                </div>
+
+                <label class="col-md-2 control-label" for="nr_corporal">Nr. Corporal<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="nr_corporal" name="nr_corporal" readonly="" class="form-control input-md" type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->dadosNecessidade['nr_corporal'] ?>">
+                </div>
+
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="idade_aparente_pessoa">Idade Aparente<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input id="idade_aparente_pessoa" name="idade_aparente_pessoa" readonly="" class="form-control input-md" type="text" maxlength="2" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->dadosNecessidade['idade_aparente_pessoa'] ?>">
+                </div>
+
+                <div class="col-lg-3">
+                  <select id="cd_tempo_idade" name="cd_tempo_idade" class="form-control" disabled="">
+                    
+                    <?php function selected5( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0"<?php echo selected5('0', $this->view->dadosNecessidade['cd_tempo_idade']); ?>>Nenhum Específico</option>
+                    
+                    <option value="1"<?php echo selected5('1', $this->view->dadosNecessidade['cd_tempo_idade']); ?>>Dias</option>
+                    
+                    <option value="2"<?php echo selected5('2', $this->view->dadosNecessidade['cd_tempo_idade']); ?>>Meses</option>
+                    
+                    <option value="3"<?php echo selected5('3', $this->view->dadosNecessidade['cd_tempo_idade']); ?>>Anos</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cd_tip_clas_item">Classificação do Item Durável<h11>*</h11></label>
+                <div class="col-lg-3">
+                  <select id="cd_tip_clas_item" name="cd_tip_clas_item" class="form-control" disabled=""> 
+                    
+                    <?php function selected6( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0"<?php echo selected6('0', $this->view->dadosNecessidade['cd_tip_clas_item']); ?>>Nenhum Específico</option>
+                    
+                    <option value="1"<?php echo selected6('1', $this->view->dadosNecessidade['cd_tip_clas_item']); ?>>Infantil</option>
+                    
+                    <option value="2"<?php echo selected6('2', $this->view->dadosNecessidade['cd_tip_clas_item']); ?>>Solteiro</option>
+                    
+                    <option value="3"<?php echo selected6('3', $this->view->dadosNecessidade['cd_tip_clas_item']); ?>>Casal</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <?php if ($_POST['cb_situ_item_solicitado'] == '1') { ?>              
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="qtd_item_neces">Quantidade do Item<h11>*</h11></label>  
+                  <div class="col-lg-2">
+                    <input id="3" name="qtd_item_neces" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->dadosNecessidade['qtd_item_neces'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">    
+                  <label class="col-md-2 control-label" for="cd_tip_unid_item">Tipo Item<h11>*</h11></label>
+                  <div class="col-lg-3">
+                    <select id="cd_tip_unid_item" name="cd_tip_unid_item" class="form-control">
+                      
+                      <?php function selected8( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                      <option value="1"<?php echo selected8('1', $this->view->dadosNecessidade['cd_tip_unid_item']); ?>>Peça</option>
+                      
+                      <option value="2"<?php echo selected8('2', $this->view->dadosNecessidade['cd_tip_unid_item']); ?>>Unidade</option>
+
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="vlr_neces">Valor (R$)</label>
+                  <div class="col-lg-2">
+                    <?php if ($this->view->dadosNecessidade['vlr_neces'] > 0) { ?>
+                      <input id="dinheiro" name="vlr_neces" value="<?= $this->view->dadosNecessidade['vlr_neces'] ?>"maxlength="17" class="dinheiro form-control" placeholder="Somente números" style="display:inline-block" />
+                    <?php } else { ?>                  
+                      <input id="dinheiro" name="vlr_neces" value="<?= $this->view->dadosNecessidade['vlr_neces'] ?>"maxlength="17" readonly="" class="dinheiro form-control"  style="display:inline-block" />
+                    <?php } ?>                  
+                </div>
+                </div>
+              <?php } else { ?>
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="qtd_item_neces">Quantidade do Item<h11>*</h11></label>  
+                  <div class="col-lg-9">
+                    <input id="qtd_item_neces" name="qtd_item_neces" readonly="" class="form-control input-md" type="text" maxlength="15" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="<?= $this->view->dadosNecessidade['qtd_item_neces'] ?>">
+                  </div>
+                </div>
+
+                <div class="form-group">    
+                  <label class="col-md-2 control-label" for="cd_tip_unid_item">Tipo Item<h11>*</h11></label>
+                  <div class="col-lg-3">
+                    <select id="cd_tip_unid_item" name="cd_tip_unid_item" class="form-control" disabled="">
+                      
+                      <?php function selected8( $value, $selected ) {
+                          return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                      <option value="1"<?php echo selected8('1', $this->view->dadosNecessidade['cd_tip_unid_item']); ?>>Peça</option>
+                      
+                      <option value="2"<?php echo selected8('2', $this->view->dadosNecessidade['cd_tip_unid_item']); ?>>Unidade</option>
+
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="vlr_neces">Valor (R$)</label>
+                  <div class="col-lg-2">
+                    <input id="dinheiro" name="vlr_neces" value="<?= $this->view->dadosNecessidade['vlr_neces'] ?>"maxlength="17" disabled="" class="dinheiro form-control" readonly="" style="display:inline-block" />
+                  </div>
+                </div>
+              <?php } ?>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Alterar"></label>
+                <div class="col-md-8">
+
+                  <a href="#" onclick="sendPost('/fNAlterarNeces', {cb_grupo_escolhido:'<?= $_POST['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cb_subgrupo_escolhido'] ?>', cb_familia_escolhida:'<?= $_POST['cb_familia_escolhida'] ?>', cd_setor_resp:'<?= $_POST['cd_setor_resp'] ?>', cb_item_escolhido:'<?= $_POST['cb_item_escolhido'] ?>', cb_subitem_escolhido:'<?= $_POST['cb_subitem_escolhido'] ?>', cb_situ_item_solicitado:'<?= $_POST['cb_situ_item_solicitado'] ?>'});" class="btn btn-success">Retorna</a>
+
+                  <!-- Somente abre para Alterar ou Excluir se PENDENTE ou Família com atendimento não encerrado -->
+                  <?php if ($_POST['cb_situ_item_solicitado'] == '1') { ?>
+
+                    <?php if ($_POST['fml_atend_encerrado'] == '0') { ?>
+                      <button class="btn btn-primary" type="button" id="btnAlterar">Alterar item</button>
+                    <?php } ?>
+
+                    <button class="btn btn-primary" type="button" id="btnExcluir">Cancelar item</button>
+                  <?php } ?>
+
+                  <a class="btn" id="btnOculto"></a>    
+                </div>              
+              </div>
+
+              <!-- Campos para tratamento de retorno -->
+              <input id="cd_tip_evt_neces" name="cd_tip_evt_neces" class="form-control input-md" disabled="" type="text" maxlength="2"  value="" hidden>
+              <input type="hidden" name="cd_tip_evt_neces" value="<?= $this->view->dadosNecessidade['cd_tip_evt_neces'] ?>"> 
+
+              <input id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_grupo_escolhido'] ?>" hidden>
+              <input type="hidden" name="cb_grupo_escolhido" value="<?= $_POST['cb_grupo_escolhido'] ?>"> 
+
+              <input id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_subgrupo_escolhido'] ?>" hidden>
+              <input type="hidden" name="cb_subgrupo_escolhido" value="<?= $_POST['cb_subgrupo_escolhido'] ?>"> 
+              
+              <input id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_familia_escolhida'] ?>" hidden>
+              <input type="hidden" name="cb_familia_escolhida" value="<?= $_POST['cb_familia_escolhida'] ?>"> 
+
+              <input id="cd_setor_resp" name="cd_setor_resp" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cd_setor_resp'] ?>" hidden>
+              <input type="hidden" name="cd_setor_resp" value="<?= $_POST['cd_setor_resp'] ?>"> 
+
+              <input id="cb_item_escolhido" name="cb_item_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_item_escolhido'] ?>" hidden>
+              <input type="hidden" name="cb_item_escolhido" value="<?= $_POST['cb_item_escolhido'] ?>"> 
+
+              <input id="cb_subitem_escolhido" name="cb_subitem_escolhido" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_subitem_escolhido'] ?>" hidden>
+              <input type="hidden" name="cb_subitem_escolhido" value="<?=$_POST['cb_subitem_escolhido'] ?>"> 
+
+              <input id="cb_situ_item_solicitado" name="cb_situ_item_solicitado" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $_POST['cb_subitem_escolhido'] ?>" hidden>
+              <input type="hidden" name="cb_situ_item_solicitado" value="<?=$_POST['cb_situ_item_solicitado'] ?>"> 
+
+              <input id="cd_item" name="cd_item" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosNecessidade['cd_item'] ?>" hidden>
+              <input type="hidden" name="cd_item" value="<?= $this->view->dadosNecessidade['cd_item'] ?>"> 
+
+              <input id="cd_sbitem" name="cd_sbitem" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosNecessidade['cd_sbitem'] ?>" hidden>
+              <input type="hidden" name="cd_sbitem" value="<?= $this->view->dadosNecessidade['cd_sbitem'] ?>"> 
+
+              <input id="seql_item_neces" name="seql_item_neces" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosNecessidade['seql_item_neces'] ?>" hidden>
+              <input type="hidden" name="seql_item_neces" value="<?= $this->view->dadosNecessidade['seql_item_neces'] ?>"> 
+              <!-- Término Campos para tratamento de retorno -->
+
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" //
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <script src="alertaConfirmaAlteraNecesEventual.js"></script>
+
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+
+  </body>
+</html>

@@ -15,7 +15,7 @@
         <fieldset>    
         <form class="form-horizontal" action="/fAConcluirRT" method="post" id="FormConclui">
           <div class="panel panel-primary">
-            <div class="panel-heading"><h4>Concluir Relatório Triagem</h4></div>
+            <div class="panel-heading"><h4>Relatório Triagem</h4></div>
             <div class="panel-body">
               <div class="col-md-11 control-label">
                 <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11> Campo Obrigatório </p>
@@ -38,17 +38,26 @@
                   </select>
                 </div>
               </div>
+              
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Buscar"></label>
                 <div class="col-md-8">
-                  <button class="btn btn-primary" id="btnBuscar" type="submit" disabled="">Buscar</button>
-
                   <a href="/familiaAcompanhamento" class="btn btn-success" >Retorna</a>
+
+                  <button class="btn btn-primary" id="btnBuscar" type="submit" disabled="">Buscar</button>
                   
                   <a class="btn" id="btnOculto"></a>
                 </div>
               </div>
-			            
+
+              <!-- Para poder filtrar grupo e subgrupo pelo código do voluntário -->
+              <div class="form-group">
+                 <div class="col-md-1">
+                   <input id="cd_vlnt" name="cd_vlnt" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->codVoluntario ?>" disabled="" hidden>
+                 </div>
+                 <input type="hidden" name="cd_vlnt" value=<?= $this->view->codVoluntario ?>> 
+              </div>
+		            
             </div>
           </div>
         </form>
@@ -59,7 +68,7 @@
             <small class="form-text text-danger">Grupo e Subgrupo precisam ser escolhidos!</small>
 
           <?php } else if ($this->view->erroValidacao == 3) { ?>
-            <small class="form-text text-danger">Não há famílias Passíveis de Conclusão de Relatório!</small>
+            <small class="form-text text-danger">Não há famílias Passíveis de impostação de Relatório!</small>
             <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->codGrupo.'-'.$this->view->nomeGrupo ?>  </small>
             <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->codSubgrupo.'-'.$this->view->nomeSubgrupo ?>  </small>
          
@@ -114,7 +123,12 @@
           $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>');
 
           // Carrega Grupos         
-          $.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
+          // Filtrar grupo onde o voluntário logado tem vínculo
+          //$.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
+
+          var codVlnt = $('#cd_vlnt').val();
+          
+          $.getJSON('ConsultaCbDependente.php?opcao=grupoE&valor='+codVlnt, function (dados){
 
              if (dados.length > 0){    
                 var option = '<option>Escolha Grupo</option>';
@@ -130,16 +144,18 @@
 
       // Carrega Subgrupos
       $('#cb_grupo_escolhido').change(function(e){
-        var grupo = $('#cb_grupo_escolhido').val();
-          $.getJSON('ConsultaCbDependente.php?opcao=subgrupo&valor='+grupo, 
+          var grupo = $('#cb_grupo_escolhido').val();
+          var codVlnt = $('#cd_vlnt').val();        
+          var grupoVlnt = grupo+';'+codVlnt;
+
+          // Filtrar subgrupo onde o voluntário logado tem vínculo
+          //$.getJSON('ConsultaCbDependente.php?opcao=subgrupo&valor='+grupo, 
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupoE&valor='+grupoVlnt, 
           function (dados){ 
            
              if (dados.length > 0){    
 
                 var option = '<option>Escolha Subgrupo</option>';
-
-                // Artificio para poder abrir combo voluntário a pesquisar sem subgrupo vinculado
-                option += '<option>Sem Subgrupo</option>';
 
                 $.each(dados, function(i, obj){
                     option += '<option value="'+obj.cod_subgrupo+'">'+obj.nome_subgrupo+'</option>';

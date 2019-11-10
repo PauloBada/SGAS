@@ -60,10 +60,10 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="cpf">CPF</label>  
                 <div class="col-lg-2">
-                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value=<?= $this->view->voluntario['cpf'] ?>>
+                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value="<?= $this->view->voluntario['cpf'] ?>" onclick="this.style.borderColor=''">
                 </div>
                 
-                <label class="col-md-1 control-label" for="dtnasc">Nascimento</label>  
+                <label class="col-md-2 control-label" for="dtnasc">Nascimento</label>  
                 <div class="col-lg-2">
                     <input id="dtnasc" name="dtnasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" value=<?= $this->view->voluntario['dtnasc'] ?>>
                 </div>
@@ -315,17 +315,16 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Alterar"></label>
                 <div class="col-md-8">
-                  
-                  <!--Para o SweetAlert funcionar, o tipo do botão tem que ser type="button" -->
-                  <!--<button class="btn btn-primary" type="Submit" id="btnAlterar">Alterar</button>-->
-                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
-                  
                   <!-- Retorna de acordo com quem chamou -->
                   <?php if ($this->view->voluntario['quemChamou'] == 'cadastro' || isset($_POST['quemChamou'])) { ?>
                     <a href="/menuPrincipal" class="btn btn-success">Retorna</a> 
                   <?php } else { ?>
                     <a href="/voluntarioAlterar" class="btn btn-success">Retorna</a>
                   <?php } ?>
+
+                  <!--Para o SweetAlert funcionar, o tipo do botão tem que ser type="button" -->
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
+                  
                 </div>
               </div>
 
@@ -370,6 +369,6 @@
     -->
 
     <!-- Para mostrar Alerta de Confima ou Não -->
-    <script src="alertaConfirmaAltera.js"></script>
+    <script src="alertaConfirmaAlteraVoluntario.js"></script>
   </body>
 </html>

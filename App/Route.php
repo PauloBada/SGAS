@@ -144,49 +144,49 @@ class Route extends Bootstrap {
 		// Tela Apoio - Item e Subitem
 		$routes['apoioItemSubitem'] = array (
 			'route' => '/apoioItemSubitem',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemSubitem'
 		);
 
 		$routes['apoioItemIncluir'] = array (
 			'route' => '/apoioItemIncluir',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemIncluir'
 		);
 
 		$routes['apoioItemIncluirBase'] = array (
 			'route' => '/apoioItemIncluirBase',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemIncluirBase'
 		);
 
 		$routes['apoioItemAlterar'] = array (
 			'route' => '/apoioItemAlterar',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemAlterar'
 		);
 
 		$routes['apoioItemAlterarMenu'] = array (
 			'route' => '/apoioItemAlterarMenu',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemAlterarMenu'
 		);
 
 		$routes['apoioItemAlterarBase'] = array (
 			'route' => '/apoioItemAlterarBase',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemAlterarBase'
 		);
 
 		$routes['apoioItemConsultar'] = array (
 			'route' => '/apoioItemConsultar',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemConsultar'
 		);
 
 		$routes['apoioItemConsultarMenu'] = array (
 			'route' => '/apoioItemConsultarMenu',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioItemConsultarMenu'
 		);
 
@@ -194,50 +194,50 @@ class Route extends Bootstrap {
 
 		$routes['apoioSubitemIncluir'] = array (
 			'route' => '/apoioSubitemIncluir',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemIncluir'
 		);
 
 		$routes['apoioSubitemIncluirBase'] = array (
 			'route' => '/apoioSubitemIncluirBase',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemIncluirBase'
 		);
 
 		$routes['apoioSubitemAlterar'] = array (
 			'route' => '/apoioSubitemAlterar',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemAlterar'
 		);
 
 		// Para Atualizar o combobox de Subitem de acordo com o Item
 		$routes['atualizaCbSubitem'] = array (
 			'route' => '/atualizaCbSubitem',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'atualizaCbSubitem'
 		);
 
 		$routes['apoioSubitemAlterarMenu'] = array (
 			'route' => '/apoioSubitemAlterarMenu',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemAlterarMenu'
 		);
 
 		$routes['apoioSubitemAlterarBase'] = array (
 			'route' => '/apoioSubitemAlterarBase',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemAlterarBase'
 		);
 
 		$routes['apoioSubitemConsultar'] = array (
 			'route' => '/apoioSubitemConsultar',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemConsultar'
 		);
 
 		$routes['apoioSubitemConsultarMenu'] = array (
 			'route' => '/apoioSubitemConsultarMenu',
-			'controller' => 'ApoioController',
+			'controller' => 'SuprimentoCadastroController',
 			'action' => 'apoioSubitemConsultarMenu'
 		);
 
@@ -307,6 +307,12 @@ class Route extends Bootstrap {
 			'route' => '/voluntarioAlterarNASBase',
 			'controller' => 'VoluntarioController',
 			'action' => 'voluntarioAlterarNASBase'
+		);
+
+		$routes['voluntarioPerfilAtuacaoMenu'] = array (
+			'route' => '/voluntarioPerfilAtuacaoMenu',
+			'controller' => 'VoluntarioController',
+			'action' => 'voluntarioPerfilAtuacaoMenu'
 		);
 
 // ============ Início tratamento de Grupo ========= //
@@ -1322,6 +1328,287 @@ class Route extends Bootstrap {
 			'action' => 'fNIncluirNecesEventualBase'
 		);
 
+		$routes['fNPreAlterarNeces'] = array (
+			'route' => '/fNPreAlterarNeces',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNPreAlterarNeces'
+		);
+
+		$routes['fNAlterarNeces'] = array (
+			'route' => '/fNAlterarNeces',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNAlterarNeces'
+		);
+
+		$routes['fNAlterarNecesProxVisitaMenu'] = array (
+			'route' => '/fNAlterarNecesProxVisitaMenu',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNAlterarNecesProxVisitaMenu'
+		);
+
+		$routes['fNAlterarNecesProxVisitaBase'] = array (
+			'route' => '/fNAlterarNecesProxVisitaBase',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNAlterarNecesProxVisitaBase'
+		);
+
+		$routes['fNAlterarNecesEventualMenu'] = array (
+			'route' => '/fNAlterarNecesEventualMenu',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNAlterarNecesEventualMenu'
+		);
+
+		$routes['fNAlterarNecesEventualBase'] = array (
+			'route' => '/fNAlterarNecesEventualBase',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNAlterarNecesEventualBase'
+		);
+
+		$routes['fNExcluirNecesBase'] = array (
+			'route' => '/fNExcluirNecesBase',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNExcluirNecesBase'
+		);
+
+		$routes['fNImprimeNeces'] = array (
+			'route' => '/fNImprimeNeces',
+			'controller' => 'FamiliaNecessidadeController',
+			'action' => 'fNImprimeNeces'
+		);
+
+
+
+
+// ============ Início tratamento de Suprimento Almoxarifado ========= //
+		
+		$routes['suprimentoAlmoxarifado'] = array (
+			'route' => '/suprimentoAlmoxarifado',
+			'controller' => 'SuprimentoAlmoxarifadoController',
+			'action' => 'suprimentoAlmoxarifado'
+		);
+
+// ============ Início tratamento de Recursos Financeiros Famílias ========= //
+
+		$routes['familiaFinanceiro'] = array (
+			'route' => '/familiaFinanceiro',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'familiaFinanceiro'
+		);
+
+		$routes['recFinanFamiliaPreSolicitar'] = array (
+			'route' => '/recFinanFamiliaPreSolicitar',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaPreSolicitar'
+		);
+
+		$routes['recFinanFamiliaSolicitar'] = array (
+			'route' => '/recFinanFamiliaSolicitar',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitar'
+		);
+
+		$routes['recFinanFamiliaSolicitarMenu'] = array (
+			'route' => '/recFinanFamiliaSolicitarMenu',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitarMenu'
+		);
+
+		$routes['recFinanFamiliaSolicitarIncluirBase'] = array (
+			'route' => '/recFinanFamiliaSolicitarIncluirBase',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitarIncluirBase'
+		);
+
+
+		$routes['recFinanFamiliaSolicitarAtualizarBase'] = array (
+			'route' => '/recFinanFamiliaSolicitarAtualizarBase',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitarAtualizarBase'
+		);
+
+		$routes['recFinanFamiliaVincular'] = array (
+			'route' => '/recFinanFamiliaVincular',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaVincular'
+		);
+
+		$routes['recFinanFamiliaVincularBase'] = array (
+			'route' => '/recFinanFamiliaVincularBase',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaVincularBase'
+		);
+
+		$routes['recFinanFamiliaSolicitarCancelarBase'] = array (
+			'route' => '/recFinanFamiliaSolicitarCancelarBase',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitarCancelarBase'
+		);
+
+		$routes['recFinanFamiliaSolicitarConcluirBase'] = array (
+			'route' => '/recFinanFamiliaSolicitarConcluirBase',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaSolicitarConcluirBase'
+		);
+
+		$routes['recFinanFamiliaPreConsultar'] = array (
+			'route' => '/recFinanFamiliaPreConsultar',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaPreConsultar'
+		);
+
+		$routes['recFinanFamiliaConsultar'] = array (
+			'route' => '/recFinanFamiliaConsultar',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaConsultar'
+		);
+
+		$routes['recFinanFamiliaConsultarMenu'] = array (
+			'route' => '/recFinanFamiliaConsultarMenu',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaConsultarMenu'
+		);
+
+		$routes['recFinanFamiliaConsultarVinculo'] = array (
+			'route' => '/recFinanFamiliaConsultarVinculo',
+			'controller' => 'RecFinanFamiliaController',
+			'action' => 'recFinanFamiliaConsultarVinculo'
+		);
+
+// ============ Início tratamento de Recursos Financeiros DPS - Recursos ========= //
+
+		$routes['recFinanDPSRecurso'] = array (
+			'route' => '/recFinanDPSRecurso',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecurso'
+		);
+
+		$routes['recFinanDPSRecursoVMR'] = array (
+			'route' => '/recFinanDPSRecursoVMR',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoVMR'
+		);
+
+		$routes['recFinanDPSRecursoVMRMenu'] = array (
+			'route' => '/recFinanDPSRecursoVMRMenu',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoVMRMenu'
+		);
+
+		$routes['recFinanDPSRecursoVMRBase'] = array (
+			'route' => '/recFinanDPSRecursoVMRBase',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoVMRBase'
+		);
+
+		$routes['recFinanDPSRecursoReal'] = array (
+			'route' => '/recFinanDPSRecursoReal',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoReal'
+		);
+
+		$routes['recFinanDPSRecursoRealMenu'] = array (
+			'route' => '/recFinanDPSRecursoRealMenu',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoRealMenu'
+		);
+
+		$routes['recFinanDPSRecursoRealIncluiBase'] = array (
+			'route' => '/recFinanDPSRecursoRealIncluiBase',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoRealIncluiBase'
+		);
+
+		$routes['recFinanDPSRecursoRealGerencia'] = array (
+			'route' => '/recFinanDPSRecursoRealGerencia',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoRealGerencia'
+		);
+
+		$routes['recFinanDPSRecursoRealGerenciaAlteraBase'] = array (
+			'route' => '/recFinanDPSRecursoRealGerenciaAlteraBase',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoRealGerenciaAlteraBase'
+		);
+
+		$routes['recFinanDPSRecursoRealGerenciaCancelaBase'] = array (
+			'route' => '/recFinanDPSRecursoRealGerenciaCancelaBase',
+			'controller' => 'RecFinanDPSRecursoController',
+			'action' => 'recFinanDPSRecursoRealGerenciaCancelaBase'
+		);
+
+// ============ Início tratamento de Recursos Financeiros DPS - Gerencia ========= //
+
+		$routes['recFinanDPSGerencia'] = array (
+			'route' => '/recFinanDPSGerencia',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerencia'
+		);
+
+		$routes['recFinanDPSGerenciaAutorizacao'] = array (
+			'route' => '/recFinanDPSGerenciaAutorizacao',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaAutorizacao'
+		);
+
+		$routes['recFinanDPSGerenciaAutorizacaoBase'] = array (
+			'route' => '/recFinanDPSGerenciaAutorizacaoBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaAutorizacaoBase'
+		);
+
+		$routes['recFinanDPSGerenciaCancelaAutorizacao'] = array (
+			'route' => '/recFinanDPSGerenciaCancelaAutorizacao',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaCancelaAutorizacao'
+		);
+
+		$routes['recFinanDPSGerenciaCancelaAutorizacaoBase'] = array (
+			'route' => '/recFinanDPSGerenciaCancelaAutorizacaoBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaCancelaAutorizacaoBase'
+		);
+
+		$routes['recFinanDPSGerenciaCancelaSolicitacaoBase'] = array (
+			'route' => '/recFinanDPSGerenciaCancelaSolicitacaoBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaCancelaSolicitacaoBase'
+		);
+
+		$routes['recFinanDPSGerenciaRessarcimento'] = array (
+			'route' => '/recFinanDPSGerenciaRessarcimento',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarcimento'
+		);
+
+		$routes['recFinanDPSGerenciaRessarcimentoMenu'] = array (
+			'route' => '/recFinanDPSGerenciaRessarcimentoMenu',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarcimentoMenu'
+		);
+
+		$routes['recFinanDPSGerenciaRessarIncluirBase'] = array (
+			'route' => '/recFinanDPSGerenciaRessarIncluirBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarIncluirBase'
+		);
+
+		$routes['recFinanDPSGerenciaRessarAlterarBase'] = array (
+			'route' => '/recFinanDPSGerenciaRessarAlterarBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarAlterarBase'
+		);
+
+		$routes['recFinanDPSGerenciaRessarCancelarBase'] = array (
+			'route' => '/recFinanDPSGerenciaRessarCancelarBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarCancelarBase'
+		);
+
+		$routes['recFinanDPSGerenciaRessarAutorizarBase'] = array (
+			'route' => '/recFinanDPSGerenciaRessarAutorizarBase',
+			'controller' => 'RecFinanDPSGerenciaController',
+			'action' => 'recFinanDPSGerenciaRessarAutorizarBase'
+		);
 
 
 // ==================== Último comando ============= //

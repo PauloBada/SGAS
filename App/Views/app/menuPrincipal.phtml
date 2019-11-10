@@ -22,47 +22,68 @@
           <div class="collapse navbar-collapse infoMenus" id="navegacao3">
             <ul class="navbar-nav ml-auto">
      	        <li class="nav-item dropdown">
-                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Cadastro</a>
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Meus Dados</a>
                 <div class="dropdown-menu infoPopUp">
-                    <a href="/voluntarioSenha" class="dropdown-item">Nova Senha</a>
                     <!-- Função Javascript que remete $_POST -->
                     <a class="dropdown-item" href="#" onclick="sendPost('/voluntarioAlterarMenu', {voluntario_escolhido:'<?= $_SESSION['id'] ?>', quemChamou:'cadastro'});">Alterar Dados Cadastrais</a>
+                    <a href="/voluntarioSenha" class="dropdown-item">Nova Senha</a>
+                    <a href="/voluntarioPerfilAtuacaoMenu" class="dropdown-item">Perfil de Atuação</a>
                 </div>
               </li>
 
      	        <li class="nav-item dropdown">
-                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Apoio</a>
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Central Voluntários</a>
 
                 <div class="dropdown-menu infoPopUp">
+                  <a href="/familiaCadastro" class="dropdown-item">Família e Integrante</a>
+                  <a href="/voluntario" class="dropdown-item">Voluntário</a>
 	                <a href="/apoioRA" class="dropdown-item">Região Administrativa</a>
-                  <a href="/apoioItemSubitem" class="dropdown-item">Item e SubItem Necessidades - Almoxarifado</a>
                 </div>
-              </li>
-
-              <li class="nav-item">
-                  <a href="/grupoSubgrupo" class="nav-link">Grupo/Subgrupo</a>
-              </li>
-
-              <li class="nav-item">
-                  <a href="/voluntario" class="nav-link">Voluntário</a>
               </li>
 
      	        <li class="nav-item dropdown">
-                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Família</a>
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Grupo de Família</a>
                 <div class="dropdown-menu infoPopUp">
-	                <a href="/familiaCadastro" class="dropdown-item">Cadastro</a>
-	                <a href="/familiaAcompanhamento" class="dropdown-item">Acompanhamentos</a>
-                  <a href="/familiaNecessidade" class="dropdown-item">Necessidades</a>
+	                <a href="/grupoSubgrupo" class="dropdown-item">Gerenciamento Cadastral</a>
                 </div>
               </li>
 
-              <li class="nav-item">
-                <a href="#" class="nav-link">Suprimento</a>
+              <li class="nav-item dropdown">
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Atendimento Famílias</a>
+                <div class="dropdown-menu infoPopUp">
+                  <a href="/familiaAcompanhamento" class="dropdown-item">Acompanhamento de Família</a>
+                  <a href="/familiaNecessidade" class="dropdown-item">Necessidade de Família</a>
+                  <a href="/familiaFinanceiro" class="dropdown-item">Recurso Financeiro de Família</a>
+                </div>
               </li>
 
-              <li class="nav-item">
-                <a href="#" class="nav-link">Financeiro</a>
+              <li class="nav-item dropdown">
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Financeiro</a>
+                <div class="dropdown-menu infoPopUp">
+                  <a href="/recFinanDPSRecurso" class="dropdown-item">Recurso Financeiro DPS</a>                  
+                  <a href="/recFinanDPSGerencia" class="dropdown-item">Autorização e Ressarcimento</a>                  
+                </div>
               </li>
+
+              <li class="nav-item dropdown">
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Central Suprimentos</a>
+                <div class="dropdown-menu infoPopUp">
+                  <a href="/apoioItemSubitem" class="dropdown-item">Item e SubItem Suprimentos</a>                  
+                  <a href="/suprimentoAlmoxarifado" class="dropdown-item">Setor Almoxarifado</a>                  
+                  <a href="#" class="dropdown-item">Setor Outros</a>                  
+                </div>
+              </li>
+
+<!--
+              <li class="nav-item dropdown">
+                <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Financeiro</a>
+                <div class="dropdown-menu infoPopUp">
+                  <a href="#" class="dropdown-item">Recursos Financeiros</a>                  
+                  <a href="#" class="dropdown-item">Solicitações Financeiras</a>                  
+                  <a href="#" class="dropdown-item">Ressarcimentos Financeiros</a>                  
+                </div>
+              </li>
+-->
 
               <li class="nav-item">
                 <a href="#" class="nav-link">Info Gerenciais</a>

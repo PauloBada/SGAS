@@ -14,7 +14,7 @@
       <div class="container">
        <form class="form-horizontal" action="" method="post" id="FormTabela">
         <div class="panel panel-primary">
-          <div class="panel-heading"><h4>Consulta Ranking Familias aguardando Triagem</h4></div>
+          <div class="panel-heading"><h4>Consulta Ranking Familias aguardando Atendimento</h4></div>
           <div class="panel-body">
             <div class="col-md-12 d-flex">
               <ul class="list-group">
@@ -27,16 +27,15 @@
                 <thead class="thead-light">
                 <tr>
                   <!-- Nome das Colunas -->
-                  <th scope="col">Dt. Cadastro</th>
+                  <th scope="col">Data Cadastro</th>
                   <th scope="col">Família</th>                  
-                  <th scope="col">Grupo</th>
-                  <th scope="col">Subgrupo</th>
+                  <th scope="col">Reg. Administrativa</th>
                   <th scope="col">Atend. Anteriores*</th>
                   <th scope="col">Tempo de espera*</th>
                   <th scope="col">Renda Per capita*</th>
                   <th scope="col">Atend. Assistido Principal*</th>
                   <th scope="col">Total Pontos</th>
-                  <th scope="col">Posição Subgrupo</th>
+                  <th scope="col">Posição Ranking</th>
                 </tr>
                 </thead>
                 
@@ -48,9 +47,7 @@
 
                         <td><?php echo $ranking['cd_fml']; ?></td>
 
-                        <td><?php echo $ranking['cd_grp']; ?></td>
-
-                        <td><?php echo $ranking['cd_sbgrp']; ?></td>
+                        <td><?php echo $ranking['reg_adm']; ?></td>
 
                         <td><?php echo $ranking['nrAssistencia']; ?></td>
                         
@@ -73,7 +70,7 @@
             <div class="form-group">
               <label class="col-md-2 control-label"></label>
               <div class="col-md-8">
-                <a href="/fAPreConsultarRankingFml" class="btn btn-success" >Retorna</a>
+                <a href="/familiaAcompanhamento" class="btn btn-success" >Retorna</a>
               </div>
             </div>
 

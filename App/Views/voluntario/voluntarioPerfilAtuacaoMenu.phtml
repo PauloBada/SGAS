@@ -1,0 +1,80 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com lista de famílias que podem ter sido atendidas antes tendo este solicitante como membro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Perfil de Atuação<?php echo ' - '.$this->view->nomeVoluntario .' ('.$this->view->codVoluntario.')' ?></h4></div>
+          <div class="panel-body">
+            <div class="col-md-12 d-flex">
+              <!--
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning"><?php echo $this->view->codVoluntario. ' - '. $this->view->nomeVoluntario ?></label>  
+              </ul>
+              -->
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Nível de Acesso no Sistema: <?php echo $this->view->nivelAcessoVoluntarioSistema ?></label>  
+              </ul>
+            </div>
+
+            <div class="table-responsive-lg">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Grupo</th>
+                  <th scope="col">Subgrupo</th>
+                  <th scope="col">Atuação no grupo</th>
+                  <th scope="col">Família atendida</th>
+                  <th scope="col">Situação da Família no sistema</th>
+                  <th scope="col">Próxima Data Triagem/Visita</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                    <?php foreach ($this->view->dadosPerfilVlnt as $indice => $perfil) { ?>
+                      <tr>
+                        <!-- Passa por $_GET o código da Família para mostrar dados na consulta -->
+                        <td><?php echo $perfil['cdNomeGrp']; ?></td>
+
+                        <td><?php echo $perfil['cdNomeSbgrp']; ?></td>
+
+                        <td><?php echo $perfil['cdAtuaVlntSbgrp']; ?></td>
+
+                        <td><?php echo $perfil['cdNomeFml']; ?></td>
+
+                        <td><?php echo $perfil['sitFml']; ?></td>
+
+                        <td><?php echo $perfil['proxDataTriagemVisita']; ?></td>
+
+                      </tr>
+                    <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+                <a href="/menuPrincipal" class="btn btn-success" >Retorna</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+       </form>
+      </div>
+    </section>
+  </body>
+</html>

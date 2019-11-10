@@ -1,0 +1,77 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Aspecto Intimo
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera" enctype="multipart/form-data">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Recursos Financeiros DPS</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dt_recur_orc">Data Inclusão<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input readonly="" id="dt_recur_orc" name="dt_recur_orc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->infoORC['dt_recur_orc'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="obs">Observação<h11>*</h11></label>
+                <div class="col-lg-9">
+                  <textarea id="1" name="obs" required="" placeholder="Descreva algo sobre a origem desse valor" class="form-control input-md" type="text" rows="2" cols="30" maxlength="200" onclick="this.style.borderColor=''"><?= $this->view->infoORC['obs'] ?></textarea>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="vlr_recur_orc">Valor Recurso (R$)<h11>*</h11></label>
+                <div class="col-lg-2">
+                  <input id="dinheiro" name="vlr_recur_orc" value="<?= $this->view->infoORC['vlr_recur_orc'] ?>"maxlength="17" class="dinheiro form-control" requerid="" placeholder="Valor recurso" style="display:inline-block" />
+                </div>
+              </div>
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="btnAlterar"></label>
+                <div class="col-md-8">
+                  <a href="#" onclick="sendPost('/recFinanDPSRecursoReal', {a:'a'});" class="btn btn-success">Retorna</a>                 
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Incluir Recurso</button>
+                </div>
+              </div>
+     
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+    
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    <!-- <script src="alertaConfirmaAlteraConcluiRV.js"></script> -->
+    <script src="alertaConfirmaIncluiRecFinanReal.js"></script>
+    
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

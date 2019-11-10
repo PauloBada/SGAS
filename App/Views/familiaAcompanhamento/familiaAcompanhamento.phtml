@@ -12,18 +12,6 @@
   <body>
     <section class="caixa">
       <div class="container"> 
-
-        <div class="col infoErro text-center" >
-          <?php if ($this->view->erroValidacao == 1) { ?>
-           <small class="form-text text-danger">Erro: Voluntário sem nível de acesso apropriado!</small>
-           <small class="form-text text-danger"><?php echo "Nível Requerido: ".$this->view->nivelRequerido." - Seu Nível Atual: ".$this->view->nivelLogado ?></small>
-
-          <?php } else if ($this->view->erroValidacao == 9) { ?>
-             <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
-
-          <?php } ?>
-        </div>
-
         <fieldset>    
         <form class="form-horizontal" action="" method="post">
           <div class="panel panel-primary"> 
@@ -38,25 +26,13 @@
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/familiaAcompanhamentoPreIncluirRelTriagem">Incluir Relatório - Segmentos Triagem</a>
+                      <a class="list-group-item list-group-item-info" href="/fAPreConcluirRT">Relatório Triagem</a>
                   </ul>
                 </div>
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreAlterarRT">Alterar Relatório - Segmentos Triagem</a>
-                  </ul>
-                </div>
-
-                <div class="col-md-4">
-                  <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreConcluirRT">Concluir Relatório Triagem</a>
-                  </ul>
-                </div>
-
-                <div class="col-md-4">
-                  <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreRevisarRT">Revisar e Formalizar Relatório Triagem</a>
+                      <a class="list-group-item list-group-item-info" href="/fAPreRevisarRT">Revisar Relatório Triagem</a>
                   </ul>
                 </div>
               </div>
@@ -70,31 +46,19 @@
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreIncluirRV">Incluir Relatório Visita</a>
+                      <a class="list-group-item list-group-item-info" href="/fAPreConcluirRV">Relatório Visita</a>
                   </ul>
                 </div>
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreAlterarRV">Alterar Relatório Visita</a>
+                      <a class="list-group-item list-group-item-info" href="/fAPreRevisarRV">Revisar Relatório Visita</a>
                   </ul>
                 </div>
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreConcluirRV">Concluir Relatório Visita</a>
-                  </ul>
-                </div>
-
-                <div class="col-md-4">
-                  <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreRevisarRV">Revisar e Formalizar Relatório Visita</a>
-                  </ul>
-                </div>
-
-                <div class="col-md-4">
-                  <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreIncluirRD">Formalizar Relatório Desligamento</a>
+                      <a class="list-group-item list-group-item-info" href="/fAPreIncluirRD">Relatório Desligamento</a>
                   </ul>
                 </div>
               </div>
@@ -120,7 +84,7 @@
 
                 <div class="col-md-4">
                   <ul class="list-group text-center">
-                      <a class="list-group-item list-group-item-info" href="/fAPreConsultarRankingFml">Ranking Famílias aguardando Triagem</a>
+                      <a class="list-group-item list-group-item-info" href="/fAConsultarRankingFml">Ranking Famílias aguardando Atendimento<span class="badge badge-warning"><?= $this->view->qtdRankingFamilias ?></span></a>
                   </ul>
                 </div>
 
@@ -136,20 +100,19 @@
         </form>
         </fieldset>
 
-      <!-- Passou para cima
         <div class="col infoErro text-center" >
           <?php if ($this->view->erroValidacao == 1) { ?>
            <small class="form-text text-danger">Erro: Voluntário sem nível de acesso apropriado!</small>
            <small class="form-text text-danger"><?php echo "Nível Requerido: ".$this->view->nivelRequerido." - Seu Nível Atual: ".$this->view->nivelLogado ?></small>
-
-
+          
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+           <small class="form-text text-danger">Não há famílias cadastradas a serem rankeadas!</small>
 
           <?php } else if ($this->view->erroValidacao == 9) { ?>
              <small class="form-text text-danger">Erro: <?php echo ' '.$this->view->erroException ?>Verifique!</small>
 
           <?php } ?>
         </div>
-      -->
 
       </div>
     </section>

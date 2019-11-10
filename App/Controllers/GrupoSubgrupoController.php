@@ -22,11 +22,23 @@ class GrupoSubgrupoController extends Action {
 		}
 	}
 
+// ================================================== //
+
+	public function atualizaqtdFamiliasSemVinculo() {
+		// Busca Quantidade de Famílias sem vínculo com Subgrupo para mostrar na tela
+		$qtdSemVinculoFamilia = Container::getModel('TbFml');
+		$qtdSemVinculoFmlr = $qtdSemVinculoFamilia->getQtdFamiliasSemVFS();
+
+		$this->view->qtdFamiliasSemVinculo = $qtdSemVinculoFmlr['qtde'];
+	}
+
 // ====================================================== //	
 
 	public function grupoSubgrupo() {
 
 		$this->validaAutenticacao();
+
+		$this->atualizaqtdFamiliasSemVinculo();		
 
 		$this->view->erroValidacao = 2;
 		$this->view->nivelRequerido = 2;
@@ -50,6 +62,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+
+			$this->atualizaqtdFamiliasSemVinculo();		
+
 			$this->render('grupoSubgrupo');				
 		} else {
 			$this->view->erroValidacao = 0;
@@ -107,6 +122,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+	
+			$this->atualizaqtdFamiliasSemVinculo();		
+
 			$this->render('grupoSubgrupo');				
 		} else {
 			// Buscar todos os itens e remeter array para montar o combobox
@@ -204,6 +222,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+
+			$this->atualizaqtdFamiliasSemVinculo();		
+
 			$this->render('grupoSubgrupo');				
 		} else {
 			// Buscar todos os itens e remeter array para montar o combobox
@@ -342,6 +363,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+
+			$this->atualizaqtdFamiliasSemVinculo();		
+
 			$this->render('grupoSubgrupo');				
 		} else {
 			// Buscar todos os Grupos e remeter array para montar o combobox
@@ -475,6 +499,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+
+			$this->atualizaqtdFamiliasSemVinculo();		
+
 			$this->render('grupoSubgrupo');				
 		} else {
 			$this->view->erroValidacao = 0;
@@ -617,6 +644,9 @@ class GrupoSubgrupoController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
+
+			$this->atualizaqtdFamiliasSemVinculo();		
+			
 			$this->render('grupoSubgrupo');				
 		} else {
 			$this->view->erroValidacao = 0;

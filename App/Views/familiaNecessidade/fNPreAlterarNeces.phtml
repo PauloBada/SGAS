@@ -1,0 +1,327 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Escolha de Grupo, subgrupo e família para inclusão de relatório de triagem
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">    
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>    
+        <form class="form-horizontal" action="/fNAlterarNeces" method="post" id="FormConclui">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Gerenciar Item Necessidade de Família</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório</p>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_grupo_escolhido">Grupo<h11>*</h11></label>  
+                <div class="col-lg-4">
+                  <select required id="cb_grupo_escolhido" name="cb_grupo_escolhido" class="form-control">
+                    <option value="">Escolha Grupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subgrupo_escolhido">Subgrupo</label>  
+                <div class="col-lg-4">
+                  <select required id="cb_subgrupo_escolhido" name="cb_subgrupo_escolhido" class="form-control">
+                    <option value="">Escolha Subgrupo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_familia_escolhida">Família</label>  
+                <div class="col-md-4">
+                  <select id="cb_familia_escolhida" name="cb_familia_escolhida" class="form-control">
+                    <option value="">Escolha Família</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cd_setor_resp">Setor Responsável</label>
+                <div class="col-lg-4">
+                  <select id="cd_setor_resp" name="cd_setor_resp" class="form-control">
+                    
+                    <?php function selected2( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="0">Escolha Setor Responsável</option>
+                    
+                    <option value="1">Almoxarifado</option>
+                    
+                    <option value="2">Grupo/Subgrupo</option>
+                    
+                    <option value="3">Setor Orientação Profissional</option>
+                    
+                    <option value="4">Biblioteca Canguru</option>
+                    
+                    <option value="5">Biblioteca Canguru - Contadores de História</option>
+
+                    <option value="6">Grupo de Desobsessão Auta de Souza</option>
+
+                    <option value="7">Implantação do Evangelho no Lar</option>
+
+                    <option value="8">Parcerias Médicas</option>
+
+                    <option value="9">Grupo de Apoio e Atendimento na sede da Comunhão</option>
+
+                    <option value="10">Direção da Comunhão</option>
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_item_escolhido">Item Suprimento</label>  
+                <div class="col-lg-4">
+                  <select required id="cb_item_escolhido" name="cb_item_escolhido" class="form-control">
+                    <option value="">Escolha Item</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="cb_subitem_escolhido">Subitem Suprimento</label>  
+                <div class="col-lg-4">
+                  <select required id="cb_subitem_escolhido" name="cb_subitem_escolhido" class="form-control">
+                    <option value="">Escolha Subitem</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">    
+                <label class="col-md-2 control-label" for="cb_situ_item_solicitado">Situação Item<h11>*</h11></label>
+                <div class="col-lg-4">
+                  <select id="cb_situ_item_solicitado" name="cb_situ_item_solicitado" class="form-control">
+                    
+                    <?php function selected3( $value, $selected ) {
+                        return $value==$selected ? ' selected="selected"' : ''; } ?>
+
+                    <option value="1">Pendente</option>
+                    
+                    <option value="2">Atendido</option>
+                    
+                    <option value="3">Cancelado/Indisponível</option>
+                    
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-2 control-label" for="Buscar"></label>
+                <div class="col-md-8">
+                  <a href="/familiaNecessidade" class="btn btn-success" >Retorna</a>
+
+                  <button class="btn btn-primary" id="btnBuscar" type="submit" disabled="">Buscar</button>
+                  
+                  <a class="btn" id="btnOculto"></a>
+                </div>
+              </div>
+
+              <!-- Para poder filtrar grupo e subgrupo pelo código do voluntário -->
+              <div class="form-group">
+                 <div class="col-md-1">
+                   <input id="cd_vlnt" name="cd_vlnt" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->codVoluntario ?>" disabled="" hidden>
+                 </div>
+                 <input type="hidden" name="cd_vlnt" value=<?= $this->view->codVoluntario ?>> 
+              </div>
+			            
+            </div>
+          </div>
+        </form>
+        </fieldset>
+
+        <div class="col infoErro text-center" >
+          <?php if ($this->view->erroValidacao == 2) { ?>
+            <small class="form-text text-danger">Grupo precisa ser escolhido!</small>
+
+          <?php } else if ($this->view->erroValidacao == 6) { ?>
+            <small class="form-text text-danger">Combinação não permitida! Verifique opções de escolha!</small>
+ 
+          <?php } else if ($this->view->erroValidacao == 3) { ?>
+            <small class="form-text text-danger">Não há Itens para gerenciar nos critérios informados!</small>
+            <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->codGrupo.'-'.$this->view->nomeGrupo ?>  </small>
+         
+          <?php } else if ($this->view->erroValidacao == 5) { ?>
+           <small class="form-text text-danger">Voluntário Não está vinculado ao Grupo/Subgrupo!</small>
+           <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+           <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+          <?php } ?>
+        </div>
+
+      </div>
+    </section>
+
+    <script>
+      // Para simular o clique do botão e abrir as opções de Grupo e Subgrupo
+      <?php if ($this->view->erroValidacao >= 0 ) { ?>
+        $(function() {
+            $('#btnOculto').on("click", function () {
+              $('#btnOculto').hide();
+          });
+          // Chama a função de clique através do trigger
+          $("#btnOculto").trigger('click');
+        })
+      <?php } ?>
+
+      $('#btnOculto').click(function(e){
+          $("#btnBuscar").removeAttr("disabled");
+          $("#cb_grupo_escolhido").removeAttr("disabled");
+          $("#cb_subgrupo_escolhido").removeAttr("disabled");
+          $("#cb_familia_escolhida").removeAttr("disabled");
+          $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+          $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+          $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>');
+
+          // Carrega Grupos     
+          // Filtrar grupos somente onde o voluntário tem vinculo    
+          //var codVlnt = $('#cd_vlnt').val();
+          //$.getJSON('ConsultaCbDependente.php?opcao=grupoE&valor='+codVlnt, function (dados){
+          
+          // Filtrar todos os grupos existentes
+          $.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
+             if (dados.length > 0){    
+                var option = '<option>Escolha Grupo</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_grupo+'">'+obj.nome_grupo+'</option>';
+                })
+              }else{
+                 Reset();
+             }
+             $('#cb_grupo_escolhido').html(option).show();
+          })
+
+          $("#cb_item_escolhido").removeAttr("disabled");
+          $("#cb_subitem_escolhido").removeAttr("disabled");
+          $('#cb_item_escolhido').empty().append('<option>Escolha Item</option>>');
+          $('#cb_subitem_escolhido').empty().append('<option>Escolha Subitem</option>');
+
+          // Carrega Itens          
+          $.getJSON('ConsultaCbDependente.php?opcao=item', function (dados){
+
+             if (dados.length > 0){    
+                var option = '<option>Escolha Item</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_item+'">'+obj.nome_item+'</option>';
+                })
+              }else{
+                 Reset1();
+             }
+             $('#cb_item_escolhido').html(option).show();
+          })
+      })
+
+      // Carrega Subgrupos
+      $('#cb_grupo_escolhido').change(function(e){
+          var grupo = $('#cb_grupo_escolhido').val();
+          
+          /*
+          // Filtrar subgrupo onde o voluntário logado tem vínculo
+          var codVlnt = $('#cd_vlnt').val();        
+          var grupoVlnt = grupo+';'+codVlnt;       
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupoE&valor='+grupoVlnt, 
+          */
+          // Filtrar subgrupo do grupo
+          $.getJSON('ConsultaCbDependente.php?opcao=subgrupo&valor='+grupo, 
+          
+          function (dados){ 
+           
+             if (dados.length > 0){    
+
+                var option = '<option>Escolha Subgrupo</option>';
+
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_subgrupo+'">'+obj.nome_subgrupo+'</option>';
+                })
+
+              }else{
+                Reset(); 
+              }
+
+             $('#cb_subgrupo_escolhido').html(option).show(); 
+          })
+      })
+
+      // Carrega Famílias
+      $('#cb_subgrupo_escolhido').change(function(e){
+        var grupo = $('#cb_grupo_escolhido').val();
+        var subgrupo = $('#cb_subgrupo_escolhido').val();
+        var grupoSubgrupo = grupo+';'+subgrupo;       
+
+        $.getJSON('ConsultaCbDependente.php?opcao=familiaGrupoAll&valor='+grupoSubgrupo, 
+        function (dados){ 
+         
+           if (dados.length > 0){    
+              var option = '<option>Escolha Família</option>';
+              $.each(dados, function(i, obj){
+                  option += '<option value="'+obj.cod_familia+'">'+obj.nome_familia+'</option>';
+              })
+             }
+
+           $('#cb_familia_escolhida').html(option).show(); 
+        })
+      })
+      
+      // Resetar Selects //
+      function Reset(){
+        $('#cb_grupo_escolhido').empty().append('<option>Escolha Grupo</option>>');
+        $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
+
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnOculto').on("click", function () {
+                $('#btnOculto').hide();
+            });
+            // Chama a função de clique através do trigger
+            $("#btnOculto").trigger('click');
+          })
+        <?php } ?>
+      }
+
+      // Carrega Subitens
+      $('#cb_item_escolhido').change(function(e){
+        var item = $('#cb_item_escolhido').val();
+          $.getJSON('ConsultaCbDependente.php?opcao=subitem&valor='+item, 
+          function (dados){ 
+           
+             if (dados.length > 0){    
+                var option = '<option>Escolha Subitem</option>';
+                $.each(dados, function(i, obj){
+                    option += '<option value="'+obj.cod_subitem+'">'+obj.nome_subitem+'</option>';
+                })
+             }
+             $('#cb_subitem_escolhido').html(option).show(); 
+          })
+      })
+
+       // Resetar Selects -->
+      function Reset1(){
+        $('#cb_item_escolhido').empty().append('<option>Escolha Item</option>>');
+        $('#cb_subitem_escolhido').empty().append('<option>Escolha Subitem</option>');
+
+        // Para simular o clique do botão e abrir as opções de Item e Subitem
+        <?php if ($this->view->erroValidacao >= 0 ) { ?>
+          $(function() {
+              $('#btnOculto').on("click", function () {
+                $('#btnOculto').hide();
+            });
+            $("#btnOculto").trigger('click');
+          })
+        <?php } ?>
+      }
+    </script>
+
+  </body>
+</html>

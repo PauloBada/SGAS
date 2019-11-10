@@ -367,6 +367,7 @@ class TbVlnt extends Model {
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
 	}	// Fim function getDadosVoluntariosAll
 
 // ====================================================== //
@@ -650,6 +651,126 @@ class TbVlnt extends Model {
 		return $stmt->fetch(\PDO::FETCH_ASSOC);	
 
 	}	// Fim function getDadosVoluntario
+
+// ====================================================== //
+
+	public function getDadosVoluntarioAtuacao() {
+		$query = "
+				select distinct c.nm_vlnt as nm_vlnt, 
+								d.cd_grpID as cd_grp, 
+								b.nm_grp as nm_grp, 
+								d.cd_sbgrpID as cd_sbgrp, 
+								a.nm_sbgrp as nm_sbgrp,
+				case when d.cd_atu_vlnt = 1 THEN 'Coordenador Cadastral'
+					 when d.cd_atu_vlnt = 2 THEN 'Coordenador Financeiro'
+					 when d.cd_atu_vlnt = 3 THEN 'Coordenador Revisor'
+					 when d.cd_atu_vlnt = 4 THEN 'Coordenador Geral'
+					 when d.cd_atu_vlnt = 5 THEN 'Voluntário'
+				end	as cod_atuacao_grupoSubgrupo,
+				case when e.cd_nivel_ace_login = 1 THEN 'Gerencial'
+				  	 when e.cd_nivel_ace_login = 2 THEN 'Administrativo'
+					 when e.cd_nivel_ace_login = 3 THEN 'Operacional'
+				end as nivel_acesso_sistema,
+				g.cd_fmlID as cd_fml, 
+				g.nm_grp_fmlr as nm_grp_fmlr,
+				case when g.cd_est_situ_fml = 2 THEN 'Aguardando Triagem (início/término)'
+				  	 when g.cd_est_situ_fml = 3 THEN 'Em atendimento'
+				end as situacao_familia
+				from tb_sbgrp a,
+					 tb_grp b,
+					 tb_vlnt c,
+				     tb_vncl_vlnt_grp d,
+				     tb_cad_login_sess e,   
+				     tb_vncl_fml_sbgrp f,
+				     tb_fml g
+				where d.cd_vlntID   = c.cd_vlntID
+				and   d.cd_grpID    = b.cd_grpID
+				and   d.cd_grpID    = a.cd_grpID
+				and   d.cd_sbgrpID  = a.cd_sbgrpID
+				and   d.cd_est_vncl = 1
+				and   e.cd_vlntID   = c.cd_vlntID
+				and   c.cd_vlntID   = :cd_vlnt
+				and   f.cd_grpID    = a.cd_grpID
+				and   f.cd_sbgrpID  = a.cd_sbgrpID
+				and   f.cd_est_vncl = 1
+				and   f.cd_fmlID    = g.cd_fmlID
+				and   g.cd_est_situ_fml in (2, 3)
+				
+				union all
+
+				select c.nm_vlnt as nm_vlnt, 
+					   d.cd_grpID as cd_grp, 
+					   b.nm_grp as nm_grp, 
+					   '' as cd_sbgrp, 
+					   '' as nm_sbgrp,
+				case when d.cd_atu_vlnt = 1 THEN 'Coordenador Cadastral'
+				     when d.cd_atu_vlnt = 2 THEN 'Coordenador Financeiro'
+				     when d.cd_atu_vlnt = 3 THEN 'Coordenador Revisor'
+				     when d.cd_atu_vlnt = 4 THEN 'Coordenador Geral'
+				     when d.cd_atu_vlnt = 5 THEN 'Voluntário'
+				end	as cod_atuacao_grupoSubgrupo,
+				case when e.cd_nivel_ace_login = 1 THEN 'Gerencial'
+				  	 when e.cd_nivel_ace_login = 2 THEN 'Administrativo'
+					when e.cd_nivel_ace_login = 3 THEN 'Operacional'
+				end as nivel_acesso_sistema,
+				'' as cd_fml, 
+				'' as nm_grp_fmlr,
+				'' as situacao_familia
+				from tb_grp b,
+					 tb_vlnt c,
+				     tb_vncl_vlnt_grp d,
+				     tb_cad_login_sess e
+				where d.cd_grpID > 0
+				and   d.cd_vlntID  = c.cd_vlntID
+				and   d.cd_grpID   = b.cd_grpID
+				and   d.cd_sbgrpID is null
+				and   d.cd_est_vncl = 1
+				and   e.cd_vlntID   = c.cd_vlntID
+				and   c.cd_vlntID   = :cd_vlnt
+				order by cd_grp, cd_sbgrp, nm_grp_fmlr";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue(':cd_vlnt', $this->__get('cd_vlnt'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getDadosVoluntarioAtuacao
+
+
+
+// ====================================================== //
+
+	public function getDadosVoluntariosAllComSemVinculo() {
+		$query = "
+				select cd_vlntID      as cd_vlnt, 
+					   nm_vlnt        as nm_vlnt,
+                       'com subgrupo' as vinculo
+				from  tb_vlnt
+				where cd_vlntID in (select distinct cd_vlntID
+									from tb_vncl_vlnt_grp
+                                    where cd_est_vncl = 1)
+				
+                union all
+                
+				select cd_vlntID      as cd_vlnt, 
+					   nm_vlnt        as nm_vlnt,
+                       'sem subgrupo' as vinculo
+				from  tb_vlnt
+				where cd_vlntID not in (select distinct cd_vlntID
+									    from tb_vncl_vlnt_grp
+                                        where cd_est_vncl = 1)
+				
+                order by 3 desc, 2";
+
+		$stmt = $this->db->prepare($query);
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);	
+	}	// Fim function getDadosVoluntariosAllComSemVinculo
+
+
+
+
 
 }	// Fim da Classe
 

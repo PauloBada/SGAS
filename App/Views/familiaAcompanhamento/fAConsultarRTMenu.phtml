@@ -99,12 +99,14 @@
                 </div>
               </div>
 
+            <!-- NR
               <div class="form-group">
                 <label class="col-md-3 control-label" for="cd_fml_subs_triagem">Família Substituída<h11>*</h11></label>  
                 <div class="col-lg-3">
                   <input readonly="" id="cd_fml_subs_triagem" name="cd_fml_subs_triagem" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['cd_fml_subs_triagem'] ?>">
                 </div>
               </div>
+            -->
 
               <div class="form-group">    
                 <label class="col-lg-3 control-label" for="cd_crit_engjto">Critério de Engajamento Família<h11>*</h11></label>
@@ -140,32 +142,77 @@
                   <fieldset class="text-center">                             
                     <legend class="info_voluntario">Segmentos</legend>
 
-                    <a href="#" onclick="sendPost('/fAConsultarRTEducacaoMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Educação
-                    </a>
+                    <?php if ($this->view->segmento1 == 0) { ?>
+                      <a href="#" class="btn btn-info">Educação&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTEducacaoMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Educação&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
 
-                    <a href="#" onclick="sendPost('/fAConsultarRTReligiosidadeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Religiosidade
+                    <?php if ($this->view->segmento2 == 0) { ?>
+                      <a href="#" class="btn btn-info">Religiosidade&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTReligiosidadeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Religiosidade&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento3 == 0) { ?>
+                      <a href="#" class="btn btn-info">Moradia&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTMoradiaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Moradia&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento4 == 0) { ?>
+                      <a href="#" class="btn btn-info">Saúde&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>                  
+                      <a href="#" onclick="sendPost('/fAConsultarRTSaudeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Saúde&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento5 == 0) { ?>
+                      <a href="#" class="btn btn-info">Despesa&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTDespesaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Despesa&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento6 == 0) { ?>
+                      <a href="#" class="btn btn-info">Renda&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTRendaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Renda&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento7 == 0) { ?>
+                      <a href="#" class="btn btn-info">Capacitação Profissional&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTCapProfissionalMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Capacitação Profissional&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->segmento8 == 0) { ?>
+                      <a href="#" class="btn btn-info">Asp. Íntimos&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTAspectoIntMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Asp. Íntimos&nbsp;<span class="fas fa-check" style="color:blue"></span>
+                      </a>
+                    <?php } ?>
+
+                    <?php if ($this->view->vnclVlntAcomp == 0) { ?>
+                      <a href="#" class="btn btn-info">Voluntários&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>                    
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/fAConsultarRTVoluntario', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>', origem:'consultaRelatorios'});" class="btn btn-info">Voluntários&nbsp;<span class="fas fa-check" style="color:blue"></span>
                     </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTMoradiaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Moradia
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTSaudeMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Saúde
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTDespesaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Despesa
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTRendaMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Renda
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTCapProfissionalMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Capacitação Profissional
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTAspectoIntMenu', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>'});" class="btn btn-info">Aspectos Íntimos
-                    </a>
-                    
-                    <a href="#" onclick="sendPost('/fAConsultarRTVoluntario', {cd_grp:'<?= $_POST['cb_grupo_escolhido'] ?>', nm_grp:'<?= $this->view->dadosAcompanhamento['nm_grp'] ?>', cd_sbgrp:'<?= $_POST['cb_subgrupo_escolhido'] ?>', nm_sbgrp:'<?= $this->view->dadosAcompanhamento['nm_sbgrp'] ?>',cd_fml:'<?= $_POST['cb_familia_escolhida'] ?>', nm_grp_fmlr:'<?= $this->view->dadosAcompanhamento['nm_grp_fmlr'] ?>', seql_acomp:'<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>', origem:'consultaRelatorios'});" class="btn btn-info">Voluntários
-                    </a>
+                    <?php } ?>                    
                   </fieldset>                             
                 </div>
               </div>

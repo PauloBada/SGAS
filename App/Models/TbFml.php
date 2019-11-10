@@ -616,29 +616,73 @@ class TbFml extends Model {
 	
 	public function getFamiliaPorGrupoAcompanhamento() {
 		$query = "
-				select 	*
-				from tb_fml
-				where  cd_fmlID in (select cd_fmlID
-									from  tb_vncl_fml_sbgrp
-									where cd_grpID   = :cd_grp
-									and   cd_sbgrpID = :cd_sbgrp
-									and   cd_est_vncl = 1)
-
-				and    cd_fmlID in (select cd_fmlID
-									from  tb_acomp_fml
-									where cd_atvd_acomp = :cd_atvd_acomp
-									and   cd_est_acomp  between :cd_ini_acomp and :cd_fim_acomp)			
-
-				and cd_est_situ_fml = :cd_est_situ_fml
-				order by nm_grp_fmlr";
+				/* Famílias em triagem atualmente */
+				select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID		             
+				and    c.cd_atvd_acomp = :cd_atvd_acomp
+				and    c.cd_est_acomp  = :cd_est_acomp1
+                and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID)	
+				and    a.cd_est_situ_fml = :cd_est_situ_fml
 				
+				union all
+
+				/* Famílias que já tiveram triagem, mas podem ter outra triagem */                                    
+				select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID		             
+				and    c.cd_atvd_acomp = :cd_atvd_acomp
+				and    c.cd_est_acomp  = :cd_est_acomp3
+                and    c.cd_avalia_triagem in (:cd_avalia_triagem2, :cd_avalia_triagem4)
+                and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID)	               
+                and    a.cd_est_situ_fml = :cd_est_situ_fml
+                
+                
+                union all
+
+                /* Famílias que ainda não tiveram triagem */                    				
+                select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID		             
+                and    c.cd_fmlID not in (select cd_fmlID
+									   from  tb_acomp_fml
+									   where cd_atvd_acomp = :cd_atvd_acomp
+									   and   cd_est_acomp  between :cd_est_acomp1 and :cd_est_acomp3)
+                and    a.cd_est_situ_fml = :cd_est_situ_fml
+                
+				order by 2";
+
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
 		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
 		$stmt->bindValue('cd_atvd_acomp', $this->__get('cd_atvd_acomp'));
-		$stmt->bindValue('cd_ini_acomp', $this->__get('codInicialAcomp'));
-		$stmt->bindValue('cd_fim_acomp', $this->__get('codFinalAcomp'));
-		$stmt->bindValue('cd_est_situ_fml', $this->__get('codEstSituFml'));
+		$stmt->bindValue('cd_est_acomp1', $this->__get('cd_est_acomp1'));
+		$stmt->bindValue('cd_est_acomp3', $this->__get('cd_est_acomp3'));
+		$stmt->bindValue('cd_avalia_triagem2', $this->__get('cd_avalia_triagem2'));
+		$stmt->bindValue('cd_avalia_triagem4', $this->__get('cd_avalia_triagem4'));
+		$stmt->bindValue('cd_est_situ_fml', $this->__get('cd_est_situ_fml'));
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -733,7 +777,9 @@ class TbFml extends Model {
 									where cd_grpID   = :cd_grp
 									and   cd_sbgrpID = :cd_sbgrp
 									and   cd_est_vncl = 1)
+				
 				and cd_est_situ_fml = :cd_est_situ_fml
+				
 				order by nm_grp_fmlr";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue('cd_grp', $this->__get('codGrupo'));
@@ -812,23 +858,20 @@ class TbFml extends Model {
 	public function getDadosConsulta1RankingFml() {
 		$query = "
 				select	a.cd_fmlID as cd_fml, 
-						a.nm_grp_fmlr as nm_grp_fmlr, 
-						a.dt_cadastro_fml as dt_cadastro_fml,  
-						c.cd_grpid as cd_grp, 
-						c.nm_grp as nm_grp, 
-						d.cd_sbgrpid as cd_sbgrp, 
-						d.nm_sbgrp as nm_sbgrp
+						a.nm_grp_fmlr, 
+						a.dt_cadastro_fml,
+                        a.ptc_atendto_fml,
+                        a.pos_ranking_atendto_fml,
+                        b.cd_reg_admID as cd_reg_adm,
+                        b.nm_reg_adm
 				from	tb_fml a,
-						tb_vncl_fml_sbgrp b,
-						tb_grp c,
-						tb_sbgrp d
-				where	a.cd_est_situ_fml	=	2
-				and		a.cd_fmlID			=	b.cd_fmlID
-				and		b.cd_est_vncl		=	1
-				and		b.cd_grpID			=	c.cd_grpID
-				and		b.cd_grpID			=	d.cd_grpID
-				and		b.cd_sbgrpID		=	d.cd_sbgrpID
-				order by c.cd_grpid, d.cd_sbgrpid, a.dt_cadastro_fml";
+						tb_reg_adm b
+				where	a.cd_est_situ_fml	=	1
+                and     a.cd_fmlID not in (select cd_fmlID
+										 from tb_vncl_fml_sbgrp
+                                         where cd_est_vncl = 1)
+				and     a.cd_reg_adm  = b.cd_reg_admID
+				order by a.dt_cadastro_fml, a.ptc_atendto_fml, a.nm_grp_fmlr";
 		$stmt = $this->db->prepare($query);
 		$stmt->execute();
 
@@ -836,6 +879,7 @@ class TbFml extends Model {
 
 	}	// Fim function getDadosConsulta1RankingFml
 
+/* Retirado devido a Nova Regra que o Ranking é antes de se definir Grupo/Subgrupo
 // ====================================================== //
 	
 	public function getDadosConsulta2RankingFml() {
@@ -899,6 +943,7 @@ class TbFml extends Model {
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 	}	// Fim function getDadosConsulta3RankingFml
+*/
 
 // ====================================================== //
 	
@@ -955,6 +1000,282 @@ class TbFml extends Model {
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 	}	// Fim function getConsultaFamiliasNeces
+
+
+// ====================================================== //
+	
+	public function getFamiliaPorGrupoAcompRevisaoRT() {
+		$query = "
+				select 	*
+				from tb_fml
+				where  cd_fmlID in (select cd_fmlID
+									from  tb_vncl_fml_sbgrp
+									where cd_grpID   = :cd_grp
+									and   cd_sbgrpID = :cd_sbgrp
+									and   cd_est_vncl = 1)
+				
+				and   cd_fmlID in (select cd_fmlID
+								   from  tb_acomp_fml
+								   where cd_atvd_acomp = :cd_atvd_acomp
+								   and   cd_est_acomp  between :cd_ini_acomp and :cd_fim_acomp)			
+
+				and cd_est_situ_fml = :cd_est_situ_fml
+
+				order by nm_grp_fmlr";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_atvd_acomp', $this->__get('cd_atvd_acomp'));
+		$stmt->bindValue('cd_ini_acomp', $this->__get('codInicialAcomp'));
+		$stmt->bindValue('cd_fim_acomp', $this->__get('codFinalAcomp'));
+		$stmt->bindValue('cd_est_situ_fml', $this->__get('codEstSituFml'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}	// Fim function getFamiliaPorGrupoAcompRevisaoRT
+
+// ====================================================== //
+	
+	public function getFamiliaPorGrupoAcompConclusaoRV() {
+		$query = "
+				select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID
+				
+				/* Para obter as triagens já concluídas e prontas para visitas */
+				
+				and    ((c.cd_atvd_acomp = :cd_atvd_acomp1
+				and    c.cd_est_acomp    = :cd_est_acomp3
+				and    c.cd_avalia_triagem = 3 
+				and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID))
+				
+				/* Para obter as visitas em andamento */                          
+				
+				or    (c.cd_atvd_acomp = :cd_atvd_acomp2
+				and    c.cd_est_acomp  = :cd_est_acomp1
+				and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID))                         
+
+				/* Para obter as visitas já concluídas e prontas para outras visitas */
+
+				or    (c.cd_atvd_acomp = :cd_atvd_acomp2
+				and    c.cd_est_acomp  = :cd_est_acomp3
+				and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID)))                         
+				
+				and    a.cd_est_situ_fml = :cd_est_situ_fml
+				
+				order by a.nm_grp_fmlr";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_atvd_acomp1', $this->__get('cd_atvd_acomp1'));
+		$stmt->bindValue('cd_atvd_acomp2', $this->__get('cd_atvd_acomp2'));
+		$stmt->bindValue('cd_est_acomp1', $this->__get('cd_est_acomp1'));
+		$stmt->bindValue('cd_est_acomp3', $this->__get('cd_est_acomp3'));
+		$stmt->bindValue('cd_est_situ_fml', $this->__get('cd_est_situ_fml'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}	// Fim function getFamiliaPorGrupoAcompConclusaoRV
+
+// ====================================================== //
+	
+	public function getFamiliaPorGrupoAcompRevisaoRV() {
+		$query = "
+				select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID
+
+				/* Para obter as visitas já concluídas e prontas para Revisão */
+
+				and    c.cd_atvd_acomp = :cd_atvd_acomp2
+				and    c.cd_est_acomp  = :cd_est_acomp2
+                
+                and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID)                         
+				
+				and    a.cd_est_situ_fml = :cd_est_situ_fml 
+				
+				order by a.nm_grp_fmlr";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_atvd_acomp2', $this->__get('cd_atvd_acomp2'));
+		$stmt->bindValue('cd_est_acomp2', $this->__get('cd_est_acomp2'));
+		$stmt->bindValue('cd_est_situ_fml', $this->__get('cd_est_situ_fml'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}	// Fim function getFamiliaPorGrupoAcompRevisaoRV
+
+// ====================================================== //
+	
+	public function getFamiliaPorGrupoAcompConcluirRD() {
+		$query = "
+				select a.*
+				from tb_fml a,
+				 	 tb_vncl_fml_sbgrp b,
+					 tb_acomp_fml c
+				where  a.cd_fmlID      = b.cd_fmlID
+				and    b.cd_grpID      = :cd_grp
+				and    b.cd_sbgrpID    = :cd_sbgrp
+				and    b.cd_est_vncl   = 1 			
+				and    a.cd_fmlID      = c.cd_fmlID
+			             
+				/* Para obter as visitas já concluídas e prontas para Desligamento */
+
+				and    c.cd_atvd_acomp = :cd_atvd_acomp2
+				and    c.cd_est_acomp  = :cd_est_acomp3
+				
+                and    c.seql_acompID in (select max(seql_acompID)	
+										  from tb_acomp_fml
+				                          where cd_fmlID = a.cd_fmlID)
+				
+				and    a.cd_est_situ_fml = :cd_est_situ_fml
+				
+				order by a.nm_grp_fmlr";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('cd_atvd_acomp2', $this->__get('cd_atvd_acomp2'));
+		$stmt->bindValue('cd_est_acomp3', $this->__get('cd_est_acomp3'));
+		$stmt->bindValue('cd_est_situ_fml', $this->__get('cd_est_situ_fml'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}	// Fim function getFamiliaPorGrupoAcompConcluirRD
+
+// ====================================================== //
+
+	public function getQtdRankingFml() {
+		$query = "
+				select	count(*) as qtde
+				from	tb_fml
+				where	cd_est_situ_fml	=	1
+                and     cd_fmlID not in (select cd_fmlID
+										 from tb_vncl_fml_sbgrp
+                                         where cd_est_vncl = 1)";
+		$stmt = $this->db->prepare($query);
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getQtdRankingFml
+
+// ====================================================== //
+
+	public function getFmlMelhorNoRanking() {
+		$query = "
+				select	cd_fmlID as cd_fml_substituta
+				from	tb_fml
+				where	cd_est_situ_fml	= 1
+                and     cd_fmlID not in (select cd_fmlID
+										 from tb_vncl_fml_sbgrp
+                                         where cd_est_vncl = 1)
+				and     cd_reg_adm      = :cd_reg_adm
+                and     pos_ranking_atendto_fml = (select min(pos_ranking_atendto_fml)
+												   from tb_fml
+                                                   where cd_reg_adm = :cd_reg_adm
+                                                   and   cd_est_situ_fml = 1)";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_reg_adm', $this->__get('cd_reg_adm'));
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);	
+
+	}	// Fim function getFmlMelhorNoRanking
+
+// ====================================================== //
+	
+	public function updateFmlSubstituida() {
+		$query = "
+				update  tb_fml
+				set     cd_est_situ_fml     = :cd_est_situ_fml,
+				        cd_atendto_fml_subs = :cd_fml_substituida
+				where   cd_fmlID = :cd_fml";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_fml', $this->__get('cd_fml_substituta'));
+		$stmt->bindValue('cd_fml_substituida', $this->__get('cd_fml_substituida'));
+		$stmt->bindValue('cd_est_situ_fml', 2);
+		$stmt->execute();
+
+		return $this;	
+		
+	}	// Fim function updateFmlSubstituida
+
+// ====================================================== //
+	
+	public function getFamiliasPedidoFinan() {
+		$query = "
+				select 	b.cd_fmlID as cd_fml, 
+						b.nm_grp_fmlr as nm_grp_fmlr,
+						'n' as simNao
+					from  tb_vncl_fml_sbgrp a,
+					      tb_fml b
+					where a.cd_grpID        = :cd_grp
+					and   a.cd_sbgrpID      = :cd_sbgrp
+	                and   a.cd_est_vncl     = 1
+					and   a.cd_fmlID        = b.cd_fmlID
+	                and   b.cd_est_situ_fml in (2, 3)
+	                and   b.cd_fmlID not in (select cd_fmlID
+	                                         from tb_fml_pedido_finan
+	                                         where cd_grpID            = :cd_grp
+	                                         and   cd_sbgrpID          = :cd_sbgrp
+	                                         and   seql_pedido_finanID = :seql_pedido_finan)
+					
+				union all
+
+				select 	b.cd_fmlID as cd_fml, 
+						b.nm_grp_fmlr as nm_grp_fmlr,
+						's' as simNao
+					from  tb_vncl_fml_sbgrp a,
+					      tb_fml b
+					where a.cd_grpID        = :cd_grp
+					and   a.cd_sbgrpID      = :cd_sbgrp
+	                and   a.cd_est_vncl     = 1
+					and   a.cd_fmlID        = b.cd_fmlID
+	                and   b.cd_est_situ_fml in (2, 3)
+	                and   b.cd_fmlID in (select cd_fmlID
+	                                     from tb_fml_pedido_finan
+	                                     where cd_grpID            = :cd_grp
+	                                     and   cd_sbgrpID          = :cd_sbgrp
+	                                     and   seql_pedido_finanID = :seql_pedido_finan)
+
+					order by 3, 2";
+
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('seql_pedido_finan', $this->__get('seql_pedido_finan'));
+		$stmt->execute();
+
+		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+	}	// Fim function getFamiliasPedidoFinan
+
+
 
 }	// Fim da Classe
 

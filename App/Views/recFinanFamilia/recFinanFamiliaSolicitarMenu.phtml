@@ -1,0 +1,261 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu de Inclusão de dados para Triagem segmento Aspecto Intimo
+-->
+
+<!-- ============== A T E N Ç Ã O ======================================================
+     Este programa também é chamado por 
+     - "recFinan1GerenciaAutorizacao.phtml contido em recFinanDPSGerenciaController.php", 
+     com origem='gerenciamentoDPS/gerenciamentoDPSCA/gerenciamentoDPSC' 
+     ===================================================================================-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container"> 
+        <fieldset>                             
+        <form class="form-horizontal" action="" method="post" id="FormAltera" enctype="multipart/form-data">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><h4>Recurso Financeiro - Solicitação</h4></div>
+            <div class="panel-body">
+              <div class="col-md-11 control-label">
+                <p class="help-block infoCampoObrigatorioFormulario"><h11>*</h11>Campo Obrigatório </p>
+              </div>
+
+              <div class="col-md-12 control-label text-center">
+                <?php if ($this->view->erroValidacao == 4) { ?>
+                  <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Atualização da Solicitação realizada com sucesso!</small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao >= 11 && $this->view->erroValidacao <= 14) { ?>
+                  <small class="form-text" style="background-color: red; color: white; font-size: 100%">Erro: <?php echo ' '.$this->view->msg ?></small>
+
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } else if ($this->view->erroValidacao == 0) { ?>
+                  <p class="form-text text-danger">&nbsp</p>
+
+                <?php } ?>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_grp">Grupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_grupo_escolhido", devido ao $_POST no retorno deste programa-->  
+                  <input id="cd_grp" name="cb_grupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->pedidoRecFinan['cd_grp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_grp" name="nome_grupo" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->pedidoRecFinan['nm_grp'] ?>">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="cd_sbgrp">Subgrupo</label>  
+                <div class="col-lg-1">
+                  <!-- Alterado o name="cb_subgrupo_escolhido", devido ao $_POST no retorno deste programa-->                    
+                  <input id="cd_sbgrp" name="cb_subgrupo_escolhido" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>">
+                </div>
+
+                <div class="col-lg-5">
+                  <input id="nm_sbgrp" name="nome_subgrupo" class="form-control input-md" readonly="" type="text" maxlength="100" value="<?= $this->view->pedidoRecFinan['nm_sbgrp'] ?>">
+                </div>
+              </div>
+
+              <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamento' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPS' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSCA' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSC') { ?>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="seql_pedido_finan">Sequencial Solicitação</label>  
+                  <div class="col-lg-1">
+                    <input id="cd_fml" name="seql_pedido_finan" class="form-control input-md" readonly="" type="text" maxlength="6" value="<?= $this->view->pedidoRecFinan['seql_pedido_finan'] ?>">
+                  </div>
+                </div>
+              <?php } ?>  
+
+              <div class="form-group">
+                <label class="col-md-3 control-label" for="dt_incl_pedido">Data Solicitação<h11>*</h11></label>  
+                <div class="col-lg-2">
+                  <input readonly="" id="dt_incl_pedido" name="dt_incl_pedido" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->pedidoRecFinan['dt_incl_pedido_format'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                </div>
+              </div>
+
+              <?php if ($this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPS' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSCA' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSC') { ?>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dsc_sucinta_pedido">Descrição Sucinta da Solicitação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea id="1" name="dsc_sucinta_pedido" required="" placeholder="Descreva o que é a solicitação" class="form-control input-md" type="text" rows="5" cols="30" maxlength="500" onclick="this.style.borderColor=''"><?= $this->view->pedidoRecFinan['dsc_sucinta_pedido'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dsc_resum_pedido">Descrição Resumida da Solicitação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea id="2" name="dsc_resum_pedido" required="" placeholder="Descreva o que é a solicitação resumidamente" class="form-control input-md" type="text" rows="2" cols="30" maxlength="200" onclick="this.style.borderColor=''"><?= $this->view->pedidoRecFinan['dsc_resum_pedido'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="menor_vlr_encontra">Menor Valor Encontrado (R$)</label>
+                  <div class="col-lg-2">
+                    <input id="dinheiro" name="menor_vlr_encontra" value="<?= $this->view->pedidoRecFinan['menor_vlr_encontra'] ?>"maxlength="17" class="dinheiro form-control" requerid="" placeholder="Menor Valor obtido" style="display:inline-block" onclick="this.style.borderColor=''" />
+                  </div>
+                </div>
+              <?php } else { ?>                
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dsc_sucinta_pedido">Descrição Sucinta da Solicitação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea id="1" name="dsc_sucinta_pedido" readonly="" class="form-control input-md" type="text" rows="5" cols="30" maxlength="500" ><?= $this->view->pedidoRecFinan['dsc_sucinta_pedido'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dsc_resum_pedido">Descrição Resumida da Solicitação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea id="2" name="dsc_resum_pedido" readonly="" class="form-control input-md" type="text" rows="2" cols="30" maxlength="200"><?= $this->view->pedidoRecFinan['dsc_resum_pedido'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="menor_vlr_encontra">Menor Valor Encontrado (R$)</label>
+                  <div class="col-lg-2">
+                    <input id="dinheiro" name="menor_vlr_encontra" value="<?= $this->view->pedidoRecFinan['menor_vlr_encontra'] ?>"maxlength="17" class="dinheiro form-control" readonly=""  />
+                  </div>
+                </div>
+
+              <?php } ?>                
+
+              <div class="form-group">
+                <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamento' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPS' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSCA' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSC') { ?>
+                  <label class="col-md-3 control-label">Arquivo Orçamento Atual</label>                
+                  <div class="col-lg-4">
+                 
+                  <?php if ($this->view->pedidoRecFinan['arq_orc_pedido'] != '') { ?>
+                    <a href="<?= $this->view->pedidoRecFinan['dir_arq_orc'] ?>">Download Arquivo</a>
+                  <?php } else { ?>                
+                    <a style="color: red">Nenhum</a>
+                  <?php } ?>                
+
+                  </div>
+                <?php } ?>                
+              </div>
+
+              <?php if ($this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPS' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSCA' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSC') { ?>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="arq_orc_pedido">Arquivo Orçamento</label>
+                  <div class="col-lg-2">
+                    <input id="arq_orc_pedido" name="arq_orc_pedido" type="file" accept="application/pdf" />
+                  </div>
+                </div>
+              <?php } ?>                
+
+              <div class="form-group text-center">
+                <label class="col-md-2 control-label" for="btnAlterar"></label>
+                <div class="col-md-8">
+                  
+                  <?php if ($this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPS' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSCA' && $this->view->pedidoRecFinan['origem'] != 'gerenciamentoDPSC') { ?>
+                    <a href="#" onclick="sendPost('/recFinanFamiliaSolicitar', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>'});" class="btn btn-success">Retorna</a>                  
+                  
+                  <?php } else { ?>  
+                    <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPS') { ?>
+                      <a href="#" onclick="sendPost('/recFinanDPSGerenciaAutorizacao', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>'});" class="btn btn-success">Retorna</a>                  
+                    <?php } else { ?>                    
+                      <a href="#" onclick="sendPost('/recFinanDPSGerenciaCancelaAutorizacao', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>'});" class="btn btn-success">Retorna</a>                  
+                    <?php } ?>                    
+
+                  <?php } ?>                    
+
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'inclusao') { ?>
+                    <button class="btn btn-primary" type="button" id="btnIncluir">Incluir Solicitação</button>
+                  <?php } ?>  
+
+
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamento') { ?>
+                    <button class="btn btn-primary" type="button" id="btnAlterar">Atualizar Solicitação</button>
+
+                    <button class="btn btn-danger" type="button" id="btnCancelar">Cancelar Solicitação</button>
+
+                    <button class="btn btn-primary" type="button" id="btnConcluir">Enviar para Autorização</button>
+
+                  <?php } ?>  
+
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPS') { ?>
+                    <button class="btn btn-primary" type="button" id="btnAutorizar">Autorizar Solicitação</button>
+                  <?php } ?>  
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSCA') { ?>
+                    <button class="btn btn-primary" type="button" id="btnCancelarAutorizacao">Cancelar Autorização</button>
+                  <?php } ?>  
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSC') { ?>
+                    <button class="btn btn-primary" type="button" id="btnCancelarSolicitacao">Cancelar Solicitação</button>
+                  <?php } ?>  
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamento') { ?>
+                    <?php if ($this->view->fmlPedidoFinan == 0) { ?>                    
+                      <a href="#" onclick="sendPost('/recFinanFamiliaVincular', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', nome_grupo:'<?= $this->view->pedidoRecFinan['nm_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>', nome_subgrupo:'<?= $this->view->pedidoRecFinan['nm_sbgrp'] ?>', seql_pedido_finan:'<?= $this->view->pedidoRecFinan['seql_pedido_finan'] ?>', origem:'<?= $this->view->pedidoRecFinan['origem'] ?>'});" class="btn btn-info">Famílias&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/recFinanFamiliaVincular', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', nome_grupo:'<?= $this->view->pedidoRecFinan['nm_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>', nome_subgrupo:'<?= $this->view->pedidoRecFinan['nm_sbgrp'] ?>', seql_pedido_finan:'<?= $this->view->pedidoRecFinan['seql_pedido_finan'] ?>', origem:'<?= $this->view->pedidoRecFinan['origem'] ?>'});" class="btn btn-info">Famílias&nbsp;<span class="fas fa-check" style="color:blue"></span>                        
+                        </a>
+                    <?php } ?>
+                  <?php } ?>
+
+                  <?php if ($this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPS' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSCA' || $this->view->pedidoRecFinan['origem'] == 'gerenciamentoDPSC') { ?>
+                    <?php if ($this->view->fmlPedidoFinan == 0) { ?>                    
+                      <a href="#" class="btn btn-info">Famílias&nbsp;<span class="fas fa-times" style="color:brown"></span>
+                      </a>
+                    <?php } else { ?>
+                      <a href="#" onclick="sendPost('/recFinanFamiliaConsultarVinculo', {cb_grupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_grp'] ?>', nome_grupo:'<?= $this->view->pedidoRecFinan['nm_grp'] ?>', cb_subgrupo_escolhido:'<?= $this->view->pedidoRecFinan['cd_sbgrp'] ?>', nome_subgrupo:'<?= $this->view->pedidoRecFinan['nm_sbgrp'] ?>', seql_pedido_finan:'<?= $this->view->pedidoRecFinan['seql_pedido_finan'] ?>', origem:'<?= $this->view->pedidoRecFinan['origem'] ?>'});" class="btn btn-info">Famílias&nbsp;<span class="fas fa-check" style="color:blue"></span>                        
+                        </a>
+                    <?php } ?>
+                  <?php } ?>
+
+
+
+
+                </div>
+              </div>
+
+              <!-- Hidden, para repassar vis $_POST para inclusão ou alteração na base -->
+              <div class="form-group">
+                <input id="origem" name="origem" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->pedidoRecFinan['origem'] ?>" disabled="" hidden>
+                <input type="hidden" name="origem" value=<?= $this->view->pedidoRecFinan['origem'] ?>> 
+
+                <input id="arq_orc_pedido_atual" name="arq_orc_pedido_atual" class="form-control input-md" type="text" maxlength="3" value="<?= $this->view->pedidoRecFinan['arq_orc_pedido_atual'] ?>" disabled="" hidden>
+                <input type="hidden" name="arq_orc_pedido_atual" value=<?= $this->view->pedidoRecFinan['arq_orc_pedido_atual'] ?>> 
+              </div>
+     
+            </div>
+          </div>
+        </form>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- Para formatar campos de entrada no formulário- não pode ficar em "layout.pthml" pois não executava -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>    
+    
+    <script>
+      // Script pego em "http://blog.conradosaud.com.br/artigo/26" para formatação de valores - link está em "layout.phtml" 
+      $('.dinheiro').mask('#.##0,00', {reverse: true});
+    </script>  
+
+    <!-- Para mostrar Alerta de Confirma ou Não -->
+    
+    <!-- script src="alertaConfirmaIncluiAlteraConcluiRecFinan.js"></script>-->
+    <script src="alertaConfirmaIncAltConcluAutorizaRecFinan.js"></script>
+    
+    <!-- Para Possibilitar $_POST -->
+    <script src="sendPost.js"></script>
+  </body>
+</html>

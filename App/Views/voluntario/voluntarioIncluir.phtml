@@ -50,10 +50,10 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="cpf">CPF</label>  
                 <div class="col-lg-2">
-                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value=<?= $this->view->voluntario['cpf'] ?>>
+                  <input id="cpf" name="cpf" placeholder="Apenas números" class="form-control input-md" type="text" maxlength="11" minlength="11" onkeypress="$(this).mask('000.000.000-00');" value="<?= $this->view->voluntario['cpf'] ?>"  onclick="this.style.borderColor=''">
                 </div>
                 
-                <label class="col-md-1 control-label" for="dtnasc">Nascimento</label>  
+                <label class="col-md-2 control-label" for="dtnasc">Nascimento</label>  
                 <div class="col-lg-2">
                   <input id="dtnasc" name="dtnasc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10" onkeypress="$(this).mask('00/00/0000')" onBlur="showhide()" value=<?= $this->view->voluntario['dtnasc'] ?>>
                 </div>
@@ -288,9 +288,12 @@
               <div class="form-group">
                 <label class="col-md-2 control-label" for="Cadastrar"></label>
                 <div class="col-md-8">
-                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
-                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
                   <a href="/voluntario" class="btn btn-success">Retorna</a>
+                  
+                  <button class="btn btn-primary" type="button" id="btnIncluir">Cadastrar</button>
+
+                  <button id="limpar" name="limpar" class="btn btn-danger" type="Reset">Limpar Campos</button>
+
                 </div>
               </div>
 
@@ -333,6 +336,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     
     <!-- Para mostrar Alerta de Confima ou Não -->
-    <script src="alertaConfirmaInclui.js"></script>
+    <script src="alertaConfirmaIncluiVoluntario.js"></script>
   </body>
 </html>

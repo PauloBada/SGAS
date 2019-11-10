@@ -1,0 +1,200 @@
+<!--  Nome Programador: Paulo Tarrago Jaques
+      Data de criação: 04/07/2019
+      Objetivo:  Menu com lista de famílias que podem ter sido atendidas antes tendo este solicitante como membro
+-->
+
+<html lang="pt-br">
+  <head>
+    <!-- Para mostrar os campos na mesma linha - não pode ficar em "layout.pthml" pois dava conflito -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"  id="bootstrap-css">   
+  </head>
+
+  <body>
+    <section class="caixa">
+      <div class="container">
+       <form class="form-horizontal" action="" method="post" id="FormTabela">
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h4>Gerenciar Item Necessidade de Família</h4></div>
+          <div class="panel-body">
+
+          <div class="col-md-12 control-label text-center" >
+            <?php if ($this->view->erroValidacao == 1) { ?>
+              <p class="form-text" style="background-color: #69C8E0; color: white; font-size: 90%">Alteração realizada com Sucesso!
+              <?php echo ' [Subgrupo: '.$this->view->codSubgrupo.' - '.$this->view->nomeSubgrup.' | ' ?>
+              <?php echo ' Família: '.$this->view->codFamilia.' - '.$this->view->nomeFamilia.' | ' ?>
+              <?php echo ' Item: '.$this->view->codItem.' - '.$this->view->nomeItem.' | ' ?>
+              <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
+
+            <?php } else if ($this->view->erroValidacao == 2) { ?>
+              <p class="form-text" style="background-color: #69C8E0; color: white; font-size: 90%">Cancel/Exclusão realizada com Sucesso!
+              <?php echo ' [Subgrupo: '.$this->view->codSubgrupo.' - '.$this->view->nomeSubgrup.' | ' ?>
+              <?php echo ' Família: '.$this->view->codFamilia.' - '.$this->view->nomeFamilia.' | ' ?>
+              <?php echo ' Item: '.$this->view->codItem.' - '.$this->view->nomeItem.' | ' ?>
+              <?php echo ' Subitem: '.$this->view->codSubitem.' - '.$this->view->nomeSubitem.']' ?></p>
+
+            <?php } else if ($this->view->erroValidacao == 0) { ?>
+              <p class="form-text text-danger">&nbsp</p>
+            <?php } ?>
+          </div>
+
+            <div class="col-md-12 d-flex">
+              <?php if ($this->view->codGrupo != '') { ?>
+                <ul class="list-group">
+                  <label class="list-group-item list-group-item-info bg-warning">Grupo: <?php echo $this->view->codGrupo. ' - '. $this->view->nomeGrupo ?></label>  
+                </ul>
+              <?php } ?>  
+
+              <ul class="list-group">
+                <label class="list-group-item list-group-item-info bg-warning">Situação Item: <?php echo $this->view->situacaoItem ?></label>  
+              </ul>
+            </div>
+
+            <div class="table-responsive-lg">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                  <!-- Nome das Colunas -->
+                  <th scope="col">Cód. Família</th>
+                  <th scope="col">Família</th>
+                  <th scope="col">Situação Família</th>
+                  <?php if ($this->view->codGrupo == '') { ?>
+                    <th scope="col">Grupo</th>
+                  <?php } ?>
+                  <th scope="col">Subgrupo</th>
+                  <th scope="col">Item</th>
+                  <th scope="col">Subitem</th>
+                  <th scope="col">Quando Necessário</th>
+                  <th scope="col">Data Necessidade</th>
+                  <th scope="col">Setor Responsável</th>
+                  <th scope="col">Selecione para Gerenciar Item</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                    <?php foreach ($this->view->dadosPesquisa as $indice => $dadosPesquisa) { ?>
+                      <tr>
+                        <!-- Passa por $_GET o código da Família para mostrar dados na consulta -->
+                        <td><?php echo $dadosPesquisa['cd_fml']; ?></td>
+
+                        <td><?php echo $dadosPesquisa['nm_grp_fmlr']; ?></td>
+
+                        <?php if ($dadosPesquisa['cd_est_situ_fml'] == 4) { ?>
+                          <td style="color: red"><?php echo $dadosPesquisa['nm_est_situ_fml']; ?></td>
+                        <?php } else { ?>
+                          <td><?php echo $dadosPesquisa['nm_est_situ_fml']; ?></td>
+                        <?php } ?>
+
+                        <?php if ($this->view->codGrupo == '') { ?>
+                          <td><?php echo $dadosPesquisa['nm_grp']; ?></td>
+                        <?php } ?>
+
+                        <td><?php echo $dadosPesquisa['nm_sbgrp']; ?></td>
+
+                        <td><?php echo $dadosPesquisa['nm_item']; ?></td>
+
+                        <td><?php echo $dadosPesquisa['nm_sbitem']; ?></td>
+
+                        <td><?php echo $dadosPesquisa['nm_tip_evt_neces']; ?></td>
+
+                        <!-- Para sinalizar em vermelhos datas vencidas -->
+                        <?php if ($dadosPesquisa['sinaliza_data'] == 0) { ?>
+                          <td><?php echo $dadosPesquisa['dt_prev_disponib_item']; ?></td>
+                        
+                        <?php } else { ?>
+                           <?php if ($dadosPesquisa['cb_situ_item_solicitado'] == 1) { ?>
+                            <td style="color: red"><?php echo $dadosPesquisa['dt_prev_disponib_item']; ?></td>                          
+                          <?php } else { ?>
+                            <td><?php echo $dadosPesquisa['dt_prev_disponib_item']; ?></td>                          
+                          <?php } ?>
+                        <?php } ?>
+
+                        <td><?php echo $dadosPesquisa['nm_setor_resp']; ?></td>
+
+                        <!-- Checkbox para assinalar a Família a ter relatório preenchido -->
+                        <td class="text-center"><input class="familiaEscolhida link-check" type="checkbox" id='<?= $dadosPesquisa['post'] ?>' value="01" onchange="cbChange(this)"></td>
+                      </tr>
+                    <?php } ?>  
+                </tbody>
+              </table>
+            </div>
+
+            <div class="form-group">
+              <label class="col-md-2 control-label"></label>
+              <div class="col-md-8">
+                <a href="/fNPreAlterarNeces" class="btn btn-success" >Retorna</a>
+
+                <a class="btn btn-primary" href="#" id='Imprimir' onclick="imprimeRelatorio()">Imprimir</a>
+                
+                <a class="btn btn-danger"  href="#" id='Buscar'   onclick="coletaDados()">Buscar</a>                
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+       </form>
+      </div>
+    </section>
+
+    <script src="sendPost.js"></script>
+
+    <script>
+      // Para obter os cd_fml marcados no Checkbox (No caso só permitiremos um) //
+      function coletaDados(){
+         var ids = document.getElementsByClassName('familiaEscolhida');
+         coletaIDs(ids);         
+      };  
+              
+      function coletaIDs(dados){
+         var array_dados = dados; 
+         var newArray = [];
+         for(var x = 0; x <= array_dados.length; x++){     
+              if(typeof array_dados[x] == 'object'){
+                if(array_dados[x].checked){
+                   newArray.push(array_dados[x].id)          
+                }          
+              }
+         }   
+
+         if(newArray.length <= 0 || newArray == ''){
+            var fml_escolhida = '';
+         }else{
+            var fml_escolhida = newArray[0];
+
+            // "post" que é a variavel que foi pega em 'fml_escolhida" está "cd_fml;cd_item;cd_sbitem;seql_item_neces;nm_sbgrp;nm_grp_fmlr;cd_sbgrp;cd_tip_evt_neces;fml_atend_encerrado"
+            // abrimos para poder enviar no sendPost e ser tratada no programa de alteração
+            var dados_post = fml_escolhida.split(";");
+
+         }
+
+         if (fml_escolhida == '') {
+            swal('', 'Não há item escolhido!', 'warning');
+         
+         } else {
+
+          // cd_tip_evt_neces = 1 ==> Próxima Visita; 2 ==> Eventual
+          if (dados_post[7] == 1) {
+             sendPost('/fNAlterarNecesProxVisitaMenu', {cd_fml:dados_post[0], cd_item:dados_post[1], cd_sbitem:dados_post[2], seql_item_neces:dados_post[3], cb_grupo_escolhido:'<?= $dadosPesquisa['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $dadosPesquisa['cb_subgrupo_escolhido'] ?>', cb_familia_escolhida:'<?= $dadosPesquisa['cb_familia_escolhida'] ?>', cd_setor_resp:'<?= $dadosPesquisa['cd_setor_resp'] ?>', cb_item_escolhido:'<?= $dadosPesquisa['cb_item_escolhido'] ?>', cb_subitem_escolhido:'<?= $dadosPesquisa['cb_subitem_escolhido'] ?>', nomeGrupo:'<?= $this->view->nomeGrupo ?>', cd_sbgrp:dados_post[6], nomeSubgrupo:dados_post[4], nm_grp_fmlr:dados_post[5], cb_situ_item_solicitado:'<?= $dadosPesquisa['cb_situ_item_solicitado'] ?>', fml_atend_encerrado:dados_post[8]});
+          } else {
+             sendPost('/fNAlterarNecesEventualMenu', {cd_fml:dados_post[0], cd_item:dados_post[1], cd_sbitem:dados_post[2], seql_item_neces:dados_post[3], cb_grupo_escolhido:'<?= $dadosPesquisa['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $dadosPesquisa['cb_subgrupo_escolhido'] ?>', cb_familia_escolhida:'<?= $dadosPesquisa['cb_familia_escolhida'] ?>', cd_setor_resp:'<?= $dadosPesquisa['cd_setor_resp'] ?>', cb_item_escolhido:'<?= $dadosPesquisa['cb_item_escolhido'] ?>', cb_subitem_escolhido:'<?= $dadosPesquisa['cb_subitem_escolhido'] ?>', nomeGrupo:'<?= $this->view->nomeGrupo ?>', cd_sbgrp:dados_post[6], nomeSubgrupo:dados_post[4], nm_grp_fmlr:dados_post[5], cb_situ_item_solicitado:'<?= $dadosPesquisa['cb_situ_item_solicitado'] ?>', fml_atend_encerrado:dados_post[8]});            
+          }
+         }
+      };
+
+      // Para possibiliar que se selecione apenas um checkbox //
+      function cbChange(obj) {
+        var cbs = document.getElementsByClassName("link-check");
+        for (var i = 0; i < cbs.length; i++) {
+           if(cbs[i] !== obj) cbs[i].checked = false;
+         }
+      }
+    </script>
+
+    <script>
+      function imprimeRelatorio(){
+        sendPost('/fNImprimeNeces', {cb_grupo_escolhido:'<?= $dadosPesquisa['cb_grupo_escolhido'] ?>', cb_subgrupo_escolhido:'<?= $dadosPesquisa['cb_subgrupo_escolhido'] ?>', cb_familia_escolhida:'<?= $dadosPesquisa['cb_familia_escolhida'] ?>', cd_setor_resp:'<?= $dadosPesquisa['cd_setor_resp'] ?>', cb_item_escolhido:'<?= $dadosPesquisa['cb_item_escolhido'] ?>', cb_subitem_escolhido:'<?= $dadosPesquisa['cb_subitem_escolhido'] ?>', grupo_preenchido:'<?= $this->view->codGrupo ?>', cb_situ_item_solicitado:'<?= $dadosPesquisa['cb_situ_item_solicitado'] ?>'});
+      };
+    </script>
+  </body>
+</html>

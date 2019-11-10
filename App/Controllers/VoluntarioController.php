@@ -24,6 +24,28 @@ class VoluntarioController extends Action {
 		}
 	}
 
+// ====================================================== //	
+	
+	public function obtemDataProximaVisita($data, $grupo) {
+
+		// $data = formato AAAA-MM-DD
+
+		$this->semana_atuacao_grupo = 0;
+		$this->prox_data_visita = '9999-99-99';
+
+		// Buscar cd_semn_atu em tb_grp
+		$pegaSemanaAtuacaoBase = Container::getModel('TbGrp');
+		$pegaSemanaAtuacaoBase->__set('cd_grp', $grupo);
+		$pegaSemanaAtuacao = $pegaSemanaAtuacaoBase->getDadosGrupo(); 
+
+		$this->semana_atuacao_grupo = $pegaSemanaAtuacao['cod_semana'];
+
+		$this->prox_data_visita = Funcoes::CalculaProximaDataVisita( $data, $this->semana_atuacao_grupo );
+
+// ====================================================== //	
+
+	}	// Fim da function obtemDataProximaVisita
+
 	public function voluntario() {
 
 		$this->validaAutenticacao();
@@ -418,15 +440,6 @@ class VoluntarioController extends Action {
 		
 		$this->validaAutenticacao();		
 
-		/* AQUI
-		
-		echo '<pre>';
-		print_r($_POST);
-		print_r($_SESSION);
-		echo '</pre>';
-		*/
-
-
 		$nivel_acesso_requerido = 2;
 
 		$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
@@ -455,14 +468,7 @@ class VoluntarioController extends Action {
 	public function voluntarioAlterarMenu() {
 		
 		$this->validaAutenticacao();		
-
-		/* AQUI
-		echo '<pre>';
-		print_r($_POST);
-		print_r($_SESSION);
-		echo '</pre>';
-		*/
-		
+	
 		$this->view->erroValidacao = 0;
 
 		// Buscar todas as Regiões Administrativas vigentes e remeter array para montar o combobox
@@ -569,13 +575,6 @@ class VoluntarioController extends Action {
 		
 		$this->validaAutenticacao();
 
-		/* AQUI
-		echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';
-		*/
-	
-
 		$cpf_preenchido = 0;
 		$qtd_retorno_cpf   = 0;
 		$qtd_retorno_email = 0;
@@ -676,7 +675,6 @@ class VoluntarioController extends Action {
 			$this->render('voluntarioAlterarMenu');				
 		} 
 
-		// AQUI
 		// Validar se data nascimento válida
 		$valida_data = Funcoes::ValidaData($_POST['dtnasc']);
 		if ($valida_data == 0) {
@@ -859,6 +857,12 @@ class VoluntarioController extends Action {
 		} else {
 			$datanasc_formatado = $dadosVoluntarioBase['dt_nasc'];
 		}
+		
+		if (isset($_POST['rotaV'])) {
+			$rotaV = $_POST['rotaV'];
+		} else {
+			$rotaV = 'cv';
+		}
 
 		$this->view->voluntario = array (
 			    'codigo' => $dadosVoluntarioBase['cd_vlntID'],
@@ -888,7 +892,9 @@ class VoluntarioController extends Action {
 			    'conhecimentoespecifico' => $dadosVoluntarioBase['dsc_conhec_especif'],
 			    'atividadepreferencia' => $dadosVoluntarioBase['dsc_prefer_atvd_vlnt'],
 			    'habilidades' => $dadosVoluntarioBase['dsc_habilidade'],
-			    'observacao' => $dadosVoluntarioBase['dsc_obs']
+			    'observacao' => $dadosVoluntarioBase['dsc_obs'],
+			    'rotaV' => $rotaV		// cv = consulta voluntario / cvvgs = consulta vinculo voluntario grupo subgrupo
+
 		);
 
 		$this->render('voluntarioConsultarMenu');
@@ -1081,16 +1087,23 @@ class VoluntarioController extends Action {
 	}	// Fim da function voluntarioAlterarNASBase
 
 // ====================================================== //	
-
+	
 	public function retornoValidacao() {
+
 		// Buscar todas as Regiões Administrativas vigentes e remeter array para montar o combobox
 		$regioesAdm = Container::getModel('TbRegAdm');
 		$regioesBase = $regioesAdm->getDadosRAAll();
 		
 		$this->view->regioes = $regioesBase;
+
+		if (isset($_POST['codigo'])) {
+			$codigo = $_POST['codigo'];
+		} else  {
+			$codigo = '';
+		}
 		
 		$this->view->voluntario = array (
-			    'codigo' => $_POST['codigo'],
+			    'codigo' => $codigo,
 			    'nome' => $_POST['nome'],
 			    'nomeforum' => $_POST['nomeforum'],
 			    'nrsocio' => $_POST['nrsocio'],
@@ -1203,7 +1216,8 @@ class VoluntarioController extends Action {
 
 			// Buscar todos os voluntários da base
 			$voluntariosAll = Container::getModel('TbVlnt');
-			$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+			//$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+			$voluntariosBase = $voluntariosAll->getDadosVoluntariosAllComSemVinculo();
 
 			$this->view->voluntarios = $voluntariosBase;
 
@@ -1226,13 +1240,6 @@ class VoluntarioController extends Action {
 
 		$this->view->erroValidacao = 0;
 
-		/*
-		echo '<pre>';
-		print_r($_POST);
-		print_r($_SESSION);
-		echo '</pre>';
-		*/
-
 		// Valida se Grupo foi escolhido
 		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo" ||
 			$_POST['voluntario_escolhido'] == "" ||
@@ -1241,7 +1248,7 @@ class VoluntarioController extends Action {
 
 			// Buscar todos os voluntários da base
 			$voluntariosAll = Container::getModel('TbVlnt');
-			$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+			$voluntariosBase = $voluntariosAll->getDadosVoluntariosAllComSemVinculo();
 
 			$this->view->voluntarios = $voluntariosBase;
 
@@ -1268,7 +1275,6 @@ class VoluntarioController extends Action {
 			$qtdGrupoVoluntario->__set('codVoluntario_pesq', $_POST['voluntario_escolhido']);
 			$qtdGrupoVlnt = $qtdGrupoVoluntario->getQtdGrupoVoluntario();
 
-
 			if ($qtdGrupoVlnt['qtde'] > 0) {
 
 				// Não houve subgrupo escolhido no on line	
@@ -1285,7 +1291,7 @@ class VoluntarioController extends Action {
 
 					// Buscar todos os voluntários da base
 					$voluntariosAll = Container::getModel('TbVlnt');
-					$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+					$voluntariosBase = $voluntariosAll->getDadosVoluntariosAllComSemVinculo();
 
 					$this->view->voluntarios = $voluntariosBase;
 
@@ -1314,7 +1320,7 @@ class VoluntarioController extends Action {
 
 					// Buscar todos os voluntários da base
 					$voluntariosAll = Container::getModel('TbVlnt');
-					$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+					$voluntariosBase = $voluntariosAll->getDadosVoluntariosAllComSemVinculo();
 
 					$this->view->voluntarios = $voluntariosBase;
 
@@ -1346,7 +1352,7 @@ class VoluntarioController extends Action {
 
 				// Buscar todos os voluntários da base
 				$voluntariosAll = Container::getModel('TbVlnt');
-				$voluntariosBase = $voluntariosAll->getDadosVoluntariosAll();
+				$voluntariosBase = $voluntariosAll->getDadosVoluntariosAllComSemVinculo();
 
 				$this->view->voluntarios = $voluntariosBase;
 
@@ -1488,7 +1494,6 @@ class VoluntarioController extends Action {
 
 	}	// Fim da function subgrupoDesvincularVoluntarioBase
 
-
 // ====================================================== //	
 	
 	public function subgrupoConsultarVinculoVoluntario() {
@@ -1505,8 +1510,32 @@ class VoluntarioController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 			$this->render('voluntario');				
+
 		} else {
+
 			$this->view->erroValidacao = 0;
+
+			// Um ano de período
+			$periodo = new \Dateinterval("P1Y");
+
+			// Data de hoje
+			$dt_inicial = new \DateTime();
+			// Subtrai um ano
+			$dt_inicial->sub($periodo);
+
+			// Data de hoje
+			$dt_final = new \DateTime();
+			// Soma um ano
+			$dt_final->add($periodo);
+
+			// Transforma as datas em string DD/MM/AAAA
+			$dt_inicial	= $dt_inicial->format("d/m/Y");
+			$dt_final = $dt_final->format("d/m/Y");
+
+			$this->view->datas = array (
+				'data_inicial' => $dt_inicial,
+				'data_final' => $dt_final
+			);
 
 			$this->render('subgrupoConsultarVinculoVoluntario');
 		}
@@ -1520,80 +1549,185 @@ class VoluntarioController extends Action {
 
 		$this->view->erroValidacao = 0;
 
-		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo" || 
-			$_POST['cb_subgrupo_escolhido'] == "Escolha Subgrupo" || 
-		    $_POST['cb_voluntario_escolhido'] == "Escolha Voluntário") {
+		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo") {
 
 			$this->view->erroValidacao = 2;	
+
+			$this->view->datas = array (
+				'data_inicial' => $_POST['dt_inc'],
+				'data_final' => $_POST['dt_fim']
+			);
 		
 			$this->render('subgrupoConsultarVinculoVoluntario');	
+
 		} else {
-			// Busca Nome Voluntário
-			$nomeVoluntario = Container::getModel('TbVlnt');
-			$nomeVoluntario->__set('id', $_POST['cb_voluntario_escolhido']);
-			$nomeVlnt = $nomeVoluntario->getInfoVoluntario();
-		
-			$nomeVlnt = $nomeVlnt['nm_vlnt'];
 
-			// Busca Nome Grupo
-			$nomeGrupoBase = Container::getModel('TbGrp');
-			$nomeGrupoBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
-			$nomeGrupo = $nomeGrupoBase->getDadosGrupo();
-
-			$nomeGrp = $nomeGrupo['nome_grupo'];
-
-			if ($_POST['cb_subgrupo_escolhido'] == "Sem Subgrupo") {
-				$codSbgrp =  '';
-				$nomeSbgrp = '';
-			} else {
-				$codSbgrp =  $_POST['cb_subgrupo_escolhido'];
-
-				// Busca Nome Subgrupo
-				$nomeSubgrupo = Container::getModel('TbSbgrp');
-				$nomeSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-				$nomeSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-				$nomeSbgrp = $nomeSubgrupo->getDadosSubgrupo();
-
-				$nomeSbgrp = $nomeSbgrp['nome_subgrupo'];
-			}
-
-			// Busca Perfil de Atuacao com subgrupo preenchido
-			$perfilAtuacao = Container::getModel('TbVnclVlntGrp');
-			$perfilAtuacao->__set('codVoluntario_pesq', $_POST['cb_voluntario_escolhido']);
-			$perfilAtuacao->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-			$perfilAtuacao->__set('codSubgrupo_pesq', $codSbgrp);
-			$perfilAtu = $perfilAtuacao->getDadosVVGAll();
-
-			$this->view->dadosTVVG = array ();
-
-			foreach ($perfilAtu as $index => $arr) {
+			// Validar se datas válidas
 			
-				array_push($this->view->dadosTVVG, array (
-						'sequencial' => $arr['sequencial_base'],
-/*						'cod_grupo' => $_POST['cb_grupo_escolhido'], */
-/*						'nome_grupo' => $nomeGrp, */
-/*						'cod_subgrupo' => $codSbgrp, */
-/*						'nome_subgrupo' => $nomeSbgrp, */
-/*						'cod_voluntario' => $_POST['cb_voluntario_escolhido'], */
-/*						'nome_voluntario' => $nomeVlnt, */
-						'perfil_atuacao' => $arr['cod_atuacao_base'],
-						'data_inicio_vinculo' =>  $arr['data_inicio_vinculo'],
-						'data_fim_vinculo' =>  $arr['data_fim_vinculo'],
-						'situacao_vinculo' =>  $arr['estado_vinculo']
-				));
-			}	
+			// Data recebida $_POST no formato DD/MM/AAAA
+			$valida_data_inicio = Funcoes::ValidaData($_POST['dt_inc']);
+			$valida_data_fim = Funcoes::ValidaData($_POST['dt_fim']);
 
-			$this->view->codGrupo = $_POST['cb_grupo_escolhido'];
-			$this->view->nomeGrupo = $nomeGrp;
-			$this->view->codSubgrupo = $_POST['cb_subgrupo_escolhido'];
-			$this->view->nomeSubgrupo = $nomeSbgrp;
-			$this->view->codVoluntario = $_POST['cb_voluntario_escolhido'];
-			$this->view->nomeVoluntario = $nomeVlnt;
+			if ($valida_data_inicio == 0 || $valida_data_fim == 0) {
+				$this->view->erroValidacao = 3;	
 
-			$this->render('subgrupoConsultarVinculoVoluntarioMenu');
+				$this->view->datas = array (
+					'data_inicial' => $_POST['dt_inc'],
+					'data_final' => $_POST['dt_fim']
+				);
+				
+				$this->render('subgrupoConsultarVinculoVoluntario');	
+			
+			} else {
+			
+				// Validar se Data Inicial é maior que Data Final
+				$data_inicio_format = str_replace('/', '-', $_POST['dt_inc']);
+				$data_fim_format = str_replace('/', '-', $_POST['dt_fim']);
 
+				// O barra "\" antes do DataTime foi devido ao namespace utilizado neste programa, pois sem a barra não reconhecia. Dica pega na internet.
+				$data_inicio = new \DateTime($data_inicio_format);		
+				$data_fim = new \DateTime($data_fim_format);		
+
+				if($data_inicio > $data_fim) {
+					$this->view->erroValidacao = 4;	
+
+					$this->view->datas = array (
+						'data_inicial' => $_POST['dt_inc'],
+						'data_final' => $_POST['dt_fim']
+					);
+					
+					$this->render('subgrupoConsultarVinculoVoluntario');	
+
+				} else {
+
+					// Busca Nome Grupo
+					$nomeGrupoBase = Container::getModel('TbGrp');
+					$nomeGrupoBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
+					$nomeGrupo = $nomeGrupoBase->getDadosGrupo();
+
+					$nomeGrp = $nomeGrupo['nome_grupo'];
+
+					if ($_POST['cb_subgrupo_escolhido'] == "Escolha Subgrupo") {
+						$codSbgrp =  '';
+						$nomeSbgrp = '';
+					
+					} else {
+						$codSbgrp =  $_POST['cb_subgrupo_escolhido'];
+
+						// Busca Nome Subgrupo
+						$nomeSubgrupo = Container::getModel('TbSbgrp');
+						$nomeSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+						$nomeSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
+						$nomeSbgrp = $nomeSubgrupo->getDadosSubgrupo();
+
+						$nomeSbgrp = $nomeSbgrp['nome_subgrupo'];
+					}
+
+					// Busca Perfil de Atuacao com subgrupo preenchido
+					$perfilAtuacao = Container::getModel('TbVnclVlntGrp');
+					$perfilAtuacao->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+					$perfilAtuacao->__set('codSubgrupo_pesq', $codSbgrp);
+					$perfilAtuacao->__set('dataInicio_pesq', $_POST['dt_inc']);
+					$perfilAtuacao->__set('dataFim_pesq', $_POST['dt_fim']);
+					$perfilAtu = $perfilAtuacao->getDadosVVGAll_2();
+
+					$this->view->dadosTVVG = array ();
+
+					foreach ($perfilAtu as $index => $arr) {
+					
+						array_push($this->view->dadosTVVG, array (
+								'sequencial' => $arr['sequencial_base'],
+								'cd_vlnt' => $arr['cd_vlnt'],
+								'nm_vlnt' => $arr['nm_vlnt'],
+								'perfil_atuacao' => $arr['cod_atuacao_base'],
+								'data_inicio_vinculo' =>  $arr['data_inicio_vinculo'],
+								'data_fim_vinculo' =>  $arr['data_fim_vinculo'],
+								'situacao_vinculo' =>  $arr['estado_vinculo'],
+								'nm_sbgrp' =>  $arr['nm_sbgrp'],
+								'cb_grupo_escolhido' => $_POST['cb_grupo_escolhido'],
+								'cb_subgrupo_escolhido' => $_POST['cb_subgrupo_escolhido'],
+								'data_inicial' => $_POST['dt_inc'],
+								'data_final' => $_POST['dt_fim'],
+						));
+					}	
+
+					$this->view->codGrupo = $_POST['cb_grupo_escolhido'];
+					$this->view->nomeGrupo = $nomeGrp;
+					$this->view->codSubgrupo = $codSbgrp;
+					$this->view->nomeSubgrupo = $nomeSbgrp;
+
+					$this->render('subgrupoConsultarVinculoVoluntarioMenu');
+
+				}
+			}
 		}
 	}	// Fim da function subgrupoConsultarVinculoVoluntarioMenu
+
+// ====================================================== //	
+
+	public function voluntarioPerfilAtuacaoMenu() {
+		
+		$this->validaAutenticacao();		
+
+		// Busca Perfil de Atuacao com subgrupo preenchido
+		$perfilAtuacao = Container::getModel('TbVlnt');
+		$perfilAtuacao->__set('cd_vlnt', $_SESSION['id']);
+		$perfilAtuacaoBase = $perfilAtuacao->getDadosVoluntarioAtuacao();
+
+		$this->view->dadosPerfilVlnt = array ();
+
+		foreach ($perfilAtuacaoBase as $index => $arr) {
+			if ($index == 0) {
+				$this->view->nomeVoluntario = $arr['nm_vlnt'];
+				$this->view->nivelAcessoVoluntarioSistema = $arr['nivel_acesso_sistema'];
+			}
+
+			// Somente buscar data de Próxima Visita qdo houver subgrupo
+			if (empty($arr['cd_sbgrp'])) {
+				$dt_proxima_visita = '';
+
+			} else {
+
+				// Data Atual
+				$dt_atual = new \DateTime();
+				$dt_atual = $dt_atual->format("Y-m-d");
+
+				// Retroagem um mês na data atual
+				$periodo = new \Dateinterval("P1M");
+				$dt_atual_m1 = new \DateTime();
+				$dt_atual_m1->sub($periodo);
+				$dt_atual_m1 = $dt_atual_m1->format("Y-m-d");
+
+				// Calcular a Próxima Data Visita com um mês a menos
+				$this->obtemDataProximaVisita($dt_atual_m1, $arr['cd_grp']);
+
+				// Formata as datas para efeito de comparação de valor
+				$ano_mes_da = str_replace('-','', $dt_atual);
+				$ano_mes_pv = str_replace('-','', $this->prox_data_visita);
+
+				// Se data da Próxima Visita calculada com data atual menos um mês é menor que a data atual, ou seja, já passou a data, calcula com a data atual normal
+				if ($ano_mes_da > $ano_mes_pv) {
+					$this->obtemDataProximaVisita($dt_atual, $arr['cd_grp']);
+				} 
+
+				$dt_proxima_visita = Funcoes::formatarNumeros('data', $this->prox_data_visita, 10, "AMD");	
+			}		
+			array_push($this->view->dadosPerfilVlnt, array (
+					'cdNomeGrp' => $arr['cd_grp'].'-'.$arr['nm_grp'],
+					'cdNomeSbgrp' => $arr['cd_sbgrp'].'-'.$arr['nm_sbgrp'],
+					'cdAtuaVlntSbgrp' => $arr['cod_atuacao_grupoSubgrupo'],
+					'cdNomeFml' => $arr['cd_fml'].'-'.$arr['nm_grp_fmlr'],
+					'sitFml' => $arr['situacao_familia'],
+					'proxDataTriagemVisita' => $dt_proxima_visita
+			));
+		}	
+
+		$this->view->codVoluntario = $_SESSION['id'];
+
+		$this->render('voluntarioPerfilAtuacaoMenu');
+
+	}	// Fim da function voluntarioPerfilAtuacaoMenu
+
 
 }	//	Fim da classe
 

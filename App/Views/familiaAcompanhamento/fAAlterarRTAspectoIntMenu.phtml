@@ -58,9 +58,7 @@
                 <div class="form-group">
                   <label class="col-md-2 control-label" for="dt_acomp">Data Triagem<h11>*</h11></label>  
                   <div class="col-lg-2">
-
                     <input required="" autofocus="" id="dataFormularioN" name="dt_acomp" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->dadosAcompanhamento['dt_acomp'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
-
                   </div>
                 </div>
 
@@ -97,18 +95,18 @@
 
               <div class="form-group text-center">
                 <label class="col-md-2 control-label" for="Alterar"></label>
-                <div class="col-md-8">
-                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
-                
+                <div class="col-md-8">              
                   <?php if ($this->view->dadosAcompanhamento['origem'] == 'conclusaoRelatorio') { ?>
-                    <a href="#" onclick="sendPost('/fAConcluirRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>
+                    <a href="#" onclick="sendPost('/fAConcluirRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>', seql_acomp:'<?= $_POST['seql_acomp'] ?>'});" class="btn btn-success">Retorna</a>
                   
                   <?php } else if ($this->view->dadosAcompanhamento['origem'] == 'conclusaoRevisao') { ?>
-                    <a href="#" onclick="sendPost('/fARevisarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>
+                    <a href="#" onclick="sendPost('/fARevisarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>', seql_acomp:'<?= $_POST['seql_acomp'] ?>'});" class="btn btn-success">Retorna</a>
                   
                   <?php } else { ?>
-                    <a href="#" onclick="sendPost('/fAAlterarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>'});" class="btn btn-success">Retorna</a>                
+                    <a href="#" onclick="sendPost('/fAAlterarRTMenu', {cb_grupo_escolhido:'<?= $_POST['cd_grp'] ?>', cb_subgrupo_escolhido:'<?= $_POST['cd_sbgrp'] ?>', cb_familia_escolhida:'<?= $_POST['cd_fml'] ?>', seql_acomp:'<?= $_POST['seql_acomp'] ?>'});" class="btn btn-success">Retorna</a>                
                   <?php } ?>
+
+                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar</button>
                 </div>
               </div>
 
@@ -128,6 +126,9 @@
 
               <input id="origem" name="origem" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['origem'] ?>" hidden>
               <input type="hidden" name="origem" value="<?= $this->view->dadosAcompanhamento['origem'] ?>">
+
+              <input id="seql_acomp" name="seql_acomp" class="form-control input-md" disabled="" type="text" maxlength="2"  value="<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>" hidden>
+              <input type="hidden" name="seql_acomp" value="<?= $this->view->dadosAcompanhamento['seql_acomp'] ?>">
               <!-- Término Campos para tratamento de retorno -->
       
             </div>

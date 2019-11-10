@@ -185,6 +185,30 @@ if (! empty($opcao)){
                 break;
             }
 
+        case 'grupoE':
+            {
+                echo getDadosGrupoAllE($valor);
+                break;
+            }
+
+        case 'subgrupoE':
+            {
+                echo getDadosSubgrupoAllE($valor);
+                break;
+            }
+
+        case 'familiaGrupo':
+            {
+                echo getDadosFamiliaGrupo($valor);
+                break;
+            }
+
+        case 'familiaGrupoAll':
+            {
+                echo getDadosFamiliaGrupoAll($valor);
+                break;
+            }
+
 
     }
 }
@@ -631,7 +655,6 @@ function getDadosFamiliaVFSAll($grupo_subgrupo) {
 	$db = null;
 }	
 
-
 // ====================================================== //
 
 function getDadosFamiliaAll() {
@@ -780,7 +803,6 @@ function getDadosFamiliaAll3() {
 
 // ====================================================== //
 
-// Havia sido retirado por engano
 function getDadosFamiliaVFS($grupo_subgrupo) {
 	$db = getDB();
 
@@ -830,3 +852,126 @@ function getDadosItemEvtNeces($evtNeces) {
 
 	$db = null;
 }	
+
+// ====================================================== //
+
+function getDadosGrupoAllE($codVoluntario) {
+	$db = getDB();
+
+	$query = "
+			select 	cd_grpID as cod_grupo,
+					nm_grp as nome_grupo,
+					cd_semn_atu as cod_semana
+				from tb_grp
+				where cd_est_grp = 1
+				and   cd_grpID in (select cd_grpID
+									from tb_sbgrp
+									where cd_est_sbgrp = 1)
+
+				and cd_grpID  in (select cd_grpID
+                                  from tb_vncl_vlnt_grp
+                                  where cd_vlntID = :cd_vlnt)
+
+				order by nm_grp";
+	$stmt = $db->prepare($query);
+	$stmt->bindValue(':cd_vlnt', $codVoluntario);
+	$stmt->execute();
+
+	echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+	$db = null;
+}	
+
+// ====================================================== //
+
+function getDadosSubgrupoAllE($grupo_voluntario) {
+	$db = getDB();
+
+	// Recebe a variável como (grupo;voluntario)
+	$grupoVoluntario = explode(';', $grupo_voluntario);
+	$grupo = $grupoVoluntario[0];
+	$voluntario = $grupoVoluntario[1];
+
+	$query = "
+			select 	cd_grpID as cod_grupo,
+					cd_sbgrpID as cod_subgrupo,
+					nm_sbgrp as nome_subgrupo
+				from  tb_sbgrp
+				where cd_grpID     = :cd_grp
+				and   cd_est_sbgrp = 1
+
+				and   cd_sbgrpID  in (select cd_sbgrpID
+                                      from tb_vncl_vlnt_grp
+                                      where cd_vlntID   = :cd_vlnt
+                                      and   cd_grpID    = :cd_grp
+                                      and   cd_est_vncl = 1)									
+
+				order by cd_grpID, cd_sbgrpID";
+	$stmt = $db->prepare($query);
+	$stmt->bindValue(':cd_grp', $grupo);
+	$stmt->bindValue(':cd_vlnt', $voluntario);
+	$stmt->execute();
+
+	echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+	$db = null;
+}	
+
+// ====================================================== //
+
+function getDadosFamiliaGrupo($grupo) {
+	$db = getDB();
+
+	$query = "
+			select 	cd_fmlID as cod_familia,
+					nm_grp_fmlr as nome_familia
+			from tb_fml
+			where  cd_fmlID in (select cd_fmlID
+								from  tb_vncl_fml_sbgrp
+								where cd_grpID   = :cd_grp
+								and   cd_est_vncl = 1)
+			and cd_est_situ_fml in (2, 3)
+			order by nm_grp_fmlr";
+	$stmt = $db->prepare($query);
+	$stmt->bindValue(':cd_grp', $grupo);
+	$stmt->execute();
+
+	echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+
+	$db = null;
+}	
+
+// ====================================================== //
+
+function getDadosFamiliaGrupoAll($grupo_subgrupo) {
+	$db = getDB();
+
+	// Recebe a variável como (grupo;subgrupo)
+	$grupoSubgrupo = explode(';', $grupo_subgrupo);
+	$grupo = $grupoSubgrupo[0];
+	$subgrupo = $grupoSubgrupo[1];
+
+	$query = "
+			select 	cd_fmlID as cod_familia,
+					nm_grp_fmlr as nome_familia
+				from tb_fml
+				where cd_fmlID in (select cd_fmlID
+					  			   from  tb_vncl_fml_sbgrp
+					 			   where cd_grpID    = :cd_grp
+								   and   cd_sbgrpID  = :cd_sbgrp
+								   and   cd_est_vncl = 1)
+				and   cd_est_situ_fml in (2, 3, 4)									
+				order by nm_grp_fmlr";
+
+	$stmt = $db->prepare($query);
+	$stmt->bindValue(':cd_grp', $grupo);
+	$stmt->bindValue(':cd_sbgrp', $subgrupo);
+	$stmt->execute();
+
+	echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+
+
+	$db = null;
+}	
+
