@@ -69,8 +69,6 @@ class RecFinanDPSRecursoController extends Action {
 			$this->view->erroValidacao = 0;
 		} 
 		
-		$this->nivel_atuacao_requerido = 99;
-		
 		$this->validaAcesso();
 
 		if ($this->retornoValidaAcesso == 1) {
@@ -234,8 +232,6 @@ class RecFinanDPSRecursoController extends Action {
 		if (!isset($this->view->erroValidacao)) {
 			$this->view->erroValidacao = 0;
 		} 
-		
-		$this->nivel_atuacao_requerido = 99;
 		
 		$this->validaAcesso();
 

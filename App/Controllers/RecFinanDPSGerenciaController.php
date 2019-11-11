@@ -72,8 +72,6 @@ class RecFinanDPSGerenciaController extends Action {
 		if (!isset($this->view->erroValidacao_msg)) {
 			$this->view->erroValidacao_msg = '';
 		} 
-
-		$this->nivel_atuacao_requerido = 99;
 		
 		$this->validaAcesso();
 
@@ -293,8 +291,6 @@ class RecFinanDPSGerenciaController extends Action {
 		if (!isset($this->view->erroValidacao_msg)) {
 			$this->view->erroValidacao_msg = '';
 		} 
-
-		$this->nivel_atuacao_requerido = 99;
 		
 		$this->validaAcesso();
 
@@ -479,8 +475,6 @@ class RecFinanDPSGerenciaController extends Action {
 		if (!isset($this->view->erroValidacao_msg)) {
 			$this->view->erroValidacao_msg = '';
 		} 
-
-		$this->nivel_atuacao_requerido = 99;
 		
 		$this->validaAcesso();
 

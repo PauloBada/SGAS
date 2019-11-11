@@ -870,7 +870,8 @@ function getDadosGrupoAllE($codVoluntario) {
 
 				and cd_grpID  in (select cd_grpID
                                   from tb_vncl_vlnt_grp
-                                  where cd_vlntID = :cd_vlnt)
+                                  where cd_vlntID = :cd_vlnt
+                                  and   cd_est_vncl = 1)
 
 				order by nm_grp";
 	$stmt = $db->prepare($query);

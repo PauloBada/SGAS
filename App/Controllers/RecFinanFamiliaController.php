@@ -30,6 +30,11 @@ class RecFinanFamiliaController extends Action {
 
 		$this->retornoValidaAcesso = 0;
 
+		// Esta pesquisa na maioria das vezesserá feita neste controller, pois na entrada se está filtrando 
+		// por grupo/subgrupo, exceto consultas, onde o voluntário está vinculado, ou seja, se não estiver vinculado não 
+		// aparecerá para ele pesquisar
+
+		// Busca o cd_atu_vlnt no grupo/subgrupo
 		$atuacaoVoluntarioBase = Container::getModel('TbVnclVlntGrp');
 		$atuacaoVoluntarioBase->__set('codVoluntario', $_SESSION['id']);
 		$atuacaoVoluntarioBase->__set('codGrupo', $_POST['cb_grupo_escolhido']);
@@ -38,33 +43,12 @@ class RecFinanFamiliaController extends Action {
 
 		// Não está na tabela tb_vncl_vlnt_grp, ou seja, não está atrelado ao grupo/subgrupo
 		if (empty($atuacaoVoluntario['cod_atuacao'])) { 
+			// Nível 1 e 2 tem acesso
+			$nivel_acesso_requerido = 2;
+			$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
 
-			// $this->nivel_atuacao_requerido ==> constante da tabela tb_vncl_vnlt_grp
-			// $nivel_acesso_requerido 		  ==> constante da tabela tb_ace_login_sess
-
-			// Para possibilitar quem tem nível 1 e 2 ter acesso sem estar atrelado a grupo/subgrupo
-			if ($this->nivel_atuacao_requerido == 99) {
-				$nivel_acesso_requerido = 2;
-				$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-				// Para validar se Voluntário tem o nível adequado para fazer a operação
-				if ($autenticar_acesso['autorizado'] == 0) {
-					$this->view->erroValidacao = 5;
-
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-					$this->retornoValidaAcesso = 1;
-				}
-
-			} else {
-
+			// Não tem Nível 1 ou 2
+			if ($autenticar_acesso['autorizado'] == 0) {
 				$this->view->erroValidacao = 5;
 
 				// Buscar Nome de Grupo e Subgrupo
@@ -78,56 +62,64 @@ class RecFinanFamiliaController extends Action {
 
 				$this->retornoValidaAcesso = 1;
 			}
-		
-		} else { // Está na tabela Grupo/Subgrupo
-			// Nível 99 trata nível geral 1 e 2
-			if ($this->nivel_atuacao_requerido != 99) {
-				// Está na tabela tb_vncl_vlnt_grp, mas não tem o nível Requerido
-				if ($atuacaoVoluntario['cod_atuacao'] != $this->nivel_atuacao_requerido) { 
-					$this->view->erroValidacao = 6;
 
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
+		} else {	
 
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
+			// Está na tabela tb_vncl_vlnt_grp, mas não tem o nível Atuação Requerido
+			if ($atuacaoVoluntario['cod_atuacao'] != $this->nivel_atuacao_requerido) { 
+				// Coordenador Geral acessa todas as funções
+				if ($atuacaoVoluntario['cod_atuacao'] != 4) {
+					//  99 abre acesso para todos do grupo (consultas)
+					if ($this->nivel_atuacao_requerido != 99) {
 
-					if ($atuacaoVoluntario['cod_atuacao'] == 1) {
-						$this->view->atuacaoLogado = 'Coordenador de Cadastro';	
+						$this->view->erroValidacao = 6;
 
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 2){
-						$this->view->atuacaoLogado = 'Coordenador de Finanças';
+						// Buscar Nome de Grupo e Subgrupo
+						$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
+						$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+						$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
+						$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
 
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 3){
-						$this->view->atuacaoLogado = 'Coordenador Revisor';
-					
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 4){
-						$this->view->atuacaoLogado = 'Coordenador Geral';
-					
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 5){
-						$this->view->atuacaoLogado = 'Voluntário';
+						$this->view->grupoTratado = $dadosGS['nome_grupo'];
+						$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
+
+						$this->view->atuacaoLogado = '';
+						$this->view->atuacaoRequerida = '';
+
+						if ($atuacaoVoluntario['cod_atuacao'] == 1) {
+							$this->view->atuacaoLogado = 'Coordenador de Cadastro';	
+
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 2){
+							$this->view->atuacaoLogado = 'Coordenador de Finanças';
+
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 3){
+							$this->view->atuacaoLogado = 'Coordenador Revisor';
+						
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 4){
+							$this->view->atuacaoLogado = 'Coordenador Geral';
+						
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 5){
+							$this->view->atuacaoLogado = 'Voluntário';
+						}
+
+						if ($this->nivel_atuacao_requerido == 1) {
+							$this->view->atuacaoRequerida = 'Coordenador de Cadastro';	
+
+						}	else if ($this->nivel_atuacao_requerido == 2){
+							$this->view->atuacaoRequerida = 'Coordenador de Finanças';
+
+						}	else if ($this->nivel_atuacao_requerido == 3){
+							$this->view->atuacaoRequerida = 'Coordenador Revisor';
+						
+						}	else if ($this->nivel_atuacao_requerido == 4){
+							$this->view->atuacaoRequerida = 'Coordenador Geral';
+						
+						}	else if ($this->nivel_atuacao_requerido == 5){
+							$this->view->atuacaoRequerida = 'Voluntário';
+						}
+
+						$this->retornoValidaAcesso = 2;
 					}
-
-					if ($this->nivel_atuacao_requerido == 1) {
-						$this->view->atuacaoRequerida = 'Coordenador de Cadastro';	
-
-					}	else if ($this->nivel_atuacao_requerido == 2){
-						$this->view->atuacaoRequerida = 'Coordenador de Finanças';
-
-					}	else if ($this->nivel_atuacao_requerido == 3){
-						$this->view->atuacaoRequerida = 'Coordenador Revisor';
-					
-					}	else if ($this->nivel_atuacao_requerido == 4){
-						$this->view->atuacaoRequerida = 'Coordenador Geral';
-					
-					}	else if ($this->nivel_atuacao_requerido == 5){
-						$this->view->atuacaoRequerida = 'Voluntário';
-					}
-
-					$this->retornoValidaAcesso = 2;
 				}
 			}
 		}
@@ -497,12 +489,6 @@ class RecFinanFamiliaController extends Action {
 	public function recFinanFamiliaSolicitarIncluirBase() {
 		$this->validaAutenticacao();	
 
-/*
-		echo '<pre>';
-		print_r($_POST);
-		print_r($_FILES);
-		echo '</pre>';
-*/
 		$this->view->erroValidacao = 0;
 		
 		$msg = '';
@@ -644,13 +630,6 @@ class RecFinanFamiliaController extends Action {
 
 		$this->validaAutenticacao();	
 
-/*
- 		echo '<pre>';
-		print_r($_POST);
-		print_r($_FILES);
-		echo '</pre>';
-
-*/
 		$this->view->erroValidacao = 0;
 
 		$msg = '';
@@ -813,16 +792,9 @@ class RecFinanFamiliaController extends Action {
 
 // ====================================================== //	
 
-//	public function fAAlterarRTVoluntario() {
 	public function recFinanFamiliaVincular() {
 	
 		$this->validaAutenticacao();	
-
-/*
- 		echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';
-*/	
 
 		$this->view->erroValidacao = 0;
 
@@ -883,12 +855,6 @@ class RecFinanFamiliaController extends Action {
 	public function recFinanFamiliaVincularBase() {
 
 		$this->validaAutenticacao();	
-
-/*
- 		echo '<pre>';
-		print_r($_POST);
-		echo '</pre>';
-*/
 
 		// Famílias escolhidas para inclusão ou cancelamento 
 		$familias = explode(',', $_POST['familia_escolhida']);
@@ -977,11 +943,10 @@ class RecFinanFamiliaController extends Action {
 
 
 
-// VOLTAR A VER OU USAR ESTAS FUNÇÕES APÓS O FINANCEIRO DPS
+// PAREI AQUI - VOLTAR A VER OU USAR ESTAS FUNÇÕES APÓS O FINANCEIRO DPS - ALTERAR O QUE ESTÁ ABAIXO
 
 // ====================================================== //	
 	
-	//public function subgrupoConsultarVinculoFamilia() {
 	public function recFinanFamiliaPreConsultar() {
 
 		$this->validaAutenticacao();		
@@ -1098,84 +1063,116 @@ class RecFinanFamiliaController extends Action {
 
 				} else {
 
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
+					// Para ALTERAÇÃO de Solicitação de Recurso Financeiro, somente se estiver em grupo/subgrupo e
+					// cd_atu_vlnt = 2-Coordenador Financeiro na tabela tb_vncl_vlnt_grp
+					$this->nivel_atuacao_requerido = 2;
 					
-					$nomeGrupo = $dadosGS['nome_grupo'];
-					$nomeSubgrupo = $dadosGS['nome_subgrupo'];
+					$this->validaAcesso();
 
-					// Buscar Todos os Pedidos 
-					$pedidoRecurFinanBase = Container::getModel('TbPedidoRecurFinan');
-					$pedidoRecurFinanBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
-					$pedidoRecurFinanBase->__set('cd_sbgrp',  $_POST['cb_subgrupo_escolhido']);
-					$pedidoRecurFinanBase->__set('cd_est_pedido1', 1);
-					$pedidoRecurFinanBase->__set('cd_est_pedido4', 4);
-					$pedidoRecurFinanBase->__set('dt_inicio', $_POST['dt_inc']);
-					$pedidoRecurFinanBase->__set('dt_fim', $_POST['dt_fim']);
-					$pedidoRecurFinan = $pedidoRecurFinanBase->getDadosPedidoRecurFinanAllConsulta();
+					// Não está na tabela de vinculo de grupo e subgrupo
+					if ($this->retornoValidaAcesso == 1) {
+						$this->view->datas = array (
+							'data_inicial' => $_POST['dt_inc'],
+							'data_final' => $_POST['dt_fim'],
+							'rota' => $_POST['rota']
+						);
 
-					$this->view->pedidoRecFinan = array ();
+						$this->view->codVoluntario = $_SESSION['id'];		
 
-					if (count($pedidoRecurFinan) > 0) {
-						foreach ($pedidoRecurFinan as $index => $arr) {
-							// Obter dados Pedido Recurso
-							$dadosPedidoBase = Container::getModel('TbPedidoRecurFinan');
-							$dadosPedidoBase->__set('cd_grp', $arr['cd_grp']);
-							$dadosPedidoBase->__set('cd_sbgrp', $arr['cd_sbgrp']);
-							$dadosPedidoBase->__set('seql_pedido_finan', $arr['seql_pedido_finan']);	
-							$dadosPedido = $dadosPedidoBase->getDadosPedidoRecurFinan();
+						$this->render('recFinanFamiliaPreConsultar');				
 
-							// Buscar Nome do Voluntário
-							$nomeVlntBase = Container::getModel('TbVlnt');
-							$nomeVlntBase->__set('id', $arr['cd_vlnt_resp_pedido']);
-							$nomeVlnt = $nomeVlntBase->getInfoVoluntario();
+					// Está na tabela de vínculo de grupo e subgrupo, mas não tem o nível Requerido
+					} else if ($this->retornoValidaAcesso == 2) {
+						$this->view->datas = array (
+							'data_inicial' => $_POST['dt_inc'],
+							'data_final' => $_POST['dt_fim'],
+							'rota' => $_POST['rota']
+						);
 
-							$menor_vlr = number_format($arr['menor_vlr_encontra'], 2, ',', '.');
+						$this->view->codVoluntario = $_SESSION['id'];		
 
-							// Há Pedidos Registrados
-							array_push($this->view->pedidoRecFinan, array (
-									'cd_grp' => $_POST['cb_grupo_escolhido'], 
-									'nm_grp' => $nomeGrupo, 
-									'cd_sbgrp' => $_POST['cb_subgrupo_escolhido'], 
-									'nm_sbgrp' => $nomeSubgrupo, 
-									'seql_pedido_finan' => $arr['seql_pedido_finan'],
-									'dsc_sucinta_pedido' => $arr['dsc_sucinta_pedido'],
-									'dsc_resum_pedido' => $arr['dsc_resum_pedido'],
-									'menor_vlr_encontra' => $menor_vlr,
-									'arq_orc_pedido' => $arr['arq_orc_pedido'],
-									'arq_compara_preco_pedido' => $arr['arq_compara_preco_pedido'],
-									'dt_incl_pedido' => $arr['dt_incl_pedido'],
-									'dt_incl_pedido_format' => $arr['dt_incl_pedido_format'],
-									'cd_vlnt_resp_pedido' => $arr['cd_vlnt_resp_pedido'],
-									'nm_vlnt_resp_pedido' => $nomeVlnt['nm_vlnt'],
-									'dt_autoriza_pedido' => $arr['dt_autoriza_pedido'],
-									'dt_autoriza_pedido_format' => $arr['dt_autoriza_pedido_format'],
-									'cd_vlnt_resp_autoriza' => $arr['cd_vlnt_resp_autoriza'],
-									'cd_tip_enquadra' => $arr['cd_tip_enquadra_pedido'],
-									'nm_tip_enquadra_format' => $arr['cd_tip_enquadra_pedido_format'],
-									'cd_est_pedido' => $arr['cd_est_pedido'],
-									'nm_est_pedido_format' => $arr['cd_est_pedido_format'],
-									'cd_situ_envio_ressar_pedido' => $arr['cd_situ_envio_ressar_pedido'],
-									'nm_situ_envio_ressar_pedido_format' => $arr['cd_situ_envio_ressar_pedido_format'],
-									'dir_guarda_arq' => $arr['dir_guarda_arq'],
-									'pedidoRF' => $_POST['cb_grupo_escolhido'].';'.$_POST['cb_subgrupo_escolhido'].';'.$arr['seql_pedido_finan']
-							));
+						$this->render('recFinanFamiliaPreConsultar');				
 
-						} 
-					
+					} else {
+
+						// Buscar Nome de Grupo e Subgrupo
+						$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
+						$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+						$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
+						$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
+						
+						$nomeGrupo = $dadosGS['nome_grupo'];
+						$nomeSubgrupo = $dadosGS['nome_subgrupo'];
+
+						// Buscar Todos os Pedidos 
+						$pedidoRecurFinanBase = Container::getModel('TbPedidoRecurFinan');
+						$pedidoRecurFinanBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
+						$pedidoRecurFinanBase->__set('cd_sbgrp',  $_POST['cb_subgrupo_escolhido']);
+						$pedidoRecurFinanBase->__set('cd_est_pedido1', 1);
+						$pedidoRecurFinanBase->__set('cd_est_pedido4', 4);
+						$pedidoRecurFinanBase->__set('dt_inicio', $_POST['dt_inc']);
+						$pedidoRecurFinanBase->__set('dt_fim', $_POST['dt_fim']);
+						$pedidoRecurFinan = $pedidoRecurFinanBase->getDadosPedidoRecurFinanAllConsulta();
+
+						$this->view->pedidoRecFinan = array ();
+
+						if (count($pedidoRecurFinan) > 0) {
+							foreach ($pedidoRecurFinan as $index => $arr) {
+								// Obter dados Pedido Recurso
+								$dadosPedidoBase = Container::getModel('TbPedidoRecurFinan');
+								$dadosPedidoBase->__set('cd_grp', $arr['cd_grp']);
+								$dadosPedidoBase->__set('cd_sbgrp', $arr['cd_sbgrp']);
+								$dadosPedidoBase->__set('seql_pedido_finan', $arr['seql_pedido_finan']);	
+								$dadosPedido = $dadosPedidoBase->getDadosPedidoRecurFinan();
+
+								// Buscar Nome do Voluntário
+								$nomeVlntBase = Container::getModel('TbVlnt');
+								$nomeVlntBase->__set('id', $arr['cd_vlnt_resp_pedido']);
+								$nomeVlnt = $nomeVlntBase->getInfoVoluntario();
+
+								$menor_vlr = number_format($arr['menor_vlr_encontra'], 2, ',', '.');
+
+								// Há Pedidos Registrados
+								array_push($this->view->pedidoRecFinan, array (
+										'cd_grp' => $_POST['cb_grupo_escolhido'], 
+										'nm_grp' => $nomeGrupo, 
+										'cd_sbgrp' => $_POST['cb_subgrupo_escolhido'], 
+										'nm_sbgrp' => $nomeSubgrupo, 
+										'seql_pedido_finan' => $arr['seql_pedido_finan'],
+										'dsc_sucinta_pedido' => $arr['dsc_sucinta_pedido'],
+										'dsc_resum_pedido' => $arr['dsc_resum_pedido'],
+										'menor_vlr_encontra' => $menor_vlr,
+										'arq_orc_pedido' => $arr['arq_orc_pedido'],
+										'arq_compara_preco_pedido' => $arr['arq_compara_preco_pedido'],
+										'dt_incl_pedido' => $arr['dt_incl_pedido'],
+										'dt_incl_pedido_format' => $arr['dt_incl_pedido_format'],
+										'cd_vlnt_resp_pedido' => $arr['cd_vlnt_resp_pedido'],
+										'nm_vlnt_resp_pedido' => $nomeVlnt['nm_vlnt'],
+										'dt_autoriza_pedido' => $arr['dt_autoriza_pedido'],
+										'dt_autoriza_pedido_format' => $arr['dt_autoriza_pedido_format'],
+										'cd_vlnt_resp_autoriza' => $arr['cd_vlnt_resp_autoriza'],
+										'cd_tip_enquadra' => $arr['cd_tip_enquadra_pedido'],
+										'nm_tip_enquadra_format' => $arr['cd_tip_enquadra_pedido_format'],
+										'cd_est_pedido' => $arr['cd_est_pedido'],
+										'nm_est_pedido_format' => $arr['cd_est_pedido_format'],
+										'cd_situ_envio_ressar_pedido' => $arr['cd_situ_envio_ressar_pedido'],
+										'nm_situ_envio_ressar_pedido_format' => $arr['cd_situ_envio_ressar_pedido_format'],
+										'dir_guarda_arq' => $arr['dir_guarda_arq'],
+										'pedidoRF' => $_POST['cb_grupo_escolhido'].';'.$_POST['cb_subgrupo_escolhido'].';'.$arr['seql_pedido_finan']
+								));
+
+							} 
+						
+						}
+						
+						// Para compor os dados do Grupo e Subgrupo acima da tabela
+						$this->view->codGrupo = $_POST['cb_grupo_escolhido'];
+						$this->view->nomeGrupo = $nomeGrupo;
+						$this->view->codSubgrupo = $_POST['cb_subgrupo_escolhido'];
+						$this->view->nomeSubgrupo = $nomeSubgrupo;
+
+						$this->render('recFinanFamiliaConsultar');
 					}
-					
-					// Para compor os dados do Grupo e Subgrupo acima da tabela
-					$this->view->codGrupo = $_POST['cb_grupo_escolhido'];
-					$this->view->nomeGrupo = $nomeGrupo;
-					$this->view->codSubgrupo = $_POST['cb_subgrupo_escolhido'];
-					$this->view->nomeSubgrupo = $nomeSubgrupo;
-
-					$this->render('recFinanFamiliaConsultar');
-
 				}
 			}
 		}

@@ -27,12 +27,18 @@ class FamiliaNecessidadeController extends Action {
 		}
 	}
 
-// ====================================================== //	
+
+	// ====================================================== //	
 	
 	public function validaAcessoAcompanhamento() {
 
 		$this->retornoValidaAcessoAcompanhamento = 0;
 
+		// Esta pesquisa na maioria das vezesserá feita neste controller, pois na entrada se está filtrando 
+		// por grupo/subgrupo, exceto consultas, onde o voluntário está vinculado, ou seja, se não estiver vinculado não 
+		// aparecerá para ele pesquisar
+
+		// Busca o cd_atu_vlnt no grupo/subgrupo
 		$atuacaoVoluntarioBase = Container::getModel('TbVnclVlntGrp');
 		$atuacaoVoluntarioBase->__set('codVoluntario', $_SESSION['id']);
 		$atuacaoVoluntarioBase->__set('codGrupo', $_POST['cb_grupo_escolhido']);
@@ -41,30 +47,12 @@ class FamiliaNecessidadeController extends Action {
 
 		// Não está na tabela tb_vncl_vlnt_grp, ou seja, não está atrelado ao grupo/subgrupo
 		if (empty($atuacaoVoluntario['cod_atuacao'])) { 
+			// Nível 1 e 2 tem acesso
+			$nivel_acesso_requerido = 2;
+			$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
 
-			// Para possibilitar quem tem nível 1 e 2 consultar relatórios sem estar atrelado a grupo/subgrupo
-			if ($this->nivel_atuacao_requerido == 99) {
-				$nivel_acesso_requerido = 2;
-				$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-				// Para validar se Voluntário tem o nível adequado para fazer a operação
-				if ($autenticar_acesso['autorizado'] == 0) {
-					$this->view->erroValidacao = 5;
-
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-					$this->retornoValidaAcessoAcompanhamento = 1;
-				}
-
-			} else {
-
+			// Não tem Nível 1 ou 2
+			if ($autenticar_acesso['autorizado'] == 0) {
 				$this->view->erroValidacao = 5;
 
 				// Buscar Nome de Grupo e Subgrupo
@@ -81,54 +69,61 @@ class FamiliaNecessidadeController extends Action {
 
 		} else {	
 
-			// Nível 99 somente verifica se está no grupo/subgrupo, exceto nível gerak 1 e 2 (Para consulta de relatórios)
-			if ($this->nivel_atuacao_requerido != 99) {
-				// Está na tabela tb_vncl_vlnt_grp, mas não tem o nível Requerido
-				if ($atuacaoVoluntario['cod_atuacao'] != $this->nivel_atuacao_requerido) { 
-					$this->view->erroValidacao = 6;
+			// Está na tabela tb_vncl_vlnt_grp, mas não tem o nível Atuação Requerido
+			if ($atuacaoVoluntario['cod_atuacao'] != $this->nivel_atuacao_requerido) { 
+				// Coordenador Geral acessa todas as funções
+				if ($atuacaoVoluntario['cod_atuacao'] != 4) {
+					//  99 abre acesso para todos do grupo (consultas)
+					if ($this->nivel_atuacao_requerido != 99) {
 
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
+						$this->view->erroValidacao = 6;
 
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
+						// Buscar Nome de Grupo e Subgrupo
+						$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
+						$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+						$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
+						$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
 
-					if ($atuacaoVoluntario['cod_atuacao'] == 1) {
-						$this->view->atuacaoLogado = 'Coordenador de Cadastro';	
+						$this->view->grupoTratado = $dadosGS['nome_grupo'];
+						$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
 
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 2){
-						$this->view->atuacaoLogado = 'Coordenador de Finanças';
+						$this->view->atuacaoLogado = '';
+						$this->view->atuacaoRequerida = '';
 
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 3){
-						$this->view->atuacaoLogado = 'Coordenador Revisor';
-					
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 4){
-						$this->view->atuacaoLogado = 'Coordenador Geral';
-					
-					}	else if ($atuacaoVoluntario['cod_atuacao'] == 5){
-						$this->view->atuacaoLogado = 'Voluntário';
+						if ($atuacaoVoluntario['cod_atuacao'] == 1) {
+							$this->view->atuacaoLogado = 'Coordenador de Cadastro';	
+
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 2){
+							$this->view->atuacaoLogado = 'Coordenador de Finanças';
+
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 3){
+							$this->view->atuacaoLogado = 'Coordenador Revisor';
+						
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 4){
+							$this->view->atuacaoLogado = 'Coordenador Geral';
+						
+						}	else if ($atuacaoVoluntario['cod_atuacao'] == 5){
+							$this->view->atuacaoLogado = 'Voluntário';
+						}
+
+						if ($this->nivel_atuacao_requerido == 1) {
+							$this->view->atuacaoRequerida = 'Coordenador de Cadastro';	
+
+						}	else if ($this->nivel_atuacao_requerido == 2){
+							$this->view->atuacaoRequerida = 'Coordenador de Finanças';
+
+						}	else if ($this->nivel_atuacao_requerido == 3){
+							$this->view->atuacaoRequerida = 'Coordenador Revisor';
+						
+						}	else if ($this->nivel_atuacao_requerido == 4){
+							$this->view->atuacaoRequerida = 'Coordenador Geral';
+						
+						}	else if ($this->nivel_atuacao_requerido == 5){
+							$this->view->atuacaoRequerida = 'Voluntário';
+						}
+
+						$this->retornoValidaAcessoAcompanhamento = 2;
 					}
-
-					if ($this->nivel_atuacao_requerido == 1) {
-						$this->view->atuacaoRequerida = 'Coordenador de Cadastro';	
-
-					}	else if ($this->nivel_atuacao_requerido == 2){
-						$this->view->atuacaoRequerida = 'Coordenador de Finanças';
-
-					}	else if ($this->nivel_atuacao_requerido == 3){
-						$this->view->atuacaoRequerida = 'Coordenador Revisor';
-					
-					}	else if ($this->nivel_atuacao_requerido == 4){
-						$this->view->atuacaoRequerida = 'Coordenador Geral';
-					
-					}	else if ($this->nivel_atuacao_requerido == 5){
-						$this->view->atuacaoRequerida = 'Voluntário';
-					}
-
-					$this->retornoValidaAcessoAcompanhamento = 2;
 				}
 			}
 		}
@@ -200,7 +195,47 @@ class FamiliaNecessidadeController extends Action {
 
 				$this->retornoValidaAcessoAcompanhamento = 1;
 			}
-		} 
+		
+		} else {
+
+			$atuacaoVoluntarioBase = Container::getModel('TbVnclVlntGrp');
+			$atuacaoVoluntarioBase->__set('codVoluntario', $_SESSION['id']);
+			$atuacaoVoluntarioBase->__set('codGrupo', $_POST['cb_grupo_escolhido']);
+			$atuacaoVoluntarioBase->__set('codSubgrupo',  $_POST['cb_subgrupo_escolhido']);
+			$atuacaoVoluntario = $atuacaoVoluntarioBase->getNivelAtuacao();
+
+			// Está na tabela tb_vncl_vlnt_grp, mas não tem o nível Atuação Requerido
+			if ($atuacaoVoluntario['cod_atuacao'] != $this->nivel_atuacao_requerido) { 
+				// Coordenador Geral acessa todas as funções
+				if ($atuacaoVoluntario['cod_atuacao'] != 4) {
+					//  99 abre acesso para todos do grupo (consultas)
+					if ($this->nivel_atuacao_requerido != 99) {
+						$this->view->erroValidacao = 5;
+
+						if ($ha_subgrupo == 1) {
+							// Buscar Nome de Grupo e Subgrupo
+							$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
+							$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
+							$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
+							$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
+
+							$this->view->grupoTratado = $dadosGS['nome_grupo'];
+							$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
+						} else {
+							// Buscar Nome de Grupo
+							$dadosGrupo = Container::getModel('TbGrp');
+							$dadosGrupo->__set('cd_grp', $_POST['cb_grupo_escolhido']);
+							$dadosG = $dadosGrupo->getDadosGrupo();
+
+							$this->view->grupoTratado = $dadosG['nome_grupo'];
+							$this->view->subgrupoTratado = '';						
+						}
+
+						$this->retornoValidaAcessoAcompanhamento = 1;
+					}
+				}
+			}
+		}
 
 	}	// Fim da function validaAcessoAcompanhamento_2
 
@@ -437,7 +472,6 @@ class FamiliaNecessidadeController extends Action {
 		}
 
 	}	// Fim da function fNIncluirNeces
-
 
 // ====================================================== //	
 	
@@ -981,6 +1015,7 @@ class FamiliaNecessidadeController extends Action {
 		} else {
 			$this->view->erroValidacao = 0;
 
+			// Apesar de estar passando a chave do voluntário logado, não está filtrando grupo/subgrupo por esta chave
 			$this->view->codVoluntario = $_SESSION['id'];
 
 			$this->render('fNPreAlterarNeces');
@@ -1417,12 +1452,12 @@ class FamiliaNecessidadeController extends Action {
 			}
 		} 
 	
-		// Para todos poderem consultar, apenas deverão estar cadastrados em grupo/subgrupo (exceto nível acesso geral 1 e 2)
+		// Para todos poderem acessar, apenas deverão estar cadastrados em grupo/subgrupo (exceto nível acesso geral 1 e 2)
 		$this->nivel_atuacao_requerido = 99;
 		
 		$this->validaAcessoAcompanhamento_2();
 
-		// Não está na tabela de vinculo de grupo e subgrupo
+		// Não está na tabela de vinculo de grupo e subgrupo ou 
 		if ($this->retornoValidaAcessoAcompanhamento == 1) {
 			
 			$this->view->codVoluntario = $_SESSION['id'];				

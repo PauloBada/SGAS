@@ -185,11 +185,7 @@
           $('#cb_subgrupo_escolhido').empty().append('<option>Escolha Subgrupo</option>');
           $('#cb_familia_escolhida').empty().append('<option>Escolha Família</option>');
 
-          // Carrega Grupos     
-          // Filtrar grupos somente onde o voluntário tem vinculo    
-          //var codVlnt = $('#cd_vlnt').val();
-          //$.getJSON('ConsultaCbDependente.php?opcao=grupoE&valor='+codVlnt, function (dados){
-          
+          //Não está filtrando por grupo que o voluntário está vinculado
           // Filtrar todos os grupos existentes
           $.getJSON('ConsultaCbDependente.php?opcao=grupo', function (dados){
              if (dados.length > 0){    

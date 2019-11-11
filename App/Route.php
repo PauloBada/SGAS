@@ -447,95 +447,97 @@ class Route extends Bootstrap {
 
 		$routes['subgrupoVincularVoluntario'] = array (
 			'route' => '/subgrupoVincularVoluntario',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoVincularVoluntario'
 		);
 
 		$routes['subgrupoVincularVoluntarioBase'] = array (
 			'route' => '/subgrupoVincularVoluntarioBase',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoVincularVoluntarioBase'
 		);
 
 		$routes['subgrupoDesvincularVoluntario'] = array (
 			'route' => '/subgrupoDesvincularVoluntario',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularVoluntario'
 		);
 
 		$routes['subgrupoDesvincularVoluntarioMenu'] = array (
 			'route' => '/subgrupoDesvincularVoluntarioMenu',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularVoluntarioMenu'
 		);
 
 		$routes['subgrupoDesvincularVoluntarioBase'] = array (
 			'route' => '/subgrupoDesvincularVoluntarioBase',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularVoluntarioBase'
 		);
 
 		$routes['subgrupoConsultarVinculoVoluntario'] = array (
 			'route' => '/subgrupoConsultarVinculoVoluntario',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoConsultarVinculoVoluntario'
 		);
 
 		$routes['subgrupoConsultarVinculoVoluntarioMenu'] = array (
 			'route' => '/subgrupoConsultarVinculoVoluntarioMenu',
-			'controller' => 'VoluntarioController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoConsultarVinculoVoluntarioMenu'
 		);
 
-// ============ Início tratamento de Cadastro de Família ========= //
-		
 		$routes['subgrupoVincularFamilia'] = array (
 			'route' => '/subgrupoVincularFamilia',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoVincularFamilia'
 		);
 
 		$routes['subgrupoVincularFamiliaBase'] = array (
 			'route' => '/subgrupoVincularFamiliaBase',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoVincularFamiliaBase'
 		);
 
 		$routes['subgrupoDesvincularFamilia'] = array (
 			'route' => '/subgrupoDesvincularFamilia',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularFamilia'
 		);
 
 		$routes['subgrupoDesvincularFamiliaMenu'] = array (
 			'route' => '/subgrupoDesvincularFamiliaMenu',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularFamiliaMenu'
 		);
 
 		$routes['subgrupoDesvincularFamiliaBase'] = array (
 			'route' => '/subgrupoDesvincularFamiliaBase',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoDesvincularFamiliaBase'
 		);
 
 		$routes['subgrupoConsultarVinculoFamilia'] = array (
 			'route' => '/subgrupoConsultarVinculoFamilia',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoConsultarVinculoFamilia'
 		);
 
 		$routes['subgrupoConsultarVinculoFamiliaMenu'] = array (
 			'route' => '/subgrupoConsultarVinculoFamiliaMenu',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoConsultarVinculoFamiliaMenu'
 		);
 
+/*
 		$routes['subgrupoConsultarSemVinculoFamilia'] = array (
 			'route' => '/subgrupoConsultarSemVinculoFamilia',
-			'controller' => 'FamiliaCadastroController',
+			'controller' => 'GrupoSubgrupoController',
 			'action' => 'subgrupoConsultarSemVinculoFamilia'
 		);
+*/
+
+// ============ Início tratamento de Cadastro de Família ========= //
 
 		$routes['familiaCadastro'] = array (
 			'route' => '/familiaCadastro',

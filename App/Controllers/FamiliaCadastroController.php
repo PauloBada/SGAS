@@ -17,13 +17,6 @@ class FamiliaCadastroController extends Action {
 
 	public function validaAutenticacao() {
 		session_start();
-		
-		/*
-		session_start([
-		    'cookie_lifetime' => 86400,
-		    'read_and_close'  => true,
-		]); 
-		*/
 
 		if (!isset($_SESSION['id']) || $_SESSION['id'] == '' || 
 			!isset($_SESSION['nome']) || $_SESSION['nome'] == '') {
@@ -43,8 +36,6 @@ class FamiliaCadastroController extends Action {
 		$this->view->erroValidacao = 10;
 		$this->view->nivelRequerido = 2;
 		$this->view->nivelLogado = 0;
-
-		//$this->atualizaqtdFamiliasSemVinculo();
 
 		$this->render('familiaCadastro');
 	}
@@ -222,8 +213,6 @@ class FamiliaCadastroController extends Action {
 							'nomeFamiliaAnterior' => $_POST['nomeFamiliaAnterior']
 				);
 
-				//$this->atualizaqtdFamiliasSemVinculo();
-
 				$this->render('familiaCadastroIncluir');				
 			}
 		}
@@ -270,8 +259,6 @@ class FamiliaCadastroController extends Action {
 					    'codFamiliaAnterior' => $_POST['codFamiliaAnterior'],
 						'nomeFamiliaAnterior' => $_POST['nomeFamiliaAnterior']
 			);
-
-			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastroIncluir');				
 		}
@@ -367,16 +354,12 @@ class FamiliaCadastroController extends Action {
 				$this->view->erroValidacao = 2;
 				$this->view->codigoInclusao = $prox_cd_fml;
 				$this->view->nomeInclusao = $_POST['nome'];
-
-				//$this->atualizaqtdFamiliasSemVinculo();
-				
+			
 				$this->render('familiaCadastro');
 			
 			} catch (Exception $e) {
 				$this->view->erroValidacao = 9;
 				$this->view->erroException = $e;
-
-				//$this->atualizaqtdFamiliasSemVinculo();
 
 				$this->render('familiaCadastro');
 			}
@@ -399,8 +382,6 @@ class FamiliaCadastroController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -820,8 +801,6 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			//$this->atualizaqtdFamiliasSemVinculo();
-
 			$this->render('familiaCadastro');				
 		} else {
 			// Buscar todas as familias aptas a serem alteradas
@@ -1094,8 +1073,6 @@ class FamiliaCadastroController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 		} else {
@@ -1443,8 +1420,6 @@ class FamiliaCadastroController extends Action {
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
 
-			//$this->atualizaqtdFamiliasSemVinculo();
-
 			$this->render('familiaCadastro');				
 		} else {
 			$this->view->erroValidacao = 0;
@@ -1718,605 +1693,6 @@ class FamiliaCadastroController extends Action {
 		}
 	}	// Fim da function familiaCadastroConsultarIntegranteMenu
 
-
-// AQUI - INICIO
-
-// ====================================================== //	
-	
-	public function subgrupoVincularFamilia() {
-		
-		$this->validaAutenticacao();		
-
-		// Verifica se tem nível de acesso requerido
-		$nivel_acesso_requerido = 2;
-		$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-		// Para validar se Voluntário tem o nível adequado para fazer a operação
-		if ($autenticar_acesso['autorizado'] == 0) {
-			$this->view->erroValidacao = 1;
-			$this->view->nivelRequerido = $nivel_acesso_requerido;
-			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
-
-			$this->render('familiaCadastro');				
-		} else {
-			$this->view->erroValidacao = 0;
-
-			// Buscar todoas as famílias da base
-			$familiasAll = Container::getModel('TbFml');
-			$familiasBase = $familiasAll->getDadosFamiliasAll();
-
-			$this->view->familias = $familiasBase;
-
-			$this->view->vinculo = array (
-				'cb_grupo_escolhido' => '',
-				'cb_subgrupo_escolhido' => '',
-				'cb_familia_escolhida' => ''
-			);
-
-			$this->render('subgrupoVincularFamilia');		
-		}
-	}	// Fim da function subgrupoVincularFamilia
-
-// ====================================================== //	
-
-	public function subgrupoVincularFamiliaBase() {
-		
-		$this->validaAutenticacao();		
-
-		$this->view->erroValidacao = 0;
-
-		// Valida se Grupo foi escolhido
-		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo" || 
-			$_POST['cb_subgrupo_escolhido'] == "Escolha Subgrupo" ||
-			$_POST['cb_familia_escolhida'] == "Escolha Família") {
-			$this->view->erroValidacao = 2;
-
-			// Buscar todas as famílias da base
-			$familiasAll = Container::getModel('TbFml');
-			$familiasBase = $familiasAll->getDadosFamiliasAll();
-
-			$this->view->familias = $familiasBase;
-
-			$this->view->vinculo = array (
-				'cb_grupo_escolhido' => '',
-				'cb_subgrupo_escolhido' => '',
-				'cb_familia_escolhida' => $_POST['cb_familia_escolhida']
-			);
-
-			$this->render('subgrupoVincularFamilia');
-
-		} else { 
-			// Verifica se Familia já tem vinculo cadastrado em tb_vncl_fml_sgrp
-			$qtdGrupoFamilia = Container::getModel('TbVnclFmlSbgrp');
-			$qtdGrupoFamilia->__set('codFamilia_pesq', $_POST['cb_familia_escolhida']);
-			$qtdGrupoFml = $qtdGrupoFamilia->getQtdSubgrupoVinculoFamilia();
-                                             
-			if ($qtdGrupoFml['qtde'] > 0) {
-				
-				$this->view->erroValidacao = 3;
-				
-				// Buscar dados atuais do cadastro da família no vínculo
-				$dadosFamiliaAtual = Container::getModel('TbVnclFmlSbgrp');
-				$dadosFamiliaAtual->__set('codFamilia_pesq', $_POST['cb_familia_escolhida']);
-				$dadosFmlAtual = $dadosFamiliaAtual->getDadosVinculoFamilia();
-
-				// Buscar Nome de Grupo e Subgrupo do cadastro da família no vínculo
-				$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-				$dadosGrupoSubgrupo->__set('codGrupo_pesq', $dadosFmlAtual['cd_grpID']);
-				$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $dadosFmlAtual['cd_sbgrpID']);
-				$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-				// Buscar Nome da Família
-				$dadosFamilia = Container::getModel('TbFml');
-				$dadosFamilia->__set('codFamilia', $_POST['cb_familia_escolhida']);
-				$dadosFml = $dadosFamilia->getDadosFamilia();
-
-				$this->view->grupoTratado = $dadosGS['nome_grupo'];
-				$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-				$this->view->familiaTratada = $dadosFml['nm_grp_fmlr'];
-
-				// Buscar todas as famílias da base
-				$familiasAll = Container::getModel('TbFml');
-				$familiasBase = $familiasAll->getDadosFamiliasAll();
-
-				$this->view->familias = $familiasBase;
-
-				$this->view->vinculo = array (
-					'cb_grupo_escolhido' => '',
-					'cb_subgrupo_escolhido' => '',
-					'cb_familia_escolhida' => ''
-				);
-
-				$this->render('subgrupoVincularFamilia');
-
-			} else {
-				// Verifica se tem atuacao requerida no grupo/Subgrupo e se é de Coordenador
-				// Tem que pesquisar por Subgrupo, pois o voluntário logado pode estar em mais de um subgrupo e tem
-				// que pertencer ao subgrupo sendo tratado
-				$nivel_atuacao_requerido = 4;  								// Coordenador
-				
-				$atuacaoVoluntarioBase = Container::getModel('TbVnclVlntGrp');
-				$atuacaoVoluntarioBase->__set('codVoluntario', $_SESSION['id']);
-				$atuacaoVoluntarioBase->__set('codGrupo', $_POST['cb_grupo_escolhido']);
-				$atuacaoVoluntarioBase->__set('codSubgrupo',  $_POST['cb_subgrupo_escolhido']);
-				$atuacaoVoluntario = $atuacaoVoluntarioBase->getNivelAtuacao();
-
-				if (empty($atuacaoVoluntario['cod_atuacao'])) { 				// Não está na tabela de vinculo
-					$this->view->erroValidacao = 4;
-
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-					$this->render('subgrupoVincularFamilia');				
-				} else {										
-					if ($atuacaoVoluntario['cod_atuacao'] > $nivel_atuacao_requerido) { // Não é Coordenador
-						$this->view->erroValidacao = 5;
-
-						// Buscar Nome de Grupo e Subgrupo
-						$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-						$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-						$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-						$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-						$this->view->grupoTratado = $dadosGS['nome_grupo'];
-						$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-						$this->view->atuacaoRequerida = 'Coordenador';
-						$this->view->atuacaoLogado = 'Voluntário Normal';
-						$this->render('subgrupoVincularFamilia');				
-					} else {
-						// Insere na tabela tb_vncl_fml_sbgrp
-						$insereTbVinculo = Container::getModel('TbVnclFmlSbgrp');
-						$insereTbVinculo->__set('codGrupo', $_POST['cb_grupo_escolhido']);
-						$insereTbVinculo->__set('codSubgrupo',  $_POST['cb_subgrupo_escolhido']);
-						$insereTbVinculo->__set('codFamilia',  $_POST['cb_familia_escolhida']);
-						$insereTbVinculo->insertVinculo();
-
-						// Altera situação da Família (seta para 2 o cd_est_situ_fml)
-						$alteraSituacaoFamilia = Container::getModel('TbFml');
-						$alteraSituacaoFamilia->__set('codFamilia',  $_POST['cb_familia_escolhida']);
-						$alteraSituacaoFamilia->__set('situFamilia',  2);
-						$alteraSituacaoFamilia->updateSituFamilia();
-
-						// Buscar todas as famílias da base
-						$familiasAll = Container::getModel('TbFml');
-						$familiasBase = $familiasAll->getDadosFamiliasAll();
-
-						$this->view->familias = $familiasBase;
-
-						$this->view->erroValidacao = 1;
-
-						// Buscar Nome de Grupo e Subgrupo
-						$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-						$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-						$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-						$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-						// Buscar Nome da Família
-						$dadosFamilia = Container::getModel('TbFml');
-						$dadosFamilia->__set('codFamilia', $_POST['cb_familia_escolhida']);
-						$dadosFml = $dadosFamilia->getDadosFamilia();
-
-						$this->view->grupoTratado  = $dadosGS['nome_grupo'];
-						$this->view->subgrupoTratado  = $dadosGS['nome_subgrupo'];
-						$this->view->familiaTratada  = $dadosFml['nm_grp_fmlr'];
-
-						$this->view->vinculo = array (
-							'cb_grupo_escolhido' => '',
-							'cb_subgrupo_escolhido' => '',
-							'cb_familia_escolhida' => ''
-						);
-
-						$this->render('subgrupoVincularFamilia');
-					}
-				}
-			}
-		}
-	}	// Fim da function subgrupoVincularFamiliaBase		
-
-// ====================================================== //	
-	
-	public function subgrupoDesvincularFamilia() {
-		
-		$this->validaAutenticacao();		
-
-		$nivel_acesso_requerido = 2;
-
-		$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-		// Para validar se Voluntário tem o nível adequado para fazer a operação
-		if ($autenticar_acesso['autorizado'] == 0) {
-			$this->view->erroValidacao = 1;
-			$this->view->nivelRequerido = $nivel_acesso_requerido;
-			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
-
-			$this->render('familiaCadastro');				
-		} else {
-			$this->view->erroValidacao = 0;
-
-			$this->render('subgrupoDesvincularFamilia');
-		}
-	}	// Fim da function subgrupoDesvincularFamilia
-
-
-// ====================================================== //	
-
-	public function subgrupoDesvincularFamiliaMenu() {
-		
-		$this->validaAutenticacao();		
-
-		$this->view->erroValidacao = 0;
-
-		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo" || 
-			$_POST['cb_subgrupo_escolhido'] == "Escolha Subgrupo" || 
-		    $_POST['cb_familia_escolhida'] == "Escolha Família") {
-
-			$this->view->erroValidacao = 2;	
-		
-			$this->render('subgrupoDesvincularFamilia');	
-		} else {
-			// Verifica se tem atuacao requerida no grupo/Subgrupo e se é de Coordenador
-			// Tem que pesquisar por Subgrupo, pois o voluntário logado pode estar em mais de um subgrupo e tem
-			// que pertencer ao subgrupo sendo tratado
-			$nivel_atuacao_requerido = 4;  								// Coordenador
-			
-			$atuacaoVoluntarioBase = Container::getModel('TbVnclVlntGrp');
-			$atuacaoVoluntarioBase->__set('codVoluntario', $_SESSION['id']);
-			$atuacaoVoluntarioBase->__set('codGrupo', $_POST['cb_grupo_escolhido']);
-			$atuacaoVoluntarioBase->__set('codSubgrupo',  $_POST['cb_subgrupo_escolhido']);
-			$atuacaoVoluntario = $atuacaoVoluntarioBase->getNivelAtuacao();
-
-			if (empty($atuacaoVoluntario['cod_atuacao'])) { 				// Não está na tabela de vinculo
-				$this->view->erroValidacao = 4;
-
-				// Buscar Nome de Grupo e Subgrupo
-				$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-				$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-				$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-				$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-				$this->view->grupoTratado = $dadosGS['nome_grupo'];
-				$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-				$this->render('subgrupoDesvincularFamilia');				
-			} else {										
-				if ($atuacaoVoluntario['cod_atuacao'] > $nivel_atuacao_requerido) { // Não é Coordenador
-					$this->view->erroValidacao = 5;
-
-					// Buscar Nome de Grupo e Subgrupo
-					$dadosGrupoSubgrupo = Container::getModel('TbSbgrp');
-					$dadosGrupoSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosGrupoSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosGS = $dadosGrupoSubgrupo->getDadosSubgrupo();
-
-					$this->view->grupoTratado = $dadosGS['nome_grupo'];
-					$this->view->subgrupoTratado = $dadosGS['nome_subgrupo'];
-
-					$this->view->atuacaoRequerida = 'Coordenador';
-					$this->view->atuacaoLogado = 'Voluntário Normal';
-					$this->render('subgrupoDesvincularFamilia');				
-				} else {
-					// Buscar Nome da Família
-					$dadosFamilia = Container::getModel('TbFml');
-					$dadosFamilia->__set('codFamilia', $_POST['cb_familia_escolhida']);
-					$dadosFml = $dadosFamilia->getDadosFamilia();
-				
-					$nomeFml = $dadosFml['nm_grp_fmlr'];
-
-					// Busca Nome Grupo
-					$nomeGrupoBase = Container::getModel('TbGrp');
-					$nomeGrupoBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
-					$nomeGrupo = $nomeGrupoBase->getDadosGrupo();
-
-					$nomeGrp = $nomeGrupo['nome_grupo'];
-
-					// Busca Nome Subgrupo
-					$nomeSubgrupo = Container::getModel('TbSbgrp');
-					$nomeSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$nomeSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$nomeSbgrp = $nomeSubgrupo->getDadosSubgrupo();
-
-					$nomeSbgrp = $nomeSbgrp['nome_subgrupo'];
-
-					// Buscar Sequencial da tabela tb_vncl_fml_sbgrp, para alteração na base
-					$dadosFamiliaAtual = Container::getModel('TbVnclFmlSbgrp');
-					$dadosFamiliaAtual->__set('codFamilia_pesq', $_POST['cb_familia_escolhida']);
-					$dadosFmlAtual = $dadosFamiliaAtual->getDadosVinculoFamilia();
-
-					$sequencial = $dadosFmlAtual['seql_vnclID'];
-
-					$this->view->dadosTVFS = array (
-								'cod_grupo' => $_POST['cb_grupo_escolhido'],
-								'nome_grupo' => $nomeGrp,
-								'cod_subgrupo' => $_POST['cb_subgrupo_escolhido'],
-								'nome_subgrupo' => $nomeSbgrp,
-								'cod_familia' => $_POST['cb_familia_escolhida'],
-								'nome_familia' => $nomeFml,
-								'sequencial' =>  $sequencial
-								);
-					$this->render('subgrupoDesvincularFamiliaMenu');
-				}
-			}
-		}
-	}	// Fim da function subgrupoDesvincularFamiliaMenu
-
-// ====================================================== //	
-
-	public function subgrupoDesvincularFamiliaBase() {
-		
-		$this->validaAutenticacao();		
-
-		$this->view->erroValidacao = 1;
-
-		// Encerra vinculo
-		$encerraVinculo = Container::getModel('TbVnclFmlSbgrp');
-		$encerraVinculo->__set('codGrupo', $_POST['codGrupo']);
-		$encerraVinculo->__set('codSubgrupo', $_POST['codSubgrupo']);
-		$encerraVinculo->__set('codFamilia', $_POST['codFamilia']);
-		$encerraVinculo->__set('sequencial', $_POST['sequencial']);
-		$encerraVinculo->encerraVFS();
-
-		// Altera situação da Família (seta para 1 o cd_est_situ_fml)
-		$alteraSituacaoFamilia = Container::getModel('TbFml');
-		$alteraSituacaoFamilia->__set('codFamilia',  $_POST['codFamilia']);
-		$alteraSituacaoFamilia->__set('situFamilia',  1);
-		$alteraSituacaoFamilia->updateSituFamilia();
-
-
-		$this->view->nomeGrupo = $_POST['nomeGrupo'];
-		$this->view->nomeSubgrupo = $_POST['nomeSubgrupo'];
-		$this->view->nomeFamilia = $_POST['nomeFamilia'];
-
-		$this->render('subgrupoDesvincularFamilia');
-
-	}	// Fim da function subgrupoDesvincularFamiliaBase
-
-// ====================================================== //	
-	
-	public function subgrupoConsultarVinculoFamilia() {
-		
-		$this->validaAutenticacao();		
-
-		$nivel_acesso_requerido = 3;
-
-		$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-		// Para validar se Voluntário tem o nível adequado para fazer a operação
-		if ($autenticar_acesso['autorizado'] == 0) {
-			$this->view->erroValidacao = 1;
-			$this->view->nivelRequerido = $nivel_acesso_requerido;
-			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
-
-			$this->render('familiaCadastro');				
-		} else {
-			$this->view->erroValidacao = 0;
-
-			// Um ano de período
-			$periodo = new \Dateinterval("P1Y");
-
-			// Data de hoje
-			$dt_inicial = new \DateTime();
-			// Subtrai um ano
-			$dt_inicial->sub($periodo);
-
-			// Data de hoje
-			$dt_final = new \DateTime();
-			// Soma um ano
-			$dt_final->add($periodo);
-
-			// Transforma as datas em string DD/MM/AAAA
-			$dt_inicial	= $dt_inicial->format("d/m/Y");
-			$dt_final = $dt_final->format("d/m/Y");
-
-			$this->view->datas = array (
-				'data_inicial' => $dt_inicial,
-				'data_final' => $dt_final
-			);
-
-			$this->render('subgrupoConsultarVinculoFamilia');
-		}
-	}	// Fim da function subgrupoConsultarVinculoFamilia
-
-// ====================================================== //	
-
-	public function subgrupoConsultarVinculoFamiliaMenu() {
-		
-		$this->validaAutenticacao();	
-
-		$this->view->erroValidacao = 0;
-
-		if ($_POST['cb_grupo_escolhido'] == "Escolha Grupo" || 
-			$_POST['cb_subgrupo_escolhido'] == "Escolha Subgrupo") {
-
-			$this->view->erroValidacao = 2;	
-
-			$this->view->datas = array (
-				'data_inicial' => $_POST['dt_inc'],
-				'data_final' => $_POST['dt_fim'],
-				'rota' => $_POST['rota']
-			);
-			
-			$this->render('subgrupoConsultarVinculoFamilia');	
-
-		} else {
-			// Validar se datas válidas
-			
-			// Data recebida $_POST no formato DD/MM/AAAA
-			$valida_data_inicio = Funcoes::ValidaData($_POST['dt_inc']);
-			$valida_data_fim = Funcoes::ValidaData($_POST['dt_fim']);
-
-			if ($valida_data_inicio == 0 || $valida_data_fim == 0) {
-				$this->view->erroValidacao = 3;	
-
-				$this->view->datas = array (
-					'data_inicial' => $_POST['dt_inc'],
-					'data_final' => $_POST['dt_fim'],
-					'rota' => $_POST['rota']
-				);
-				
-				$this->render('subgrupoConsultarVinculoFamilia');	
-			} else {
-				// Validar se Data Inicial é maior que Data Final
-				$data_inicio_format = str_replace('/', '-', $_POST['dt_inc']);
-				$data_fim_format = str_replace('/', '-', $_POST['dt_fim']);
-
-				// O barra "\" antes do DataTime foi devido ao namespace utilizado neste programa, pois sem a barra não reconhecia. Dica pega na internet.
-				$data_inicio = new \DateTime($data_inicio_format);		
-				$data_fim = new \DateTime($data_fim_format);		
-
-				if($data_inicio > $data_fim) {
-					$this->view->erroValidacao = 4;	
-
-					$this->view->datas = array (
-						'data_inicial' => $_POST['dt_inc'],
-						'data_final' => $_POST['dt_fim'],
-						'rota' => $_POST['rota']
-					);
-					
-					$this->render('subgrupoConsultarVinculoFamilia');	
-
-				} else {
-					// Busca Nome Grupo
-					$nomeGrupoBase = Container::getModel('TbGrp');
-					$nomeGrupoBase->__set('cd_grp', $_POST['cb_grupo_escolhido']);
-					$nomeGrupo = $nomeGrupoBase->getDadosGrupo();
-
-					$nomeGrp = $nomeGrupo['nome_grupo'];
-
-					$codSbgrp =  $_POST['cb_subgrupo_escolhido'];
-
-					// Busca Nome Subgrupo
-					$nomeSubgrupo = Container::getModel('TbSbgrp');
-					$nomeSubgrupo->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$nomeSubgrupo->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$nomeSbgrp = $nomeSubgrupo->getDadosSubgrupo();
-
-					$nomeSbgrp = $nomeSbgrp['nome_subgrupo'];
-
-					// Busca Dados das Famílias
-					$dadosVinculoFamilia = Container::getModel('TbVnclFmlSbgrp');
-					$dadosVinculoFamilia->__set('codGrupo_pesq', $_POST['cb_grupo_escolhido']);
-					$dadosVinculoFamilia->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosVinculoFamilia->__set('codSubgrupo_pesq', $_POST['cb_subgrupo_escolhido']);
-					$dadosVinculoFamilia->__set('dataInicio_pesq', $_POST['dt_inc']);
-					$dadosVinculoFamilia->__set('dataFim_pesq', $_POST['dt_fim']);
-
-					$dadosFmlr = $dadosVinculoFamilia->getDadosVFSAll();
-
-					$this->view->dadosTVFS = array ();
-
-					foreach ($dadosFmlr as $index => $arr) {
-
-						// Buscar Nome da Família
-						$dadosFamilia = Container::getModel('TbFml');
-						$dadosFamilia->__set('codFamilia', $arr['codigo_familia']);
-						$dadosFml = $dadosFamilia->getDadosFamilia();
-						$nomeFml = $dadosFml['nm_grp_fmlr'];
-					
-						array_push($this->view->dadosTVFS, array (
-								'codigo_familia' => $arr['codigo_familia'],
-								'nome_familia' => $nomeFml,
-								'sequencial' => $arr['sequencial_base'],
-								'data_inicio_vinculo' =>  $arr['data_inicio_vinculo'],
-								'data_fim_vinculo' =>  $arr['data_fim_vinculo'],
-								'situacao_vinculo' =>  $arr['estado_vinculo'],
-								'dt_inc' =>  $_POST['dt_inc'],
-								'dt_fim' =>  $_POST['dt_fim'],
-								'cb_grupo_escolhido' => $_POST['cb_grupo_escolhido'],
-								'cb_subgrupo_escolhido' => $_POST['cb_subgrupo_escolhido'],
-								'rota' => $_POST['rota'],
-								'cd_est_situ_fml' => $arr['estado_situacao_familia']
-						));
-					}	
-
-					$this->view->codGrupo = $_POST['cb_grupo_escolhido'];
-					$this->view->nomeGrupo = $nomeGrp;
-					$this->view->codSubgrupo = $_POST['cb_subgrupo_escolhido'];
-					$this->view->nomeSubgrupo = $nomeSbgrp;
-
-					$this->render('subgrupoConsultarVinculoFamiliaMenu');
-
-				}
-			}
-		}
-
-	}	// Fim da function subgrupoConsultarVinculoFamiliaMenu
-
-// ====================================================== //	
-	
-	public function subgrupoConsultarSemVinculoFamilia() {
-		
-		$this->validaAutenticacao();		
-
-		$nivel_acesso_requerido = 2;
-
-		$autenticar_acesso = AuthController::verificaNivelAcesso($nivel_acesso_requerido);
-
-		// Para validar se Voluntário tem o nível adequado para fazer a operação
-		if ($autenticar_acesso['autorizado'] == 0) {
-			$this->view->erroValidacao = 1;
-			$this->view->nivelRequerido = $nivel_acesso_requerido;
-			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			//$this->atualizaqtdFamiliasSemVinculo();
-
-			$this->render('familiaCadastro');				
-		} else {
-			$this->view->erroValidacao = 0;
-
-			// Busca Dados das Famílias
-			$dadosSemVinculoFamilia = Container::getModel('TbFml');
-			$dadosSemVinculoFmlr = $dadosSemVinculoFamilia->getDadosFamiliasAll();
-
-			$this->view->dadosSemVinculoFml = array ();
-
-			foreach ($dadosSemVinculoFmlr as $index => $arr) {
-				// Buscar o nome da Região Administrativa
-				$dadosRABase = Container::getModel('TbRegAdm');
-				$dadosRABase->__set('cd_reg_adm', $arr['cd_reg_adm']);
-				// O abaixo não foi usado devido a retorno $this-> ao inver de return PDO
-				//$dadosRA = $dadosRABase->getDadosRAAll2();
-				$dadosRABase->getDadosRAAll2();
-
-				array_push($this->view->dadosSemVinculoFml, array (
-						'codigo_familia' => $arr['cd_fmlID'],
-						'nome_familia' => $arr['nm_grp_fmlr'],
-						'nome_assistido_principal' => $arr['nm_astd_prin'],
-						'data_cadastro' =>  $arr['data_cadastro'],
-						'regiao_administrativa' =>  $dadosRABase->__get('nome_ra'),
-						'uf_regiao_administrativa' =>  $dadosRABase->__get('uf_ra'),
-						'rota' =>  'rota_03'
-				));
-			}	
-
-			$this->render('subgrupoConsultarSemVinculoFamilia');
-		}
-	}	// Fim da function subgrupoConsultarSemVinculoFamilia
-
-/* Passou para grupoSubgrupo.phtml
-// ================================================== //
-
-	public function atualizaqtdFamiliasSemVinculo() {
-		// Busca Quantidade de Famílias sem vínculo com Subgrupo para mostrar na tela
-		$qtdSemVinculoFamilia = Container::getModel('TbFml');
-		$qtdSemVinculoFmlr = $qtdSemVinculoFamilia->getQtdFamiliasSemVFS();
-
-		$this->view->qtdFamiliasSemVinculo = $qtdSemVinculoFmlr['qtde'];
-	}
-*/
-	
 // ================================================== //
 
 	public function familiaCadastroPreIncluir() {
@@ -2332,8 +1708,6 @@ class FamiliaCadastroController extends Action {
 			$this->view->erroValidacao = 1;
 			$this->view->nivelRequerido = $nivel_acesso_requerido;
 			$this->view->nivelLogado = $autenticar_acesso['nivelVoluntario'];
-
-			$this->atualizaqtdFamiliasSemVinculo();
 
 			$this->render('familiaCadastro');				
 

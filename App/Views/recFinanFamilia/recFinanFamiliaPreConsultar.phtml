@@ -100,6 +100,18 @@
           <?php } else if ($this->view->erroValidacao == 4) { ?>
              <small class="form-text text-danger">Erro: Data Inicial maior que Data Final!</small>
 
+          <?php } else if ($this->view->erroValidacao == 5) { ?>
+             <small class="form-text text-danger">Voluntário Não está vinculado ao Grupo/Subgrupo!</small>
+             <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+             <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+          <?php } else if ($this->view->erroValidacao == 6) { ?>
+             <small class="form-text text-danger">Voluntário sem nível de atuação apropriado!</small>
+             <small class="form-text text-danger"><?php echo "Atuação Requerida: ".$this->view->atuacaoRequerida." - Sua Atuação Atual: ".$this->view->atuacaoLogado ?></small>
+             <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+             <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
+
           <?php } ?>
         </div>
 

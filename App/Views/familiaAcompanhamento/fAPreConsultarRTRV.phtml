@@ -73,6 +73,11 @@
            <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
            <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
 
+          <?php } else if ($this->view->erroValidacao == 6) { ?>
+           <small class="form-text text-danger">Voluntário Sem nível de atuação apropriado no Grupo/Subgrupo!</small>
+           <small class="form-text text-danger">Grupo:  <?php echo ' '.$this->view->grupoTratado ?> </small>
+           <small class="form-text text-danger">Subgrupo:  <?php echo ' '.$this->view->subgrupoTratado ?> </small>
+
           <?php } ?>
         </div>
 

@@ -39,13 +39,9 @@ class AuthController extends Action {
 									
 		} else {
 			//Volta para tela inicial, acrescentando na URL "?login=erro"
-			// header('Location: /?login=erro'); 
-			
 			$email = $_POST["email"];
 			header('Location: /?login=erro&'.'email='.$email.''); 
-
 		}
-				
 	}
 
 // ====================================================== //
@@ -54,7 +50,6 @@ class AuthController extends Action {
 		$nivelVoluntario = Container::getModel('TbCadLoginSess');
 		$nivelVoluntario->__set('seql_cad_login', $_SESSION['seql_cad_login']);
 		$nivelVoluntario->getNivelAcesso();
-
 		$nivelVoluntarioLogado = $nivelVoluntario->__get('nivelAcesso');
 
 		if ($nivelVoluntarioLogado > $nivel_acesso_requerido) {
