@@ -102,12 +102,35 @@ class TbVnclOrcPedido extends Model {
 		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
 		$stmt->bindValue('seql_pedido_finan', $this->__get('seql_pedido_finan'));
 		$stmt->bindValue('seql_orc', $this->__get('seql_orc'));
-		$stmt->bindValue('cd_est_vncl', 2);		//1-Cancelado
+		$stmt->bindValue('cd_est_vncl', 2);		//2-Cancelado
 		$stmt->execute();
 		
 		return $this;	
 
 	}	//	Fim function updateVnclOrcPedido
+
+// =================================================== //
+
+	public function updateVnclOrcPedidoAll() {
+
+		$query = "
+				update tb_vncl_orc_pedido
+				set    cd_est_vncl         = :cd_est_vncl
+				where  cd_grpID            = :cd_grp
+				and    cd_sbgrpID          = :cd_sbgrp
+				and    seql_pedido_finanID = :seql_pedido_finan
+				and    cd_est_vncl         = :cd_est_vncl_1";
+		$stmt = $this->db->prepare($query);
+		$stmt->bindValue('cd_grp', $this->__get('cd_grp'));
+		$stmt->bindValue('cd_sbgrp', $this->__get('cd_sbgrp'));
+		$stmt->bindValue('seql_pedido_finan', $this->__get('seql_pedido_finan'));
+		$stmt->bindValue('cd_est_vncl', $this->__get('cd_est_vncl'));
+		$stmt->bindValue('cd_est_vncl_1', $this->__get('cd_est_vncl_1'));
+		$stmt->execute();
+		
+		return $this;	
+
+	}	//	Fim function updateVnclOrcPedidoAll
 
 
 } 	// FIm da classe 

@@ -23,6 +23,11 @@
 
                 <p class="form-text text-danger">&nbsp</p>
                 
+              <?php } else if ($this->view->erroValidacao == 3) { ?>
+                <small class="form-text" style="background-color: red; color: white; font-size: 100%">Erro em parâmetros de cálculo de data. Verifique com Analista Sistema!</small>
+
+                <p class="form-text text-danger">&nbsp</p>
+                
               <?php } else if ($this->view->erroValidacao == 4) { ?>
                 <small class="form-text" style="background-color: #69C8E0; color: white; font-size: 100%">Alteração de Valor de Recurso Realizada com Sucesso!</small>
 
@@ -41,7 +46,7 @@
             
             <div class="col-md-12 d-flex">
               <ul class="list-group">
-                <label class="list-group-item list-group-item-info bg-warning">Saldo Recursos (R$): <?php echo $this->view->saldoORC ?></label>  
+                <label class="list-group-item list-group-item-info bg-warning">Saldo Recurso Orçamentário (R$): <?php echo $this->view->saldoORC ?></label>  
               </ul>
             </div>
 
@@ -50,10 +55,12 @@
                 <thead class="thead-light">
                 <tr>
                   <!-- Nome das Colunas -->
-                  <th scope="col">Seql Recurso</th>
-                  <th scope="col">Data Inclusão Recurso</th>
-                  <th scope="col">Valor Recurso (R$)</th>
-                  <th scope="col">Valor Saldo Recurso (R$)</th>
+                  <th scope="col">Seql</th>
+                  <th scope="col">Data Inclusão</th>
+                  <th scope="col">Data Glosa</th>
+                  <th scope="col">Dias Restantes p/Glosa</th>
+                  <th scope="col">Valor (R$)</th>
+                  <th scope="col">Valor Saldo (R$)</th>
                   <th scope="col">Observação</th>
                   <th scope="col">Responsável Cadastramento</th>
                   <?php if ($this->view->temRecurso == 1) { ?>
@@ -68,6 +75,14 @@
                         <td class="text-center"><?php echo $orc['seql_orc']; ?></td>
 
                         <td class="text-center"><?php echo $orc['dt_recur_orc']; ?></td>
+
+                        <td class="text-center"><?php echo $orc['dt_venc_recur_orc']; ?></td>
+
+                        <?php if ($orc['dias_para_glosa'] < 15) { ?>
+                          <td  class="text-right" style="color: red"><?php echo $orc['dias_para_glosa']; ?></td>
+                        <?php } else { ?>                          
+                          <td  class="text-right"><?php echo $orc['dias_para_glosa']; ?></td>
+                        <?php } ?>                          
 
                         <td class="text-right"><?php echo $orc['vlr_recur_orc']; ?></td>
                         

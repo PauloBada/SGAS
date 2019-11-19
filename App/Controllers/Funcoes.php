@@ -688,6 +688,45 @@ public static function ValidaData($dat){
         } 
     } 	// Fim função orderByArray
 
+// ====================================================== //
+
+	public static function CalculaDataPeriodo($dt_entrada, $nr_dma_periodo, $dma_periodo, $avanca_retrocede_periodo) {
+		if ($dt_entrada == '') {
+			return 1;
+		}
+
+		if (!is_numeric($nr_dma_periodo)) {
+			return 2;
+		}
+
+		if ($dma_periodo != 'D' && $dma_periodo != 'M'&& $dma_periodo != 'Y') {
+			return 3;
+		}
+
+		if ($avanca_retrocede_periodo != 'A' && $dma_periodo != 'R') {
+			return 4;
+		}
+
+		$dt_entrada = str_replace('/', '-', $dt_entrada);
+		$dt_entrada = new \DateTime($dt_entrada);
+
+		$string_periodo = 'P'.$nr_dma_periodo.$dma_periodo;
+
+		// Para calcular 3 meses de intervalo
+		$periodo = new \Dateinterval($string_periodo);
+
+		if ($avanca_retrocede_periodo == 'A') {
+			$dt_entrada ->add($periodo);			
+		} else {
+			$dt_entrada ->sub($periodo);						
+		}
+
+		$data_calculada = $dt_entrada->format("d/m/Y");
+
+		return $data_calculada;
+
+    } 	// Fim função CalculaDataPeriodo
+
 }	// Fim Classe 
 
 ?>

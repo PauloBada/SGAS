@@ -819,7 +819,7 @@ class RecFinanDPSGerenciaController extends Action {
 		$alteraRPRF->__set('cd_sbgrp', $_POST['cb_subgrupo_escolhido']);
 		$alteraRPRF->__set('seql_pedido_finan', $_POST['seql_pedido_finan']);	
 		$alteraRPRF->__set('seql_ressar_pedido_finan', $_POST['seql_ressar_pedido_finan']);	
-		$alteraRPRF->__set('cd_est_ressar', 4);	// 4-Cancelado
+		$alteraRPRF->__set('cd_est_ressar', 5);	// 5-Cancelado
 		$alteraRPRF->__set('cd_vlnt_resp_incl_ressar', $_SESSION['id']);	
 		$alteraRPRF->updateEstadoRessarPRF();
 
@@ -857,6 +857,15 @@ class RecFinanDPSGerenciaController extends Action {
 		$alteraPRF->__set('seql_pedido_finan', $_POST['seql_pedido_finan']);	
 		$alteraPRF->__set('cd_situ_envio_ressar_pedido', 2);		// Enviado	
 		$alteraPRF->updatePRFRemeteDAF();
+
+		// Alterar cd_est_vncl em tb_vncl_orc_pedido de 1-Provisionado para 4-Realizado
+		$alteraVOP = Container::getModel('TbVnclOrcPedido');
+		$alteraVOP->__set('cd_grp', $_POST['cb_grupo_escolhido']);
+		$alteraVOP->__set('cd_sbgrp', $_POST['cb_subgrupo_escolhido']);
+		$alteraVOP->__set('seql_pedido_finan', $_POST['seql_pedido_finan']);	
+		$alteraVOP->__set('cd_est_vncl', 4);		// 4-Realizado
+		$alteraVOP->__set('cd_est_vncl_1', 1);		// 1-Provisionado
+		$alteraVOP->updateVnclOrcPedidoAll();		
 
 		$this->view->erroValidacao = 6;
 		$this->view->erroValidacao_msg = 'Marcada como enviada ao DAF! Grupo:'.$_POST['cb_grupo_escolhido'].'-'.$_POST['nome_grupo'].', Subgrupo: '.$_POST['cb_subgrupo_escolhido'].'-'.$_POST['nome_subgrupo'].', Solic.: '.$_POST['seql_pedido_finan'].'. Ressarc.: '.$_POST['seql_ressar_pedido_finan'].', Valor (R$) '.$_POST['vlr_doc_ressar'];

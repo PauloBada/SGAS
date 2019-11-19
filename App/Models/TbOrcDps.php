@@ -14,6 +14,7 @@ class TbOrcDps extends Model {
 	// colunas da tabela
 	private $seql_orcID;          
 	private $dt_recur_orc;              
+	private $dt_venc_recur_orc;              
 	private $vlr_recur_orc;	
 	private $vlr_sdo_recur_orc;        
 	private $cd_situ_recur_orc;        
@@ -38,6 +39,9 @@ class TbOrcDps extends Model {
 						dt_recur_orc,
 						DATE_FORMAT(dt_recur_orc, '%d/%m/%Y') as dt_recur_orc_format,
 
+						dt_venc_recur_orc,
+						DATE_FORMAT(dt_venc_recur_orc, '%d/%m/%Y') as dt_venc_recur_orc_format,
+
 						vlr_recur_orc,
 						vlr_sdo_recur_orc,
 				
@@ -45,6 +49,7 @@ class TbOrcDps extends Model {
 						CASE WHEN cd_situ_recur_orc = 1 THEN 'Orçamento com Saldo'
 						     WHEN cd_situ_recur_orc = 2 THEN 'Orçamento realizado e sem Saldo'
 						     WHEN cd_situ_recur_orc = 3 THEN 'Orçamento cancelado'
+							 WHEN cd_situ_recur_orc = 4 THEN 'Orçamento glosado'						     
 					   	END	as nm_situ_recur_orc,
 
 					   	cd_vlnt_resp_incl,
@@ -69,6 +74,9 @@ class TbOrcDps extends Model {
 						dt_recur_orc,
 						DATE_FORMAT(dt_recur_orc, '%d/%m/%Y') as dt_recur_orc_format,
 
+						dt_venc_recur_orc,
+						DATE_FORMAT(dt_venc_recur_orc, '%d/%m/%Y') as dt_venc_recur_orc_format,
+
 						vlr_recur_orc,
 						vlr_sdo_recur_orc,
 				
@@ -76,6 +84,7 @@ class TbOrcDps extends Model {
 						CASE WHEN cd_situ_recur_orc = 1 THEN 'Orçamento com Saldo'
 						     WHEN cd_situ_recur_orc = 2 THEN 'Orçamento realizado e sem Saldo'
 						     WHEN cd_situ_recur_orc = 3 THEN 'Orçamento cancelado'
+						     WHEN cd_situ_recur_orc = 4 THEN 'Orçamento glosado'
 					   	END	as nm_situ_recur_orc,
 
 					   	cd_vlnt_resp_incl,
@@ -100,6 +109,7 @@ class TbOrcDps extends Model {
 		$query = "
 				insert into tb_orc_dps
 				(dt_recur_orc,
+				dt_venc_recur_orc,
 				vlr_recur_orc,              
 				vlr_sdo_recur_orc,              
 				cd_situ_recur_orc,        
@@ -110,6 +120,7 @@ class TbOrcDps extends Model {
 				values 
 
 				(str_to_date(:dt_recur_orc, '%d/%m/%Y'),   
+				str_to_date(:dt_venc_recur_orc, '%d/%m/%Y'),   
 				:vlr_recur_orc,              
 				:vlr_sdo_recur_orc,              
 				:cd_situ_recur_orc,        
@@ -119,6 +130,7 @@ class TbOrcDps extends Model {
 
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue('dt_recur_orc', $this->__get('dt_recur_orc'));             
+		$stmt->bindValue('dt_venc_recur_orc', $this->__get('dt_venc_recur_orc'));             
 		$stmt->bindValue('vlr_recur_orc', $this->__get('vlr_recur_orc'));
 		$stmt->bindValue('vlr_sdo_recur_orc', $this->__get('vlr_sdo_recur_orc'));
 		$stmt->bindValue('cd_situ_recur_orc', $this->__get('cd_situ_recur_orc'));
@@ -203,13 +215,17 @@ class TbOrcDps extends Model {
 	public function updateValorObsOrcDps() {
 		$query = "
 				update tb_orc_dps
-				   set vlr_recur_orc     = :vlr_recur_orc,
+				   set dt_recur_orc      = str_to_date(:dt_recur_orc, '%d/%m/%Y'),   
+				       dt_venc_recur_orc = str_to_date(:dt_venc_recur_orc, '%d/%m/%Y'),   
+				   	   vlr_recur_orc     = :vlr_recur_orc,
 				       vlr_sdo_recur_orc = :vlr_sdo_recur_orc,
 				   	   ts_incl           = CURRENT_TIMESTAMP,
 				   	   obs               = :obs
 				where  seql_orcID = :seql_orc";
 		$stmt = $this->db->prepare($query);
 		$stmt->bindValue('seql_orc', $this->__get('seql_orc'));             
+		$stmt->bindValue('dt_recur_orc', $this->__get('dt_recur_orc'));
+		$stmt->bindValue('dt_venc_recur_orc', $this->__get('dt_venc_recur_orc'));
 		$stmt->bindValue('vlr_recur_orc', $this->__get('vlr_recur_orc'));
 		$stmt->bindValue('vlr_sdo_recur_orc', $this->__get('vlr_sdo_recur_orc'));
 		$stmt->bindValue('obs', $this->__get('obs'));

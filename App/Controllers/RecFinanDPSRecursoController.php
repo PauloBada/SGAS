@@ -56,6 +56,62 @@ class RecFinanDPSRecursoController extends Action {
 		$this->view->nivelRequerido = 2;
 		$this->view->nivelLogado = 0;
 
+		// AQUI - 
+
+/*		
+		// Buscar Dados da tabela tb_orc_dps
+		$dadosOrcBase = Container::getModel('TbOrcDps');
+		$dadosOrcBase->__set('cd_situ_recur_orc1', 1);  // 1-Orçamento com saldo
+		$dadosOrcBase->__set('cd_situ_recur_orc2', 1);	 
+		$dadosOrc = $dadosOrcBase->getDadosOrcDps2();
+	
+		$this->view->dadosORC = array ();
+
+		if (count($dadosOrc) > 0) {
+			foreach ($dadosOrc as $index => $arr) {
+
+				// Cálculo dos dias restantes para glosagem do orçamento
+				$data_hoje = new \DateTime();
+
+				// Transforma a data em string
+				$data_inicial = $data_hoje->format(DATE_RFC2822);
+
+				$data_final = str_replace('/', '-', $arr['dt_venc_recur_orc_format']);
+
+				// Calcula a diferença em segundos entre as datas
+				$diferenca = strtotime($data_final) - strtotime($data_inicial);
+
+				//Calcula a diferença em dias
+				$dias = floor($diferenca / (60 * 60 * 24 + 1));
+
+				if ($dias < 0) {
+					// Alterar tb_orc_dps (Será glosado o vlr_sdo_recur_orc, para efeito de relatório) 
+					// a) cd_situ_recur_orc => 4 (Orcamento Glosado) onde cd_situ_recur_orc = 1 (Orcamento com Saldo)
+
+					// Alterar tb_vncl_orc_pedido 
+					// cd_est_vncl => 3 (Glosado), onde:
+					//    tb_pedido_recur_finan: 
+					//    - cd_est_pedido = 3 (Autorizado) e cd_situ_envio_ressar_pedido = 1 (Nao Enviado) 
+					//    tb_vncl_orc_pedido:
+					//    - cd_est_vncl = 1 (Provisionado)
+
+					// Alterar tb_pedido_recur_finan (similar ao cancelamento de solicitação de recurso por família)
+					// cd_est_pedido => 5 (Aguardando nova autorização devido a recurso glosado), onde:
+					//    - cd_est_pedido = 3 (Autorizado) e cd_situ_envio_ressar_pedido = 1 (Nao Enviado)
+					//    tb_vncl_orc_pedido:
+					//    - cd_est_vncl = 1 (Provisionado)
+					
+					// Caso esteja em tb_ressar_pedido_recur_finan
+					// Cancelar solicitação de ressarcimento (igual a esse cancelamento)
+					// cd_est_ressar => 5 (Cancelado)
+
+				}
+
+			}
+		}
+
+*/
+
 		$this->render('recFinanDPSRecurso');
 	}
 
@@ -251,7 +307,6 @@ class RecFinanDPSRecursoController extends Action {
 			$this->view->dadosORC = array ();
 
 			if (count($dadosOrc) > 0) {
-
 				// Obtem o saldo Atual de Recursos
 				$saldoOrcBase = Container::getModel('TbOrcDps');
 				$saldoOrc = $saldoOrcBase->getSaldoOrcDps();
@@ -273,13 +328,29 @@ class RecFinanDPSRecursoController extends Action {
 					$vlr_recur_orc = number_format($arr['vlr_recur_orc'], 2, ',', '.');
 					$vlr_sdo_recur_orc = number_format($arr['vlr_sdo_recur_orc'], 2, ',', '.');
 
+					// Cálculo dos dias restantes para glosagem do orçamento
+					$data_hoje = new \DateTime();
+
+					// Transforma a data em string
+					$data_inicial = $data_hoje->format(DATE_RFC2822);
+
+					$data_final = str_replace('/', '-', $arr['dt_venc_recur_orc_format']);
+
+					// Calcula a diferença em segundos entre as datas
+					$diferenca = strtotime($data_final) - strtotime($data_inicial);
+
+					//Calcula a diferença em dias
+					$dias = floor($diferenca / (60 * 60 * 24) + 1);
+
 					array_push($this->view->dadosORC, array (
 							'seql_orc' => $arr['seql_orc'],
 							'dt_recur_orc' => $arr['dt_recur_orc_format'],
+							'dt_venc_recur_orc' => $arr['dt_venc_recur_orc_format'],
 							'vlr_recur_orc' => $vlr_recur_orc,							
 							'vlr_sdo_recur_orc' => $vlr_sdo_recur_orc,							
 							'obs' => $arr['obs'],
-							'nm_vlnt_resp_incl' => $nomeVlnt['nm_vlnt']
+							'nm_vlnt_resp_incl' => $nomeVlnt['nm_vlnt'],
+							'dias_para_glosa' => $dias
 					));
 				} 
 
@@ -294,7 +365,6 @@ class RecFinanDPSRecursoController extends Action {
 		}	
 			
 	}	// Fim function recFinanDPSRecursoReal
-
 
 // ================================================== //
 	
@@ -330,23 +400,35 @@ class RecFinanDPSRecursoController extends Action {
 		$vlr_recur_orc = str_replace('.','', $_POST['vlr_recur_orc']);
 		$vlr_recur_orc = str_replace(',','.', $vlr_recur_orc);
 
-		// Insere na tabela tb_orc_dps
-		$insereORC = Container::getModel('TbOrcDps');
-		$insereORC->__set('dt_recur_orc', $_POST['dt_recur_orc']);
-		$insereORC->__set('vlr_recur_orc', $vlr_recur_orc);
-		$insereORC->__set('vlr_sdo_recur_orc', $vlr_recur_orc);
-		$insereORC->__set('cd_situ_recur_orc', 1);		// Orçamento com saldo
-		$insereORC->__set('cd_vlnt_resp_incl', $_SESSION['id']);
-		$insereORC->__set('obs', $_POST['obs']);		
-		$insereORC->insertOrcDps();
+		// Calcular três meses para frente para dt_venc_recur_orc
+		$data_orc_format = str_replace('/', '-', $_POST['dt_recur_orc']);
+		$data_orc = new \DateTime($data_orc_format);		
+		$data_orc = $data_orc->format("d/m/Y");
+		
+		$dataVencOrc = Funcoes::CalculaDataPeriodo($data_orc, 3, 'M', 'A');	
 
-		$this->view->erroValidacao = 2;			
+		if (strlen($dataVencOrc) == 1) {
+			$this->view->erroValidacao = 3;			
+		
+		} else {
+			// Insere na tabela tb_orc_dps
+			$insereORC = Container::getModel('TbOrcDps');
+			$insereORC->__set('dt_recur_orc', $_POST['dt_recur_orc']);
+			$insereORC->__set('dt_venc_recur_orc', $dataVencOrc);
+			$insereORC->__set('vlr_recur_orc', $vlr_recur_orc);
+			$insereORC->__set('vlr_sdo_recur_orc', $vlr_recur_orc);
+			$insereORC->__set('cd_situ_recur_orc', 1);		// Orçamento com saldo
+			$insereORC->__set('cd_vlnt_resp_incl', $_SESSION['id']);
+			$insereORC->__set('obs', $_POST['obs']);		
+			$insereORC->insertOrcDps();
+
+			$this->view->erroValidacao = 2;			
+		}
 
 		session_write_close();
 		$this->recFinanDPSRecursoReal();
 
 	}	// Fim function recFinanDPSRecursoRealIncluiBase
-
 
 // ================================================== //
 	
@@ -358,16 +440,24 @@ class RecFinanDPSRecursoController extends Action {
 			$this->view->erroValidacao = 0;
 		} 
 
+		$altera_dados = 1;
+
 		// Obter dados ORC
 		$dadosOrcEspecificoBase = Container::getModel('TbOrcDps');
 		$dadosOrcEspecificoBase->__set('seql_orc', $_POST['seql_orc']);	
 		$dadosOrcEspecifico = $dadosOrcEspecificoBase->getDadosOrcDps();
 
+		if ($dadosOrcEspecifico['vlr_recur_orc'] != $dadosOrcEspecifico['vlr_sdo_recur_orc']) {
+			$altera_dados = 0;
+		}
+
 		$this->view->infoORC = array (
 			'seql_orc' => $_POST['seql_orc'],
 			'dt_recur_orc' => $dadosOrcEspecifico['dt_recur_orc_format'],
 			'obs' => $dadosOrcEspecifico['obs'],
-			'vlr_recur_orc' => $dadosOrcEspecifico['vlr_recur_orc']
+			'vlr_recur_orc' => $dadosOrcEspecifico['vlr_recur_orc'],
+			'vlr_sdo_recur_orc' => $dadosOrcEspecifico['vlr_sdo_recur_orc'],
+			'altera_dados' => $altera_dados
 		);
 
 		$this->render('recFinanDPSRecursoRealGerencia');
@@ -392,9 +482,18 @@ class RecFinanDPSRecursoController extends Action {
 			$vlr_recur_orc = str_replace('.','', $_POST['vlr_recur_orc']);
 			$vlr_recur_orc = str_replace(',','.', $vlr_recur_orc);
 
+			// Calcular três meses para frente para dt_venc_recur_orc
+			$data_orc_format = str_replace('/', '-', $_POST['dt_recur_orc']);
+			$data_orc = new \DateTime($data_orc_format);		
+			$data_orc = $data_orc->format("d/m/Y");
+			
+			$dataVencOrc = Funcoes::CalculaDataPeriodo($data_orc, 3, 'M', 'A');	
+
 			// Altera Dados na tabela
 			$alteraOrc = Container::getModel('TbOrcDps');
 			$alteraOrc->__set('seql_orc', $_POST['seql_orc']);	
+			$alteraOrc->__set('dt_recur_orc', $_POST['dt_recur_orc']);	
+			$alteraOrc->__set('dt_venc_recur_orc', $dataVencOrc);	
 			$alteraOrc->__set('vlr_recur_orc', $vlr_recur_orc);	
 			$alteraOrc->__set('vlr_sdo_recur_orc', $vlr_recur_orc);	
 			$alteraOrc->__set('obs', $_POST['obs']);	

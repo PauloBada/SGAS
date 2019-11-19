@@ -46,35 +46,71 @@
                   <input readonly="" id="seql_orc" name="seql_orc" class="form-control input-md" type="text" value="<?= $this->view->infoORC['seql_orc'] ?>">
                 </div>
               </div>
-
-              <div class="form-group">
-                <label class="col-md-3 control-label" for="dt_recur_orc">Data Inclusão<h11>*</h11></label>  
-                <div class="col-lg-2">
-                  <input readonly="" id="dt_recur_orc" name="dt_recur_orc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->infoORC['dt_recur_orc'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+              
+              <?php if ($this->view->infoORC['altera_dados'] == 1) { ?>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dt_recur_orc">Data Recurso<h11>*</h11></label>  
+                  <div class="col-lg-2">
+                    <input id="dt_recur_orc" name="dt_recur_orc" placeholder="DD/MM/AAAA" class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->infoORC['dt_recur_orc'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label class="col-md-3 control-label" for="obs">Observação<h11>*</h11></label>
-                <div class="col-lg-9">
-                  <textarea id="1" name="obs" required="" placeholder="Descreva algo sobre a origem desse valor" class="form-control input-md" type="text" rows="2" cols="30" maxlength="200" onclick="this.style.borderColor=''"><?= $this->view->infoORC['obs'] ?></textarea>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="obs">Observação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea id="1" name="obs" required="" placeholder="Descreva algo sobre a origem desse valor" class="form-control input-md" type="text" rows="2" cols="30" maxlength="200" onclick="this.style.borderColor=''"><?= $this->view->infoORC['obs'] ?></textarea>
+                  </div>
                 </div>
-              </div>
 
-              <div class="form-group">
-                <label class="col-md-3 control-label" for="vlr_recur_orc">Valor Recurso (R$)<h11>*</h11></label>
-                <div class="col-lg-2">
-                  <input id="dinheiro" name="vlr_recur_orc" value="<?= $this->view->infoORC['vlr_recur_orc'] ?>"maxlength="17" class="dinheiro form-control" requerid="" placeholder="Valor recurso" style="display:inline-block" onclick="this.style.borderColor=''"/>
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="vlr_recur_orc">Valor Recurso (R$)<h11>*</h11></label>
+                  <div class="col-lg-2">
+                    <input id="dinheiro" name="vlr_recur_orc" value="<?= $this->view->infoORC['vlr_recur_orc'] ?>"maxlength="17" class="dinheiro form-control" requerid="" placeholder="Valor recurso" style="display:inline-block" onclick="this.style.borderColor=''"/>
+                  </div>
                 </div>
-              </div>
+              <?php } else { ?> 
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="dt_recur_orc">Data Recurso<h11>*</h11></label>  
+                  <div class="col-lg-2">
+                    <input readonly="" id="dt_recur_orc" name="dt_recur_orc"class="form-control input-md" type="text" maxlength="10"  value="<?= $this->view->infoORC['dt_recur_orc'] ?>" onkeypress="$(this).mask('00/00/0000')" onclick="this.style.borderColor=''">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="obs">Observação<h11>*</h11></label>
+                  <div class="col-lg-9">
+                    <textarea readonly="" id="1" name="obs" required=""  class="form-control input-md" type="text" rows="2" cols="30" maxlength="200" onclick="this.style.borderColor=''"><?= $this->view->infoORC['obs'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="vlr_recur_orc">Valor Recurso (R$)<h11>*</h11></label>
+                  <div class="col-lg-2">
+                    <input readonly="" id="dinheiro" name="vlr_recur_orc" value="<?= $this->view->infoORC['vlr_recur_orc'] ?>"maxlength="17" class="dinheiro form-control" style="display:inline-block" onclick="this.style.borderColor=''"/>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-3 control-label" for="vlr_sdo_recur_orc">Valor Saldo Recurso (R$)<h11>*</h11></label>
+                  <div class="col-lg-2">
+                    <input readonly="" id="dinheiro" name="vlr_sdo_recur_orc" value="<?= $this->view->infoORC['vlr_sdo_recur_orc'] ?>"maxlength="17" class="dinheiro form-control" style="display:inline-block" onclick="this.style.borderColor=''"/>
+                  </div>
+                </div>
+              <?php } ?>  
+
+
 
               <div class="form-group text-center">
                 <label class="col-md-2 control-label" for="btnAlterar"></label>
                 <div class="col-md-8">
                   <a href="#" onclick="sendPost('/recFinanDPSRecursoReal', {a:'a'});" class="btn btn-success">Retorna</a>                 
-                  <button class="btn btn-primary" type="button" id="btnAlterar">Alterar Recurso</button>
-                  
-                  <button class="btn btn-danger" type="button" id="btnCancelar">Cancelar Recurso</button>
+                  <?php if ($this->view->infoORC['altera_dados'] == 1) { ?>
+                    <button class="btn btn-primary" type="button" id="btnAlterar">Alterar Recurso</button>
+                    
+                    <button class="btn btn-danger" type="button" id="btnCancelar">Cancelar Recurso</button>
+                  <?php } ?>  
+
+
                 </div>
               </div>
      

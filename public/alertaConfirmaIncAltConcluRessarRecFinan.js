@@ -431,7 +431,7 @@ $("#btnConcluir").click(function(){
 
 function enviaAlert() {
   swal({
-      title: '',
+      title: 'Nota Fiscal ou Recibo foram Apresentados?',
       text: 'Confirma a inclusão da Solicitação de Ressarcimento?',
       type: 'warning',                  //"warning", "error", "success", "info"
       showCancelButton: true,
