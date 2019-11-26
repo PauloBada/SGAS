@@ -197,9 +197,7 @@ public static function ValidaData($dat){
 		// Configurações da conta para envio ===>>> (COLOCAR EM BASE DE DADOS e usar o meu algoritimo)
 		//$dados_conta_envio = 'centralvoluntarios@gmail.com';
 		//$senha_conta_envio = senha da comunhão;
-		
-		$dados_conta_envio = 'bada305.ptj@gmail.com';
-		$senha_conta_envio = 'Ma!Ba!Gm@trap2';
+			
 
 		//configuração do usuário do gmail
 		$mail->SMTPAuth = true; 
